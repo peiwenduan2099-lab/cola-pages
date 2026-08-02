@@ -3,352 +3,446 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>文哥 · 工作驾驶舱</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>文哥 · AI 工作台</title>
 <style>
-:root {
-  --bg: #080b12;
-  --surface: #111620;
-  --surface2: #181e2a;
-  --border: #1e2636;
-  --text: #bcc5d4;
-  --text2: #7a8498;
-  --text3: #4e5668;
-  --accent: #4ade80;
-  --accent2: #22d3ee;
-  --amber: #f59e0b;
-  --rose: #f43f5e;
-  --violet: #a78bfa;
-  --grad1: linear-gradient(135deg, #4ade80 0%, #22d3ee 100%);
-  --grad2: linear-gradient(135deg, #f59e0b 0%, #f43f5e 100%);
-  --grad3: linear-gradient(135deg, #a78bfa 0%, #6366f1 100%);
-  --grad4: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #0d1117 100%);
-  --radius: 16px;
-  --radius-sm: 10px;
-  --shadow: 0 4px 24px rgba(0,0,0,.4);
-  --shadow-lg: 0 8px 40px rgba(0,0,0,.5);
+:root{
+  --bg:#06090f;--surface:#0d1117;--surface2:#161b22;--border:#21262d;
+  --text:#c9d1d9;--text2:#8b949e;--text3:#484f58;--white:#e6edf3;
+  --green:#3fb950;--blue:#58a6ff;--amber:#d29922;--rose:#f85149;--violet:#a371f7;--cyan:#39d2c0;
+  --grad-g:linear-gradient(135deg,#238636,#3fb950);--grad-b:linear-gradient(135deg,#1f6feb,#58a6ff);
+  --grad-a:linear-gradient(135deg,#9e6a03,#d29922);--grad-v:linear-gradient(135deg,#6e40c9,#a371f7);
+  --rad:12px;--rad-sm:8px
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Inter','Noto Sans SC',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-body::before{content:'';position:fixed;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at 20% 20%,rgba(74,222,128,.03) 0%,transparent 50%),radial-gradient(ellipse at 80% 60%,rgba(34,211,238,.03) 0%,transparent 50%),radial-gradient(ellipse at 50% 80%,rgba(167,139,250,.02) 0%,transparent 50%);pointer-events:none;z-index:0}
-.container{max-width:1440px;margin:0 auto;padding:32px 40px;position:relative;z-index:1}
+body{font-family:-apple-system,"Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden}
+#app{display:flex;height:100vh}
+/* Sidebar */
+.sidebar{width:240px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
+.sidebar-logo{padding:20px 20px 16px;border-bottom:1px solid var(--border)}
+.sidebar-logo h1{font-size:16px;color:var(--white);font-weight:700;display:flex;align-items:center;gap:8px}
+.sidebar-logo h1 .live{width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 8px rgba(63,185,80,.5);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.sidebar-logo .ver{font-size:10px;color:var(--text3);margin-top:2px}
+.sidebar-nav{flex:1;padding:8px;overflow-y:auto}
+.nav-section{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;padding:12px 12px 6px;font-weight:700}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--rad-sm);cursor:pointer;font-size:13px;color:var(--text2);transition:all .15s;margin-bottom:2px;border:none;background:none;width:100%;text-align:left;font-family:inherit}
+.nav-item:hover{background:var(--surface2);color:var(--white)}
+.nav-item.active{background:var(--surface2);color:var(--white);font-weight:600}
+.nav-item .ni-icon{font-size:16px;width:20px;text-align:center}
+.nav-item .ni-badge{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:600;margin-left:auto}
+.badge-g{background:rgba(63,185,80,.15);color:var(--green)}
+.badge-b{background:rgba(88,166,255,.15);color:var(--blue)}
+.badge-a{background:rgba(210,153,34,.15);color:var(--amber)}
+.sidebar-footer{padding:12px;border-top:1px solid var(--border)}
+.sidebar-footer .user{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)}
+.sidebar-footer .avatar{width:28px;height:28px;border-radius:50%;background:var(--grad-g);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff}
 
-/* Grid bg */
-.grid-bg{position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0;mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 70%)}
+/* Main */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.main-header{padding:16px 28px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.main-header h2{font-size:18px;color:var(--white);font-weight:700}
+.main-header .actions{display:flex;gap:8px}
+.btn{font-size:12px;font-weight:600;padding:7px 16px;border-radius:20px;border:1px solid var(--border);background:var(--surface2);color:var(--text2);cursor:pointer;transition:all .15s;font-family:inherit;white-space:nowrap}
+.btn:hover{background:var(--border);color:var(--white)}
+.btn-primary{background:var(--grad-g);border:none;color:#fff}
+.btn-primary:hover{opacity:.9}
+.btn-blue{background:var(--grad-b);border:none;color:#fff}
+.btn-blue:hover{opacity:.9}
+.main-content{flex:1;overflow-y:auto;padding:24px 28px}
 
-/* Top bar */
-.topbar{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:36px}
-.topbar-left h1{font-size:28px;font-weight:800;color:#fff;letter-spacing:-.5px;margin-bottom:4px}
-.topbar-left h1 .dot{display:inline-block;width:8px;height:8px;background:var(--accent);border-radius:50%;margin-right:10px;box-shadow:0 0 12px rgba(74,222,128,.5);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.topbar-left .sub{font-size:13px;color:var(--text2);font-weight:500}
-.topbar-right{display:flex;align-items:center;gap:16px}
-.topbar-right .date-box{background:var(--surface);border:1px solid var(--border);border-radius:30px;padding:8px 18px;font-size:13px;color:var(--text2);font-weight:500}
-.topbar-right .status-dot{width:8px;height:8px;background:var(--accent);border-radius:50%;margin-right:6px;display:inline-block;box-shadow:0 0 8px rgba(74,222,128,.4)}
+/* Cards grid */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;margin-bottom:20px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rad);overflow:hidden;transition:all .2s;display:flex;flex-direction:column}
+.card:hover{border-color:rgba(255,255,255,.08);box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.card-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-header h3{font-size:14px;color:var(--white);font-weight:600;display:flex;align-items:center;gap:8px}
+.card-header .ch-icon{font-size:16px}
+.card-body{padding:16px 20px;flex:1}
+.card-footer{padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:8px}
 
-/* Stats row */
-.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:28px}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;position:relative;overflow:hidden;transition:all .3s}
-.stat-card:hover{border-color:rgba(255,255,255,.1);transform:translateY(-2px);box-shadow:var(--shadow)}
-.stat-card::after{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:var(--grad1);opacity:0;transition:opacity .3s}
-.stat-card:hover::after{opacity:1}
-.stat-card .s-icon{font-size:22px;margin-bottom:10px}
-.stat-card .s-val{font-size:32px;font-weight:800;color:#fff;letter-spacing:-1px;line-height:1}
-.stat-card .s-label{font-size:11px;color:var(--text2);margin-top:6px;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+/* Action card */
+.action-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.03);cursor:pointer;transition:all .15s}
+.action-row:last-child{border-bottom:none}
+.action-row:hover .ar-label{color:var(--white)}
+.ar-left{display:flex;align-items:center;gap:10px}
+.ar-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.ar-label{font-size:13px;color:var(--text);transition:color .15s}
+.ar-meta{font-size:11px;color:var(--text2)}
+.ar-right{display:flex;align-items:center;gap:6px}
+.ar-tag{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600}
+.tag-go{background:rgba(63,185,80,.12);color:var(--green)}
+.tag-run{background:rgba(88,166,255,.12);color:var(--blue)}
+.tag-wait{background:rgba(210,153,34,.12);color:var(--amber)}
+.tag-open{background:rgba(163,113,247,.12);color:var(--violet)}
+.ar-hint{font-size:9px;color:var(--text3)}
 
-/* Main grid */
-.main-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:28px}
+/* Stat row */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.stat-cell{background:var(--surface);border:1px solid var(--border);border-radius:var(--rad);padding:16px 20px;text-align:center}
+.stat-cell .sv{font-size:28px;font-weight:800;color:var(--white);letter-spacing:-1px}
+.stat-cell .sl{font-size:11px;color:var(--text2);margin-top:4px;font-weight:500}
 
-/* Panel */
-.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:all .3s}
-.panel:hover{box-shadow:var(--shadow)}
-.panel-header{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
-.panel-header .p-icon{font-size:18px}
-.panel-header h2{font-size:14px;font-weight:700;color:#fff;letter-spacing:.3px}
-.panel-header .badge{font-size:10px;padding:3px 10px;border-radius:20px;font-weight:600;margin-left:auto}
-.badge-green{background:rgba(74,222,128,.12);color:var(--accent)}
-.badge-blue{background:rgba(34,211,238,.12);color:var(--accent2)}
-.badge-amber{background:rgba(245,158,11,.12);color:var(--amber)}
-.panel-body{padding:14px 22px}
+/* Tooltip on copy */
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;padding:10px 24px;border-radius:20px;font-size:13px;font-weight:600;z-index:999;opacity:0;pointer-events:none;transition:opacity .3s}
+.toast.show{opacity:1}
 
-/* List item */
-.list-item{display:flex;align-items:flex-start;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.04);gap:12px;transition:all .2s}
-.list-item:last-child{border-bottom:none}
-.list-item:hover .li-text{color:#fff}
-.li-dot{width:8px;height:8px;border-radius:50%;margin-top:6px;flex-shrink:0}
-.li-dot.green{background:var(--accent);box-shadow:0 0 8px rgba(74,222,128,.3)}
-.li-dot.blue{background:var(--accent2);box-shadow:0 0 8px rgba(34,211,238,.3)}
-.li-dot.amber{background:var(--amber);box-shadow:0 0 8px rgba(245,158,11,.3)}
-.li-dot.rose{background:var(--rose);box-shadow:0 0 8px rgba(244,63,94,.3)}
-.li-dot.violet{background:var(--violet);box-shadow:0 0 8px rgba(167,139,250,.3)}
-.li-dot.muted{background:var(--text3)}
-.li-content{flex:1;min-width:0}
-.li-text{font-size:13px;font-weight:500;color:var(--text);transition:color .2s}
-.li-meta{font-size:11px;color:var(--text2);margin-top:3px}
-.li-tag{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600;flex-shrink:0;margin-top:2px}
-.tag-done{background:rgba(74,222,128,.1);color:var(--accent)}
-.tag-progress{background:rgba(34,211,238,.1);color:var(--accent2)}
-.tag-warn{background:rgba(245,158,11,.1);color:var(--amber)}
+/* Section title */
+.sec-title{font-size:13px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:12px;margin-top:8px}
 
-/* Calendar */
-.calendar{margin-bottom:28px}
-.cal-row{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
-.cal-day{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 12px;text-align:center;transition:all .3s}
-.cal-day:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
-.cal-day.today{border-color:var(--accent);background:linear-gradient(135deg,rgba(74,222,128,.08) 0%,rgba(34,211,238,.04) 100%)}
-.cal-day .cd-dow{font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
-.cal-day .cd-num{font-size:24px;font-weight:800;color:#fff;letter-spacing:-1px;margin-bottom:8px}
-.cal-day .cd-topic{font-size:10px;font-weight:700;padding:4px 10px;border-radius:12px;display:inline-block;margin-bottom:6px}
-.t-suan{background:rgba(34,211,238,.12);color:var(--accent2)}
-.t-chu{background:rgba(74,222,128,.12);color:var(--accent)}
-.t-zhuang{background:rgba(245,158,11,.12);color:var(--amber)}
-.t-che{background:rgba(244,63,94,.12);color:var(--rose)}
-.t-hy{background:rgba(167,139,250,.12);color:var(--violet)}
-.cal-day .cd-status{font-size:10px;color:var(--text2)}
-
-/* Bottom */
-.bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:28px}
-
-/* Progress bar */
-.prog-item{margin-bottom:16px}
-.prog-item:last-child{margin-bottom:0}
-.prog-top{display:flex;justify-content:space-between;margin-bottom:6px;font-size:12px;font-weight:500}
-.prog-label{color:var(--text)}
-.prog-pct{color:var(--accent);font-weight:700}
-.prog-bar{height:6px;border-radius:3px;background:rgba(255,255,255,.06);overflow:hidden}
-.prog-fill{height:100%;border-radius:3px;transition:width 1s ease}
-.prog-fill.green{background:var(--grad1)}
-.prog-fill.amber{background:var(--grad2)}
-.prog-fill.violet{background:var(--grad3)}
-
-/* Quick links */
-.quick-links{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.qlink{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:18px 16px;text-align:center;text-decoration:none;transition:all .3s;display:block}
-.qlink:hover{border-color:rgba(255,255,255,.12);transform:translateY(-2px);box-shadow:var(--shadow)}
-.qlink .ql-icon{font-size:24px;margin-bottom:8px}
-.qlink .ql-name{font-size:12px;color:var(--text);font-weight:500}
-
-@media(max-width:1100px){
-  .container{padding:20px}
-  .main-grid{grid-template-columns:1fr}
-  .bottom-grid{grid-template-columns:1fr}
-  .stats{grid-template-columns:repeat(3,1fr)}
-  .cal-row{grid-template-columns:repeat(4,1fr)}
-  .quick-links{grid-template-columns:repeat(2,1fr)}
-  .topbar{flex-direction:column;gap:12px}
-}
-
-/* Fade in */
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.animate{animation:fadeUp .6s ease forwards}
+@media(max-width:900px){.sidebar{display:none}.cards{grid-template-columns:1fr}.stat-row{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
-<div class="grid-bg"></div>
-<div class="container">
+<div id="app">
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <h1><span class="live"></span>文哥 · AI工作台</h1>
+    <div class="ver">专业+AI+自媒体 · v2.0</div>
+  </div>
+  <nav class="sidebar-nav" id="nav">
+    <div class="nav-section">工作区</div>
+    <button class="nav-item active" data-tab="overview"><span class="ni-icon">🏠</span>总览<span class="ni-badge badge-g">2/3</span></button>
+    <button class="nav-item" data-tab="content"><span class="ni-icon">✍️</span>内容创作<span class="ni-badge badge-b">待发</span></button>
+    <button class="nav-item" data-tab="business"><span class="ni-icon">💰</span>客户与商机</button>
+    <button class="nav-item" data-tab="video"><span class="ni-icon">🎬</span>视频工坊</button>
+    <div class="nav-section">工具</div>
+    <button class="nav-item" data-tab="files"><span class="ni-icon">📂</span>文件中心</button>
+    <button class="nav-item" data-tab="links"><span class="ni-icon">🔗</span>外部平台</button>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="user"><div class="avatar">文</div>润滑江湖 · 在线</div>
+  </div>
+</aside>
 
-<!-- Top Bar -->
-<div class="topbar animate">
-  <div class="topbar-left">
-    <h1><span class="dot"></span>文哥 · 工作驾驶舱</h1>
-    <div class="sub">专业 + AI + 自媒体 · 飞轮运转中</div>
-  </div>
-  <div class="topbar-right">
-    <div class="date-box"><span class="status-dot"></span>2026年8月2日 周日</div>
-  </div>
+<!-- Main Content -->
+<main class="main" id="main">
+</main>
 </div>
 
-<!-- Stats -->
-<div class="stats">
-  <div class="stat-card animate" style="animation-delay:0.05s">
-    <div class="s-icon">👥</div>
-    <div class="s-val">2,871</div>
-    <div class="s-label">公众号粉丝</div>
-  </div>
-  <div class="stat-card animate" style="animation-delay:0.1s">
-    <div class="s-icon">📈</div>
-    <div class="s-val">49K</div>
-    <div class="s-label">7月总阅读</div>
-  </div>
-  <div class="stat-card animate" style="animation-delay:0.15s">
-    <div class="s-icon">🔑</div>
-    <div class="s-val">10</div>
-    <div class="s-label">关键词自动回复</div>
-  </div>
-  <div class="stat-card animate" style="animation-delay:0.2s">
-    <div class="s-icon">⚙️</div>
-    <div class="s-val">2/3</div>
-    <div class="s-label">飞轮断点已修</div>
-  </div>
-  <div class="stat-card animate" style="animation-delay:0.25s">
-    <div class="s-icon">🎯</div>
-    <div class="s-val">0→1</div>
-    <div class="s-label">8月目标寄样</div>
-  </div>
+<div class="toast" id="toast">✅ 指令已复制，粘贴给 Cola</div>
+
+<script>
+// Toast
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show')},2000)}
+
+// Copy to clipboard
+function copyCmd(cmd){navigator.clipboard.writeText(cmd).then(function(){showToast('✅ 指令已复制，到 Cola 粘贴执行')})}
+
+// Tab switching
+document.querySelectorAll('.nav-item').forEach(function(btn){btn.addEventListener('click',function(){document.querySelectorAll('.nav-item').forEach(function(b){b.classList.remove('active')});this.classList.add('active');renderTab(this.dataset.tab)})});
+
+// File links - Windows paths
+function fileLink(p){return'file:///'+p.replace(/\\/g,'/')}
+var BASE='C:/Users/12084/cola/outputs/润滑江湖内容';
+var DESK='C:/Users/12084/Desktop';
+
+// ====================== RENDER ======================
+function renderTab(tab){
+var m=document.getElementById('main');
+if(tab==='overview')m.innerHTML=overviewHTML();
+else if(tab==='content')m.innerHTML=contentHTML();
+else if(tab==='business')m.innerHTML=businessHTML();
+else if(tab==='video')m.innerHTML=videoHTML();
+else if(tab==='files')m.innerHTML=filesHTML();
+else if(tab==='links')m.innerHTML=linksHTML();
+}
+// ====================== OVERVIEW ======================
+function overviewHTML(){
+return `
+<div class="main-header"><h2>📊 工作总览</h2><div class="actions"><span style="font-size:12px;color:var(--text2)">2026年8月2日 周日</span></div></div>
+<div class="main-content">
+<div class="stat-row">
+  <div class="stat-cell"><div class="sv">2,871</div><div class="sl">公众号粉丝</div></div>
+  <div class="stat-cell"><div class="sv">49K</div><div class="sl">7月阅读量</div></div>
+  <div class="stat-cell"><div class="sv">10</div><div class="sl">关键词自动回复</div></div>
+  <div class="stat-cell"><div class="sv">2/3</div><div class="sl">飞轮断点已修</div></div>
 </div>
 
-<!-- Main 3-column -->
-<div class="main-grid">
-  <!-- 专业 -->
-  <div class="panel animate" style="animation-delay:0.1s">
-    <div class="panel-header"><span class="p-icon">🧠</span><h2>专业</h2></div>
-    <div class="panel-body">
-      <div class="list-item">
-        <div class="li-dot green"></div>
-        <div class="li-content"><div class="li-text">8月第1周行业简报</div><div class="li-meta">润禾储能 · nVent CDU · 市场规模</div></div>
-        <div class="li-tag tag-done">已出</div>
-      </div>
-      <div class="list-item">
-        <div class="li-dot violet"></div>
-        <div class="li-content"><div class="li-text">四大赛道客群图谱</div><div class="li-meta">算储桩车 · 决策人画像 · 转化路径</div></div>
-      </div>
-      <div class="list-item">
-        <div class="li-dot violet"></div>
-        <div class="li-content"><div class="li-text">四大市场切入战略</div><div class="li-meta">准入门槛 · 产品匹配 · 优先级</div></div>
-      </div>
-      <div class="list-item">
-        <div class="li-dot amber"></div>
-        <div class="li-content"><div class="li-text">H4测试数据汇总</div><div class="li-meta">整理 + 发给吉利技术团队</div></div>
-        <div class="li-tag tag-warn">本周</div>
-      </div>
-      <div class="list-item">
-        <div class="li-dot amber"></div>
-        <div class="li-content"><div class="li-text">寄样包准备</div><div class="li-meta">样品 + TDS + 测试指南 + 名片</div></div>
-        <div class="li-tag tag-warn">本周</div>
-      </div>
+<div class="sec-title">⚡ 快速启动</div>
+<div class="cards">
+  <div class="card">
+    <div class="card-header"><h3><span class="ch-icon">✍️</span>写今天的文章</h3></div>
+    <div class="card-body">
+      <div style="font-size:12px;color:var(--text2);margin-bottom:6px">8月4日 · 算方向</div>
+      <div style="font-size:14px;color:var(--white);font-weight:600;margin-bottom:4px">冷却液说能用5年，3年就变质了——5个指标自己测</div>
+      <div style="font-size:11px;color:var(--text3)">选题已确认 · 受众已验证 · 对标已完成</div>
+    </div>
+    <div class="card-footer">
+      <button class="btn btn-primary" onclick="copyCmd('按新排版格式（01-05大号淡绿数字分节）生成8月4日润滑江湖公众号文章完整发布包。题目：冷却液说能用5年，3年就变质了——5个指标自己测。含3标题、4插图提示词、百家号版、官网版+SEO字段。工具文风格，不植入苏能。')">📋 复制指令 → Cola写作</button>
     </div>
   </div>
 
-  <!-- 自媒体 -->
-  <div class="panel animate" style="animation-delay:0.15s">
-    <div class="panel-header"><span class="p-icon">📡</span><h2>自媒体</h2></div>
-    <div class="panel-body">
-      <div class="list-item">
-        <div class="li-dot green"></div>
-        <div class="li-content"><div class="li-text">8/2 储能 · 冷却液共用判断</div><div class="li-meta">3标题 · 4插图 · 百家号+官网</div></div>
-        <div class="li-tag tag-done">已发</div>
-      </div>
-      <div class="list-item">
-        <div class="li-dot green"></div>
-        <div class="li-content"><div class="li-text">8/3 桩 · 风冷到浸没换轨道</div><div class="li-meta">CSDN · 头条 · 搜狐号</div></div>
-        <div class="li-tag tag-done">已发</div>
-      </div>
-      <div class="list-item">
-        <div class="li-dot blue"></div>
-        <div class="li-content"><div class="li-text">8/4 算 · 5个指标自测冷却液</div><div class="li-meta">公众号 · 百家号 · 官网</div></div>
-        <div class="li-tag tag-progress">待发</div>
-      </div>
-      <div class="list-item">
-        <div class="li-dot blue"></div>
-        <div class="li-content"><div class="li-text">短视频推进计划</div><div class="li-meta">对标→格式→管线→测试→SOP</div></div>
-        <div class="li-tag tag-progress">第一阶段</div>
-      </div>
-      <div class="list-item">
-        <div class="li-dot violet"></div>
-        <div class="li-content"><div class="li-text">8月选题日历</div><div class="li-meta">31天 · 算10 储6 桩6 车2 行业7</div></div>
-      </div>
+  <div class="card">
+    <div class="card-header"><h3><span class="ch-icon">🎬</span>短视频对标拆解</h3></div>
+    <div class="card-body">
+      <div style="font-size:12px;color:var(--text2);margin-bottom:6px">8月核心战役 · 第一阶段</div>
+      <div style="font-size:13px;color:var(--text);line-height:1.6">打开抖音/视频号搜索：液冷、数据中心、储能冷却液。找到10-15条视频记下来。攒够了让Cola帮你拆解。</div>
+    </div>
+    <div class="card-footer">
+      <a class="btn" href="${fileLink(BASE+'/短视频推进计划_8月_20260801.md')}">📄 打开推进计划</a>
+      <button class="btn btn-blue" onclick="copyCmd('帮我做短视频对标拆解。已收集的视频数据如下：[粘贴视频标题和链接]，请按6点模板逐一拆解：前3秒钩子、结构分配、节奏、画面、结尾引导、为什么火。')">🔍 准备拆解</button>
     </div>
   </div>
 
-  <!-- 商业 -->
-  <div class="panel animate" style="animation-delay:0.2s">
-    <div class="panel-header"><span class="p-icon">💰</span><h2>商业</h2></div>
-    <div class="panel-body">
-      <div class="list-item">
-        <div class="li-dot green"></div>
-        <div class="li-content"><div class="li-text">客户追踪表</div><div class="li-meta">桌面 Excel · 下拉菜单 · 随时记</div></div>
-        <div class="li-tag tag-done">已建</div>
-      </div>
-      <div class="list-item">
-        <div class="li-dot violet"></div>
-        <div class="li-content"><div class="li-text">8月商业转化行动</div><div class="li-meta">目标 ≥1寄样 + ≥1报价</div></div>
-      </div>
-      <div class="list-item">
-        <div class="li-dot rose"></div>
-        <div class="li-content"><div class="li-text">吉利超充项目</div><div class="li-meta">驭电H4验证中 · 发数据给朱总</div></div>
-        <div class="li-tag tag-warn">等推动</div>
-      </div>
-      <div class="list-item">
-        <div class="li-dot amber"></div>
-        <div class="li-content"><div class="li-text">官网加转化入口</div><div class="li-meta">产品页+首页 · 测试/咨询入口</div></div>
-      </div>
-      <div class="list-item">
-        <div class="li-dot amber"></div>
-        <div class="li-content"><div class="li-text">目标客户名单</div><div class="li-meta">3-5家液冷集成商/充电桩厂</div></div>
-        <div class="li-tag tag-warn">本周</div>
-      </div>
+  <div class="card">
+    <div class="card-header"><h3><span class="ch-icon">📊</span>客户追踪</h3></div>
+    <div class="card-body">
+      <div style="font-size:12px;color:var(--text2);margin-bottom:6px">7月基准：线索未知 · 8月目标 ≥10条</div>
+      <div style="font-size:13px;color:var(--text);">每次有客户联系，花30秒记一笔。三个月后你能回答：内容到底带来了多少线索。</div>
+    </div>
+    <div class="card-footer">
+      <a class="btn btn-primary" href="${fileLink(DESK+'/客户追踪表_润滑江湖.xlsx')}">📊 打开追踪表</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><h3><span class="ch-icon">📰</span>行业周报</h3></div>
+    <div class="card-body">
+      <div style="font-size:12px;color:var(--text2);margin-bottom:6px">每周一早7点自动生成</div>
+      <div style="font-size:13px;color:var(--text);line-height:1.6">已出：第1期。润禾储能批量出货 · nVent新CDU · 市场规模预测</div>
+    </div>
+    <div class="card-footer">
+      <a class="btn" href="${fileLink(BASE+'/液冷行业周报_2026年8月第1周.md')}">📄 查看第1期</a>
+      <button class="btn btn-blue" onclick="copyCmd('现在跑一次液冷行业周报，按固定格式：本周最值得关注→竞品动态→行业日历→选题建议→一句话提醒。覆盖算储桩车四个方向。')">🔄 立即生成</button>
     </div>
   </div>
 </div>
 
-<!-- Calendar -->
-<div class="panel calendar animate" style="animation-delay:0.25s">
-  <div class="panel-header"><span class="p-icon">📅</span><h2>本周内容日历</h2><span class="badge badge-blue">8月第一周</span></div>
-  <div class="panel-body">
-    <div class="cal-row">
-      <div class="cal-day"><div class="cd-dow">周五</div><div class="cd-num">1</div><div class="cd-topic t-suan">算</div><div class="cd-status">文哥已写</div></div>
-      <div class="cal-day"><div class="cd-dow">周六</div><div class="cd-num">2</div><div class="cd-topic t-chu">储</div><div class="cd-status">✅ 已发布</div></div>
-      <div class="cal-day today"><div class="cd-dow">周日</div><div class="cd-num">3</div><div class="cd-topic t-zhuang">桩</div><div class="cd-status">✅ 已发布</div></div>
-      <div class="cal-day"><div class="cd-dow">周一</div><div class="cd-num">4</div><div class="cd-topic t-suan">算</div><div class="cd-status">⏳ 待发</div></div>
-      <div class="cal-day"><div class="cd-dow">周二</div><div class="cd-num">5</div><div class="cd-topic t-chu">储</div><div class="cd-status">—</div></div>
-      <div class="cal-day"><div class="cd-dow">周三</div><div class="cd-num">6</div><div class="cd-topic t-zhuang">桩</div><div class="cd-status">—</div></div>
-      <div class="cal-day"><div class="cd-dow">周四</div><div class="cd-num">7</div><div class="cd-topic t-hy">行业</div><div class="cd-status">—</div></div>
+<div class="sec-title">🔧 飞轮断点修复</div>
+<div class="cards">
+  <div class="card">
+    <div class="card-header"><h3 style="color:var(--green)">✅ ① 自媒体→专业</h3></div>
+    <div class="card-body" style="font-size:12px;color:var(--text2)">关键词自动回复10条 · 客户追踪表 · 文章结尾钩子</div>
+  </div>
+  <div class="card">
+    <div class="card-header"><h3 style="color:var(--green)">✅ ② AI→专业</h3></div>
+    <div class="card-body" style="font-size:12px;color:var(--text2)">每周一早7点自动行业周报</div>
+  </div>
+  <div class="card">
+    <div class="card-header"><h3 style="color:var(--amber)">⏳ ③ 专业→商业</h3></div>
+    <div class="card-body" style="font-size:12px;color:var(--text2)">主动出击3-5家 · 准备寄样包 · 推吉利项目</div>
+    <div class="card-footer">
+      <button class="btn btn-primary" onclick="copyCmd('帮我梳理断点三（专业→商业转化）的本周执行清单：目标客户名单、H4测试数据发给吉利的邮件草稿、寄样包checklist。')">🚀 启动本周行动</button>
+    </div>
+  </div>
+</div>
+</div>`;
+}
+
+// ====================== CONTENT ======================
+function contentHTML(){
+return `
+<div class="main-header"><h2>✍️ 内容创作</h2><div class="actions">
+  <button class="btn btn-primary" onclick="copyCmd('按新排版格式生成今天公众号文章完整发布包。请先确认今天日期和选题方向。')">📝 写今天的文章</button>
+  <a class="btn" href="${fileLink(BASE+'/8月文章/')}">📂 文章存档</a>
+  <a class="btn" href="${fileLink(BASE+'/润滑江湖_8月日选题日历表_20260731.md')}">📅 选题日历</a>
+</div></div>
+<div class="main-content">
+
+<div class="sec-title">📅 本周内容日历</div>
+<div class="cards">
+  <div class="card"><div class="card-header"><h3>✅ 8/1 周五 · 算</h3></div><div class="card-body" style="font-size:13px;color:var(--text2)">文哥自己写了</div></div>
+  <div class="card"><div class="card-header"><h3 style="color:var(--green)">✅ 8/2 周六 · 储</h3></div><div class="card-body" style="font-size:13px;color:var(--text2)">冷却液共用判断 · 3标题4插图 · 已发</div>
+  <div class="card-footer"><a class="btn" href="${fileLink(BASE+'/8月文章/0802_完整发布包.md')}">📄 打开</a></div></div>
+  <div class="card"><div class="card-header"><h3 style="color:var(--green)">✅ 8/3 周日 · 桩</h3></div><div class="card-body" style="font-size:13px;color:var(--text2)">风冷到浸没换轨道 · CSDN+头条+搜狐 · 已发</div>
+  <div class="card-footer"><a class="btn" href="${fileLink(BASE+'/8月文章/0803_完整发布包.md')}">📄 打开</a></div></div>
+  <div class="card"><div class="card-header"><h3 style="color:var(--blue)">⏳ 8/4 周一 · 算</h3></div><div class="card-body" style="font-size:13px;color:var(--text2)">5个指标自测冷却液 · 待发</div>
+  <div class="card-footer"><button class="btn btn-primary" onclick="copyCmd('按新排版格式（01-05大号淡绿数字分节）生成8月4日润滑江湖公众号文章完整发布包。题目：冷却液说能用5年，3年就变质了——5个指标自己测。含3标题、4插图提示词、百家号版、官网版+SEO字段。纯工具文，不植入苏能。')">📋 生成发布包</button></div></div>
+  <div class="card"><div class="card-header"><h3>8/5 周二 · 储</h3></div><div class="card-body" style="font-size:13px;color:var(--text2)">选题待确认</div></div>
+  <div class="card"><div class="card-header"><h3>8/6 周三 · 桩</h3></div><div class="card-body" style="font-size:13px;color:var(--text2)">选题待确认</div></div>
+  <div class="card"><div class="card-header"><h3>8/7 周四 · 行业</h3></div><div class="card-body" style="font-size:13px;color:var(--text2)">选题待确认</div></div>
+</div>
+
+<div class="sec-title">📋 写作标准流程</div>
+<div class="cards">
+  <div class="card"><div class="card-body" style="font-size:12px;color:var(--text2);line-height:1.8">
+    <strong style="color:var(--white)">8步SOP：</strong>①确认选题+受众验证 → ②对标拆解 → ③出3标题 → ④写正文 → ⑤苏能植入检查 → ⑥自检+SEO → ⑦分发6平台 → ⑧24h监测<br><br>
+    <strong style="color:var(--white)">新排版格式：</strong>01-05大号淡绿数字分节 · 段间空行 · 引用块强调 · 1.6倍行距 · 4张配图提示词
+  </div>
+  <div class="card-footer"><a class="btn" href="${fileLink(BASE+'/润滑江湖_每日写作标准流程_8月_20260731.md')}">📄 打开完整SOP</a></div></div>
+</div>
+
+</div>`;
+}
+
+// ====================== BUSINESS ======================
+function businessHTML(){
+return `
+<div class="main-header"><h2>💰 客户与商机</h2><div class="actions">
+  <a class="btn btn-primary" href="${fileLink(DESK+'/客户追踪表_润滑江湖.xlsx')}">📊 打开追踪表</a>
+  <button class="btn btn-blue" onclick="copyCmd('帮我生成H4测试数据汇总邮件草稿，发给吉利朱总。语气：上次交流后我们补了一些测试数据，发你看看。电导率衰减和铜片腐蚀数据在第二页。不做推销，纯技术分享。')">📧 H4邮件草稿</button>
+</div></div>
+<div class="main-content">
+
+<div class="cards">
+  <div class="card">
+    <div class="card-header"><h3><span class="ch-icon">🔌</span>吉利超充项目</h3></div>
+    <div class="card-body">
+      <div style="font-size:12px;color:var(--text2);margin-bottom:8px">驭电H4 · 合成烃浸没冷却液 · 验证阶段</div>
+      <div class="action-row" onclick="copyCmd('帮我生成H4测试数据汇总邮件草稿，发给吉利技术团队。语气：上次交流后我们针对充电桩浸没场景补了一些数据，发你看看。重点：电导率衰减曲线和铜片腐蚀数据。')">
+        <div class="ar-left"><div class="ar-dot" style="background:var(--amber)"></div><div><div class="ar-label">整理H4测试数据并发送</div><div class="ar-meta">电导率衰减 · 铜片腐蚀 · 发给朱总</div></div></div>
+        <div class="ar-right"><span class="ar-tag tag-go">执行</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><h3><span class="ch-icon">🎯</span>目标客户名单</h3></div>
+    <div class="card-body">
+      <div style="font-size:12px;color:var(--text2);margin-bottom:8px">本周核心任务 · 列出3-5家</div>
+      <div class="action-row" onclick="copyCmd('帮我梳理液冷行业潜在客户名单。方向：中小型液冷集成商/CDU厂商、充电桩设备厂（非华为/科士达级别）、工商业储能集成商。每家需要有公司名、为什么选他们、可能的接触方式。目标：3-5家。')">
+        <div class="ar-left"><div class="ar-dot" style="background:var(--amber)"></div><div><div class="ar-label">梳理潜在客户名单</div><div class="ar-meta">液冷集成商 · 充电桩厂 · 储能集成商</div></div></div>
+        <div class="ar-right"><span class="ar-tag tag-go">执行</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><h3><span class="ch-icon">📦</span>寄样包准备</h3></div>
+    <div class="card-body">
+      <div style="font-size:12px;color:var(--text2);margin-bottom:8px">每份含：样品+TDS+测试指南+名片</div>
+      <div class="action-row" onclick="copyCmd('帮我生成寄样包checklist和测试指南模板。测试指南一页A4：建议先测电导率、材料兼容、低温黏度三个指标，每个指标怎么测、正常范围是什么。语气：像同行在分享经验。')">
+        <div class="ar-left"><div class="ar-dot" style="background:var(--amber)"></div><div><div class="ar-label">生成测试指南模板</div><div class="ar-meta">一页A4 · 三个指标 · 实操步骤</div></div></div>
+        <div class="ar-right"><span class="ar-tag tag-go">执行</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><h3><span class="ch-icon">🌐</span>官网转化入口</h3></div>
+    <div class="card-body">
+      <div style="font-size:12px;color:var(--text2);margin-bottom:8px">产品页底部+首页浮窗 · "申请样品测试"</div>
     </div>
   </div>
 </div>
 
-<!-- Bottom -->
-<div class="bottom-grid">
-  <!-- Todo -->
-  <div class="panel animate" style="animation-delay:0.3s">
-    <div class="panel-header"><span class="p-icon">✅</span><h2>本周待办</h2><span class="badge badge-amber">7项</span></div>
-    <div class="panel-body">
-      <div class="list-item"><div class="li-dot muted"></div><div class="li-content"><div class="li-text">发8/4文章（算 — 5指标自测冷却液）</div></div></div>
-      <div class="list-item"><div class="li-dot muted"></div><div class="li-content"><div class="li-text">列3-5家目标客户名单</div></div></div>
-      <div class="list-item"><div class="li-dot muted"></div><div class="li-content"><div class="li-text">准备寄样包（样品+TDS+测试指南）</div></div></div>
-      <div class="list-item"><div class="li-dot muted"></div><div class="li-content"><div class="li-text">整理H4测试数据，发给吉利</div></div></div>
-      <div class="list-item"><div class="li-dot muted"></div><div class="li-content"><div class="li-text">短视频对标拆解：搜10-15条视频</div></div></div>
-      <div class="list-item"><div class="li-dot muted"></div><div class="li-content"><div class="li-text">官网加"申请测试"入口</div></div></div>
-      <div class="list-item"><div class="li-dot muted"></div><div class="li-content"><div class="li-text">写8/5文章（储方向）</div></div></div>
+</div>`;
+}
+
+// ====================== VIDEO ======================
+function videoHTML(){
+return `
+<div class="main-header"><h2>🎬 视频工坊</h2><div class="actions">
+  <button class="btn btn-primary" onclick="copyCmd('帮我做短视频对标拆解。我在抖音/视频号搜了以下视频：[粘贴标题和链接]，请按6点模板逐一拆解：前3秒钩子是什么、讲了几件事时间分配、节奏语速、画面形式、结尾引导什么、为什么这条会火。')">🔍 对标拆解</button>
+  <button class="btn btn-blue" onclick="copyCmd('根据对标拆解结果，帮我定义润滑江湖短视频的2-3种候选格式。每种格式包含：时长、前3秒钩子模板、结构模板、画面规范、字幕规范。主推格式：60-90秒文哥口播。')">✍️ 定义格式</button>
+  <a class="btn" href="${fileLink(BASE+'/短视频推进计划_8月_20260801.md')}">📄 完整计划</a>
+</div></div>
+<div class="main-content">
+
+<div class="sec-title">五周五阶段 · 8月底交付SOP</div>
+<div class="cards">
+  <div class="card">
+    <div class="card-header"><h3 style="color:var(--blue)">🔍 第一阶段：对标拆解</h3><span style="font-size:10px;color:var(--text3)">8/1-8/5</span></div>
+    <div class="card-body" style="font-size:12px;color:var(--text2);line-height:1.8">
+      目标：搞清楚谁在做液冷短视频、什么格式有效、文哥能复制哪种<br>
+      产出：10-15条视频拆解 + 2-3种候选格式<br>
+      <strong style="color:var(--white)">现在就动手</strong>——打开抖音/视频号搜"液冷""数据中心""储能冷却液"<br>
+      把看到的每个视频记下来：谁在讲、怎么讲、数据好的长什么样
+    </div>
+    <div class="card-footer">
+      <button class="btn btn-primary" onclick="copyCmd('帮我做短视频对标拆解。我在抖音/视频号搜了以下视频：[粘贴标题和链接]。请逐一拆解。')">🔍 开始拆解</button>
     </div>
   </div>
 
-  <!-- Breakpoints -->
-  <div class="panel animate" style="animation-delay:0.35s">
-    <div class="panel-header"><span class="p-icon">🔧</span><h2>飞轮断点修复</h2><span class="badge badge-green">2/3 完成</span></div>
-    <div class="panel-body">
-      <div class="prog-item">
-        <div class="prog-top"><span class="prog-label">① 自媒体→专业</span><span class="prog-pct">100%</span></div>
-        <div class="prog-bar"><div class="prog-fill green" style="width:100%"></div></div>
-      </div>
-      <div class="prog-item">
-        <div class="prog-top"><span class="prog-label">② AI→专业</span><span class="prog-pct">100%</span></div>
-        <div class="prog-bar"><div class="prog-fill green" style="width:100%"></div></div>
-      </div>
-      <div class="prog-item">
-        <div class="prog-top"><span class="prog-label">③ 专业→商业</span><span class="prog-pct">0%</span></div>
-        <div class="prog-bar"><div class="prog-fill amber" style="width:0%"></div></div>
-      </div>
-      <div style="margin-top:18px;padding-top:16px;border-top:1px solid var(--border)">
-        <div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:4px">🎬 8月核心战役</div>
-        <div style="font-size:11px;color:var(--text2)">短视频从0到SOP · 五周五阶段 · 月底交付</div>
-      </div>
+  <div class="card">
+    <div class="card-header"><h3>✍️ 第二阶段：格式定义</h3><span style="font-size:10px;color:var(--text3)">8/6-8/10</span></div>
+    <div class="card-body" style="font-size:12px;color:var(--text2);line-height:1.8">
+      定下来润滑江湖短视频长什么样<br>
+      三种候选：A-文哥口播(60-90s) / B-数据讲解(45-60s) / C-快问快答(30-45s)<br>
+      每种格式一个脚本模板 · 各拍1条样片
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><h3>🔧 第三阶段：搭建管线</h3><span style="font-size:10px;color:var(--text3)">8/11-8/17</span></div>
+    <div class="card-body" style="font-size:12px;color:var(--text2);line-height:1.8">
+      拍摄间固定 · 剪辑项目模板 · 每次拍不用重新调
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><h3>🚀 第四阶段：测试发布</h3><span style="font-size:10px;color:var(--text3)">8/18-8/24</span></div>
+    <div class="card-body" style="font-size:12px;color:var(--text2);line-height:1.8">
+      每周3条 · 3种格式各1/3 · 视频号+抖音同步<br>
+      追完播率和互动，不追点赞数
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><h3>📋 第五阶段：复盘定SOP</h3><span style="font-size:10px;color:var(--text3)">8/25-8/31</span></div>
+    <div class="card-body" style="font-size:12px;color:var(--text2);line-height:1.8">
+      赢的格式留下来 · 输的扔掉 · 沉淀为润滑江湖短视频SOP v1.0
     </div>
   </div>
 </div>
 
-<!-- Quick Links -->
-<div class="quick-links animate" style="animation-delay:0.4s">
-  <a href="#" class="qlink"><div class="ql-icon">📂</div><div class="ql-name">润滑江湖文档</div></a>
-  <a href="#" class="qlink"><div class="ql-icon">🎯</div><div class="ql-name">四大市场方案</div></a>
-  <a href="#" class="qlink"><div class="ql-icon">🔍</div><div class="ql-name">GEO+SEO 方案</div></a>
-  <a href="#" class="qlink"><div class="ql-icon">📊</div><div class="ql-name">客户追踪表</div></a>
-  <a href="#" class="qlink"><div class="ql-icon">🧠</div><div class="ql-name">Cola 记忆库</div></a>
-  <a href="#" class="qlink"><div class="ql-icon">📝</div><div class="ql-name">8月文章存档</div></a>
-  <a href="#" class="qlink"><div class="ql-icon">🎬</div><div class="ql-name">视频推进计划</div></a>
-  <a href="#" class="qlink"><div class="ql-icon">📋</div><div class="ql-name">写作流程 SOP</div></a>
-</div>
+</div>`;
+}
 
+// ====================== FILES ======================
+function filesHTML(){
+return `
+<div class="main-header"><h2>📂 文件中心</h2></div>
+<div class="main-content">
+<div class="cards">
+  <div class="card"><div class="card-header"><h3>📝 8月文章</h3></div><div class="card-body" style="font-size:12px;color:var(--text2)">0802 0803 0804 完整发布包</div>
+  <div class="card-footer"><a class="btn btn-primary" href="${fileLink(BASE+'/8月文章/')}">📂 打开文件夹</a></div></div>
+
+  <div class="card"><div class="card-header"><h3>📰 行业周报</h3></div><div class="card-body" style="font-size:12px;color:var(--text2)">每周一早7点自动生成</div>
+  <div class="card-footer"><a class="btn btn-primary" href="${fileLink(BASE+'/')}">📂 打开文件夹</a></div></div>
+
+  <div class="card"><div class="card-header"><h3>📊 客户追踪表</h3></div><div class="card-body" style="font-size:12px;color:var(--text2)">桌面 Excel · 下拉菜单</div>
+  <div class="card-footer"><a class="btn btn-primary" href="${fileLink(DESK+'/客户追踪表_润滑江湖.xlsx')}">📊 打开</a></div></div>
+
+  <div class="card"><div class="card-header"><h3>🎯 四大市场方案</h3></div><div class="card-body" style="font-size:12px;color:var(--text2)">客群图谱 · 切入战略 · 准入门槛</div>
+  <div class="card-footer"><a class="btn btn-primary" href="${fileLink('C:/Users/12084/cola/outputs/四大市场快速切入执行方案/')}">📂 打开文件夹</a></div></div>
+
+  <div class="card"><div class="card-header"><h3>🔍 GEO+SEO 方案</h3></div>
+  <div class="card-footer"><a class="btn btn-primary" href="${fileLink('C:/Users/12084/cola/outputs/苏能润滑油GEO+SEO数字获客方案/')}">📂 打开文件夹</a></div></div>
+
+  <div class="card"><div class="card-header"><h3>🎬 视频推进计划</h3></div>
+  <div class="card-footer"><a class="btn btn-primary" href="${fileLink(BASE+'/短视频推进计划_8月_20260801.md')}">📄 打开</a></div></div>
+
+  <div class="card"><div class="card-header"><h3>📋 写作标准流程</h3></div>
+  <div class="card-footer"><a class="btn btn-primary" href="${fileLink(BASE+'/润滑江湖_每日写作标准流程_8月_20260731.md')}">📄 打开</a></div></div>
+
+  <div class="card"><div class="card-header"><h3>📅 选题日历</h3></div>
+  <div class="card-footer"><a class="btn btn-primary" href="${fileLink(BASE+'/润滑江湖_8月日选题日历表_20260731.md')}">📄 打开</a></div></div>
 </div>
+</div>`;
+}
+
+// ====================== LINKS ======================
+function linksHTML(){
+return `
+<div class="main-header"><h2>🔗 外部平台</h2></div>
+<div class="main-content">
+<div class="cards">
+  <div class="card"><div class="card-header"><h3>📱 公众号后台</h3></div><div class="card-body" style="font-size:12px;color:var(--text2)">素材管理 · 自动回复 · 数据分析</div>
+  <div class="card-footer"><a class="btn btn-primary" href="https://mp.weixin.qq.com" target="_blank">打开</a></div></div>
+
+  <div class="card"><div class="card-header"><h3>📝 知乎</h3></div><div class="card-footer"><a class="btn btn-primary" href="https://www.zhihu.com" target="_blank">打开</a></div></div>
+
+  <div class="card"><div class="card-header"><h3>💻 CSDN</h3></div><div class="card-footer"><a class="btn btn-primary" href="https://www.csdn.net" target="_blank">打开</a></div></div>
+
+  <div class="card"><div class="card-header"><h3>📰 今日头条</h3></div><div class="card-footer"><a class="btn btn-primary" href="https://mp.toutiao.com" target="_blank">打开</a></div></div>
+
+  <div class="card"><div class="card-header"><h3>📄 搜狐号</h3></div><div class="card-footer"><a class="btn btn-primary" href="https://mp.sohu.com" target="_blank">打开</a></div></div>
+
+  <div class="card"><div class="card-header"><h3>📚 百家号</h3></div><div class="card-footer"><a class="btn btn-primary" href="https://baijiahao.baidu.com" target="_blank">打开</a></div></div>
+
+  <div class="card"><div class="card-header"><h3>🌐 官网 sunengoil.com</h3></div><div class="card-footer"><a class="btn btn-primary" href="https://sunengoil.com" target="_blank">打开</a></div></div>
+
+  <div class="card"><div class="card-header"><h3>🎬 视频号</h3></div><div class="card-footer"><a class="btn btn-primary" href="https://channels.weixin.qq.com" target="_blank">打开</a></div></div>
+
+  <div class="card"><div class="card-header"><h3>📹 抖音创作平台</h3></div><div class="card-footer"><a class="btn btn-primary" href="https://creator.douyin.com" target="_blank">打开</a></div></div>
+</div>
+</div>`;
+}
+
+// Init
+renderTab('overview');
+</script>
 </body>
 </html>
