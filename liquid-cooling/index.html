@@ -2,230 +2,1534 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>数据中心冷却液 · 下一个黄金赛道</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600&family=Noto+Sans+SC:wght@200;300;400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <style>
-  /* ===== Reset & Base ===== */
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  html,body{width:100%;height:100%;overflow:hidden;font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif}
+  :root{
+    --paper:#fafaf8;
+    --paper-rgb:250,250,248;
+    --ink:#0a0a0a;
+    --ink-rgb:10,10,10;
+    --grey-1:#f0f0ee;
+    --grey-2:#d4d4d2;
+    --grey-3:#737373;
+    --accent:#002FA7;
+    --accent-rgb:0,47,167;
+    --accent-on:#ffffff;
+    --accent-bright:#5B7BFF;
+    --text-primary:#0a0a0a;
+    --text-secondary:#525252;
+    --text-helper:#737373;
+    --text-placeholder:#a3a3a3;
+    --text-on-color:#ffffff;
+    --border-subtle:#e0e0e0;
+    --border-strong:#a3a3a3;
+    --sans:"Inter","Helvetica Neue","Helvetica","Arial",system-ui,-apple-system,sans-serif;
+    --sans-zh:"PingFang SC","Hiragino Sans GB","Source Han Sans SC","Noto Sans SC","Microsoft YaHei UI","Microsoft YaHei","微软雅黑",sans-serif;
+    --mono:"JetBrains Mono","IBM Plex Mono","SF Mono","Cascadia Code","Consolas","Courier New",ui-monospace,monospace;
+    --sp-3:8px;--sp-4:12px;--sp-5:16px;--sp-6:24px;--sp-7:32px;--sp-8:40px;--sp-9:48px;--sp-10:64px;--sp-11:80px;--sp-12:96px;--sp-13:160px;
+    --ease-prod:cubic-bezier(.2,0,.38,.9);
+    --ease-exp:cubic-bezier(.4,.14,.3,1);
+    --nav-safe-bottom:8vh;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:var(--ink);font-family:var(--sans),var(--sans-zh);font-feature-settings:"ss01","cv11";-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 
   /* ===== Password Gate ===== */
-  #gate{position:fixed;z-index:1000;width:100%;height:100%;background:linear-gradient(135deg,#0a1628 0%,#0f2440 40%,#132e50 100%);display:flex;align-items:center;justify-content:center}
+  #gate{position:fixed;z-index:1000;inset:0;background:var(--paper);display:flex;align-items:center;justify-content:center}
   #gate.hidden{display:none}
-  .gate-card{width:90%;max-width:400px;text-align:center;padding:48px 36px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;backdrop-filter:blur(20px)}
-  .gate-card .icon{font-size:48px;margin-bottom:16px}
-  .gate-card h1{color:#e8edf2;font-size:22px;font-weight:600;margin-bottom:6px;letter-spacing:1px}
-  .gate-card .sub{color:#6b8299;font-size:13px;margin-bottom:28px}
-  .gate-card input{width:100%;padding:12px 16px;border:1px solid rgba(255,255,255,0.12);border-radius:8px;background:rgba(255,255,255,0.05);color:#fff;font-size:15px;text-align:center;letter-spacing:2px;outline:none;transition:border-color .3s}
-  .gate-card input:focus{border-color:#2d7fc1}
-  .gate-card input::placeholder{color:#4a6278;letter-spacing:1px}
-  .gate-card .hint{color:#4a6278;font-size:11px;margin-top:10px}
-  .gate-card .btn{margin-top:20px;width:100%;padding:12px;border:none;border-radius:8px;background:linear-gradient(135deg,#1a6eb5,#2080d0);color:#fff;font-size:15px;font-weight:500;cursor:pointer;transition:opacity .3s;letter-spacing:1px}
-  .gate-card .btn:hover{opacity:.9}
-  .gate-msg{color:#e05555;font-size:12px;margin-top:12px;min-height:18px}
+  .gate-wrap{width:90%;max-width:420px;padding:var(--sp-10) var(--sp-9);border:2px solid var(--accent);text-align:center}
+  .gate-wrap h1{font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.2vw,9vh);letter-spacing:-.025em;color:var(--accent);margin-bottom:var(--sp-4)}
+  .gate-wrap .sub{font-family:var(--mono);font-size:14px;letter-spacing:.14em;color:var(--text-helper);margin-bottom:var(--sp-7)}
+  .gate-wrap input{width:100%;padding:12px 16px;border:1px solid var(--border-strong);background:var(--paper);color:var(--ink);font-size:16px;text-align:center;letter-spacing:2px;outline:none;font-family:var(--mono)}
+  .gate-wrap input:focus{border-color:var(--accent)}
+  .gate-wrap input::placeholder{color:var(--text-placeholder)}
+  .gate-wrap .btn{margin-top:var(--sp-6);width:100%;padding:12px;border:2px solid var(--accent);background:var(--accent);color:var(--accent-on);font-size:15px;font-weight:500;cursor:pointer;font-family:var(--mono);letter-spacing:.12em;text-transform:uppercase}
+  .gate-wrap .btn:hover{background:var(--paper);color:var(--accent)}
+  .gate-msg{color:#cc3333;font-size:14px;margin-top:var(--sp-5);min-height:18px;font-family:var(--mono);letter-spacing:.04em}
 
-  /* ===== PPT Container ===== */
-  #ppt{width:100%;height:100%;background:#0d1b2a;position:relative;overflow:hidden;overflow-y:auto}
-  #slidesContainer{width:100%;min-height:100%;display:flex;flex-direction:column}
-  .slide{width:100%;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 80px 80px;position:relative;scroll-snap-align:start}
-  .slide.cover{background:linear-gradient(135deg,#0a1628 0%,#0f2a40 50%,#0d4a35 100%)}
-  .slide.transition{background:linear-gradient(135deg,#0f2440,#0a1628)}
-  .slide.content{background:#0d1b2a}
-  .slide.summary{background:linear-gradient(135deg,#0d1b2a 0%,#132e50 100%)}
+  /* ===== Deck ===== */
+  #deck{position:fixed;inset:0;width:10000vw;height:100vh;display:flex;flex-wrap:nowrap;transition:transform .9s cubic-bezier(.77,0,.175,1);z-index:10;will-change:transform}
+  .slide{width:100vw;height:100vh;flex:0 0 100vw;position:relative;padding:5.5vh 5vw 7vh 5vw;display:flex;flex-direction:column;overflow:hidden;background:var(--paper);color:var(--ink)}
+  .slide.grey{background:var(--grey-1)}
+  .slide.dark{background:var(--ink);color:var(--paper)}
+  .slide.accent{background:var(--accent);color:var(--accent-on)}
+  .slide.split .canvas-card{padding:0}
 
-  .slide-label{position:absolute;top:32px;left:80px;color:#3a5a78;font-size:11px;letter-spacing:3px;text-transform:uppercase;z-index:2}
-  .slide-number{position:absolute;bottom:32px;right:80px;color:#3a5a78;font-size:12px;z-index:2}
+  /* ===== WebGL Background ===== */
+  canvas.bg{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;display:block;opacity:.55;mix-blend-mode:multiply;pointer-events:none}
+  body.dark-bg canvas.bg{mix-blend-mode:screen;opacity:.42}
 
-  .slide h1{color:#e8edf2;font-size:38px;font-weight:700;line-height:1.3;max-width:800px;text-align:center}
-  .slide h2{color:#e0e6ec;font-size:28px;font-weight:600;margin-bottom:24px;line-height:1.4;text-align:center;max-width:800px}
-  .slide h3{color:#90b8d8;font-size:18px;font-weight:500;margin-bottom:16px;letter-spacing:1px}
-  .slide p,.slide li{color:#b0c4d6;font-size:16px;line-height:1.8}
-  .slide .lead{color:#e8edf2;font-size:18px;line-height:1.8;max-width:700px;text-align:center}
-  .slide .note{color:#5a7a94;font-size:13px;margin-top:12px}
-  .slide .highlight{color:#4db8ff;font-weight:500}
-  .slide .subtitle{color:#6b8ca8;font-size:16px;margin-top:12px;line-height:1.6}
+  /* ===== Canvas Mode ===== */
+  body.canvas-mode{background:var(--paper)}
+  body.canvas-mode canvas.bg{display:none!important}
+  body.canvas-mode .slide{background:var(--paper);padding:0;align-items:stretch;justify-content:stretch}
+  body.canvas-mode .slide.hero{background:var(--paper)}
+  .canvas-card{width:100vw;height:100vh;background:var(--paper);color:var(--ink);padding:5.6vh 5vw 4.4vh;display:flex;flex-direction:column;position:relative;overflow:hidden;box-shadow:none;border-radius:0}
+  .slide.dark .canvas-card{background:var(--ink);color:var(--paper)}
+  .slide.accent .canvas-card{background:var(--accent);color:var(--accent-on)}
+  .slide.grey .canvas-card{background:var(--grey-1);color:var(--ink)}
+  .slide.split .canvas-card{padding:0;flex-direction:row}
 
-  /* Chapter number */
-  .chapter-num{font-size:72px;font-weight:800;color:rgba(77,184,255,0.12);line-height:1;margin-bottom:8px;text-align:center}
+  /* ===== ASCII Background ===== */
+  canvas.ascii-bg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;mix-blend-mode:screen;opacity:.92}
+  .canvas-card>*:not(.ascii-bg){position:relative;z-index:1}
 
-  /* Two-column & Three-column */
-  .two-col{display:flex;gap:40px;width:100%;max-width:960px;flex-wrap:wrap}
-  .two-col .col{flex:1;min-width:280px}
-  .three-col{display:flex;gap:24px;width:100%;max-width:1000px;flex-wrap:wrap;justify-content:center}
-  .three-col .col{flex:1;min-width:250px;max-width:320px}
+  /* ===== Chrome ===== */
+  .canvas-card .chrome-min{display:flex;justify-content:space-between;align-items:flex-start;font-family:var(--mono);font-size:14px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--text-helper);flex:0 0 auto;margin-bottom:var(--sp-9)}
+  .canvas-card .chrome-min.tight{margin-bottom:var(--sp-7)}
+  .canvas-card .chrome-min .l,.canvas-card .chrome-min .r{max-width:48vw;line-height:1.5}
+  .slide.dark .canvas-card .chrome-min,.slide.accent .canvas-card .chrome-min{color:rgba(255,255,255,.62)}
 
-  /* Cards */
-  .card-row{display:flex;gap:24px;flex-wrap:wrap;justify-content:center;width:100%;max-width:960px}
-  .card{flex:1;min-width:200px;max-width:280px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:28px 24px;text-align:center}
-  .card .card-icon{font-size:36px;margin-bottom:12px}
-  .card h4{color:#d0dae4;font-size:16px;margin-bottom:8px;font-weight:600}
-  .card p{color:#90a8be;font-size:14px;line-height:1.7}
+  /* ===== Typography ===== */
+  .t-cat{font-family:var(--mono);font-size:14px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--text-helper);line-height:1.3}
+  .t-cat.accent{color:var(--accent)}
+  .t-meta{font-family:var(--mono);font-size:14px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--text-helper);line-height:1.45}
+  .t-body{font-family:var(--sans),var(--sans-zh);font-size:18px;font-weight:400;color:var(--text-primary);line-height:1.5;letter-spacing:-.005em}
+  .t-body-sm{font-family:var(--sans),var(--sans-zh);font-size:16px;font-weight:400;color:var(--text-secondary);line-height:1.55}
+  .t-helper{font-family:var(--sans),var(--sans-zh);font-size:14px;font-weight:400;color:var(--text-helper);line-height:1.5}
+  .lead{font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:1.55vw;line-height:1.4;letter-spacing:-.005em;opacity:.86}
+  .body{font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(18px,1.08vw);line-height:1.6;opacity:.78}
+  .body-sm{font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(16px,.92vw);line-height:1.55;opacity:.7}
 
-  .card.accent{border-color:rgba(77,184,255,0.25);background:rgba(77,184,255,0.06)}
-  .card.accent h4{color:#4db8ff}
+  /* ===== Rules ===== */
+  .rule{width:100%;height:1px;background:currentColor;opacity:.18;margin:0}
+  .rule.accent{background:var(--accent);opacity:1;height:2px}
 
-  /* Data / big numbers */
-  .data-row{display:flex;gap:40px;flex-wrap:wrap;justify-content:center;align-items:flex-end;margin:20px 0}
-  .data-item{text-align:center}
-  .big-num{font-size:56px;font-weight:800;color:#4db8ff;line-height:1}
-  .big-num-unit{font-size:18px;color:#90b8d8;font-weight:400}
-  .data-label{color:#6b8ca8;font-size:13px;margin-top:8px}
+  /* ===== KPI ===== */
+  .kpi-thin{font-family:var(--sans);font-weight:200;font-size:14vw;line-height:.92;letter-spacing:-.045em;font-feature-settings:"tnum"}
+  .kpi-thin .unit{font-size:.3em;font-weight:300;opacity:.55;margin-left:.15em;vertical-align:.6em}
+  .kpi-thin-sm{font-family:var(--sans);font-weight:250;font-size:5.6vw;line-height:1.04;letter-spacing:-.03em;font-feature-settings:"tnum"}
+  .kpi-thin-sm .unit{font-size:.3em;font-weight:300;opacity:.55;margin-left:.12em;vertical-align:.45em}
+  .kpi-mid{font-family:var(--sans);font-weight:700;font-size:6vw;line-height:.88;letter-spacing:-.03em;font-feature-settings:"tnum"}
 
-  /* Table */
-  .tbl-wrap{width:100%;max-width:960px;overflow-x:auto}
-  .tbl{width:100%;border-collapse:collapse;font-size:14px}
-  .tbl th{color:#4db8ff;font-weight:500;text-align:left;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:13px;white-space:nowrap}
-  .tbl td{color:#b0c4d6;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.05);line-height:1.6}
-  .tbl .good{color:#4ec98a}
-  .tbl .warn{color:#e0a850}
-  .tbl .bad{color:#e05555}
-  .tbl .brand{color:#4db8ff;font-weight:500}
+  /* ===== Cards ===== */
+  .card-fill{background:#f5f5f4;border:0;color:var(--text-primary)}
+  .card-ink{background:var(--ink);border:0;color:var(--paper)}
+  .card-accent{background:var(--accent);border:0;color:var(--accent-on)}
+  .card-outlined{border:1px solid var(--border-subtle);background:var(--paper)}
 
-  /* Flow */
-  .flow-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:center;margin:16px 0}
-  .flow-step{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px 24px;text-align:center;min-width:140px;max-width:200px}
-  .flow-step .step-num{color:#4db8ff;font-size:24px;font-weight:700}
-  .flow-step .step-txt{color:#b0c4d6;font-size:14px;margin-top:6px;line-height:1.5}
-  .flow-step .step-detail{color:#6b8ca8;font-size:12px;margin-top:4px;line-height:1.5}
-  .flow-arrow{color:#3a5a78;font-size:22px}
+  /* ===== Grids ===== */
+  .grid-12{display:grid;grid-template-columns:repeat(12,1fr);gap:2vh 1.2vw;align-items:start}
+  .span-3{grid-column:span 3}
+  .span-4{grid-column:span 4}
+  .span-6{grid-column:span 6}
+  .span-8{grid-column:span 8}
+  .span-12{grid-column:span 12}
+  .grid-2-6-6{display:grid;grid-template-columns:1fr 1fr;gap:3vw 4vh;align-items:start}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:3vw 4vh;align-items:start}
+  .grid-4{display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(2,1fr);gap:3vh 3vw;flex:1;align-content:center}
+  .grid-6{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:3vh 2.4vw;flex:1;align-content:center}
 
-  /* Highlight box */
-  .hl-box{background:rgba(77,184,255,0.08);border:1px solid rgba(77,184,255,0.2);border-radius:10px;padding:20px 28px;max-width:800px;margin:16px auto}
-  .hl-box p{color:#c8dce8;font-size:15px;line-height:1.8}
-  .hl-box.conclusion{border-left:4px solid #4db8ff;border-radius:0 10px 10px 0}
+  /* ===== Stat Card ===== */
+  .stat-card{display:flex;flex-direction:column;gap:.6vh;align-items:flex-start;padding-top:1.6vh;border-top:2px solid currentColor}
+  .stat-card.accent-top{border-top-color:var(--accent);border-top-width:3px}
+  .stat-card .stat-label{font-family:var(--mono);font-size:max(14px,.82vw);letter-spacing:.24em;text-transform:uppercase;opacity:.6}
+  .stat-card .stat-nb{font-family:var(--sans);font-weight:800;font-size:5.6vw;line-height:.88;letter-spacing:-.035em;font-feature-settings:"tnum";margin-top:.4vh}
+  .stat-card .stat-unit{font-family:var(--sans),var(--sans-zh);font-weight:500;font-size:.32em;letter-spacing:0;opacity:.6;margin-left:.14em;vertical-align:.4em}
 
-  /* Quote */
-  .quote{max-width:700px;border-left:3px solid #e0a850;padding:16px 24px;margin:20px 0}
-  .quote p{color:#c8c0a0;font-size:17px;font-style:italic;line-height:1.8}
+  /* ===== Stack Blocks (S05) ===== */
+  .stack-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6vw;flex:1;margin-top:6vh;align-items:stretch}
+  .stack-block{display:flex;flex-direction:column;padding:3.2vh 1.8vw 2.4vh;position:relative;min-height:0}
+  .stack-block.b-accent{background:var(--accent);color:var(--accent-on)}
+  .stack-block.b-grey{background:var(--grey-1);color:var(--ink)}
+  .stack-block.b-ink{background:var(--ink);color:var(--paper)}
+  .stack-block .layer-nb{font-family:var(--mono);font-size:max(14px,.84vw);letter-spacing:.18em;opacity:.65;margin-bottom:auto}
+  .stack-block .layer-ttl{font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(17px,2vw);line-height:1.1;margin-top:1vh;letter-spacing:-.02em}
+  .stack-block .layer-desc{font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(16px,.94vw);line-height:1.55;opacity:.88;margin-top:1.4vh}
+  .stack-block .lucide{width:2.6vw;height:2.6vw;stroke-width:1.4;margin-bottom:1.6vh;flex-shrink:0}
+  .stack-block .layer-tag{font-family:var(--mono);font-size:max(14px,.74vw);letter-spacing:.16em;text-transform:uppercase;opacity:.7;margin-top:1.6vh;border-top:1px solid currentColor;padding-top:1vh}
 
-  /* Product card */
-  .product-card{display:flex;flex-direction:column;align-items:center;text-align:center;max-width:600px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:36px 40px}
-  .product-card .prod-icon{font-size:48px;margin-bottom:16px}
-  .product-card .prod-name{color:#e8edf2;font-size:26px;font-weight:700;margin-bottom:8px}
-  .product-card .prod-tag{display:inline-block;background:rgba(77,184,255,0.15);color:#4db8ff;padding:4px 16px;border-radius:20px;font-size:12px;letter-spacing:1px;margin-bottom:20px}
-  .product-card .prod-features{list-style:none;text-align:left;width:100%}
-  .product-card .prod-features li{color:#b0c4d6;font-size:14px;line-height:2;padding-left:24px;position:relative}
-  .product-card .prod-features li::before{content:"▸";position:absolute;left:0;color:#4db8ff}
-  .product-card .prod-scene{margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.06);text-align:left;width:100%}
-  .product-card .prod-scene h5{color:#90b8d8;font-size:13px;margin-bottom:6px;letter-spacing:1px}
-  .product-card .prod-scene p{color:#7a94a8;font-size:13px;line-height:1.7}
+  /* ===== KPI Tower (S06) ===== */
+  .bar-towers{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2vw;flex:1;align-items:end;margin-top:auto}
+  .bar-tower{display:flex;flex-direction:column;justify-content:flex-end;min-height:0;height:100%}
+  .bar-tower .cap{background:var(--grey-1);height:5.6vh;display:flex;align-items:center;justify-content:center;margin-bottom:.4vh}
+  .bar-tower .body-block{flex:0 1 auto;padding:2vh 1.2vw 2vh;display:flex;flex-direction:column;justify-content:flex-end;min-height:18vh;background:var(--paper);color:var(--ink);border:1px solid var(--grey-2)}
+  .bar-tower .body-block.b-accent{background:var(--accent);color:var(--accent-on);border-color:var(--accent)}
+  .bar-tower .lbl{font-family:var(--mono);font-size:max(14px,.82vw);letter-spacing:.16em;text-transform:uppercase;opacity:.65;margin-bottom:1vh}
+  .bar-tower .nb{font-family:var(--sans);font-weight:250;font-size:max(20px,2.8vw);line-height:1;letter-spacing:-.03em;font-feature-settings:"tnum"}
+  .bar-tower .sub{font-family:var(--sans),var(--sans-zh);font-size:max(16px,.92vw);opacity:.75;margin-top:1.2vh;line-height:1.5}
+  .bar-tower .lucide{width:1.6vw;height:1.6vw;stroke-width:1.4}
 
-  /* TOC Grid */
-  .toc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:840px;width:100%}
-  .toc-item{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:24px 20px;text-align:center;transition:border-color .3s}
-  .toc-item .toc-num{font-size:36px;font-weight:800;color:#4db8ff;line-height:1}
-  .toc-item .toc-title{color:#d0dae4;font-size:15px;font-weight:600;margin-top:12px}
-  .toc-item .toc-desc{color:#5a7a94;font-size:12px;margin-top:6px;line-height:1.5}
+  /* ===== Duo Compare (S08) ===== */
+  .duo-compare{display:grid;grid-template-columns:1fr 1px 1fr;gap:0 3.4vw;flex:1;align-items:stretch;margin-top:8vh}
+  .duo-compare .vrule{background:var(--grey-2);width:1px;align-self:stretch}
+  .duo-compare .col{display:flex;flex-direction:column;gap:1.6vh;padding:0 .4vw}
+  .duo-compare .col-tag{font-family:var(--mono);font-size:max(14px,.78vw);letter-spacing:.16em;text-transform:uppercase;color:var(--grey-3);display:flex;align-items:center;gap:.6vw}
+  .duo-compare .col-tag .num{font-weight:600;color:var(--ink);border:1px solid var(--ink);padding:.2em .6em;font-size:.92em}
+  .duo-compare .col-ttl{font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:3.6vw;line-height:1;letter-spacing:-.03em}
+  .duo-compare .col-desc{font-family:var(--sans),var(--sans-zh);font-size:max(16px,1.04vw);line-height:1.55;opacity:.78;max-width:30vw}
 
-  /* Checklist */
-  .checklist{list-style:none;max-width:700px;text-align:left}
-  .checklist li{color:#b0c4d6;font-size:15px;line-height:2;padding-left:28px;position:relative}
-  .checklist li::before{content:"☐";position:absolute;left:0;color:#3a6a8a;font-size:16px}
+  /* ===== Split Half (S03) ===== */
+  .split-half{display:grid;grid-template-columns:1fr 1fr;gap:0;flex:1;align-items:stretch}
+  .split-half>.half{padding:5vh 3.4vw;display:flex;flex-direction:column;min-width:0}
+  .split-half>.half.r-border{border-left:1px solid rgba(127,127,127,.22)}
+  .split-half>.half.b-grey{background:var(--grey-1)}
+  .split-half>.half.b-accent{background:var(--accent);color:var(--accent-on)}
+  .split-half>.half.b-ink{background:var(--ink);color:var(--paper)}
 
-  /* Tag */
-  .tag{display:inline-block;background:rgba(77,184,255,0.12);color:#4db8ff;padding:4px 14px;border-radius:20px;font-size:12px;letter-spacing:1px;margin-bottom:16px}
+  /* ===== Horizontal Timeline (S11) ===== */
+  .timeline-h{--tl-axis-w:8px;--tl-dot:8px;position:relative;flex:1;display:flex;align-items:center}
+  .timeline-h::before{content:"";position:absolute;top:50%;left:5%;right:5%;height:1px;transform:translateY(-50%);background:repeating-linear-gradient(to right,currentColor 0 4px,transparent 4px 8px);opacity:.35;pointer-events:none;z-index:0}
+  .timeline-h .tl-row{position:relative;width:100%;display:grid;grid-template-columns:repeat(5,1fr);align-items:center}
+  .timeline-h .th-node{position:relative;display:flex;justify-content:center}
+  .timeline-h .th-node .dot{width:var(--tl-dot);height:var(--tl-dot);border-radius:50%;background:var(--ink);z-index:1;position:relative}
+  .timeline-h .th-node.accent .dot{background:var(--accent)}
+  .timeline-h .th-node .label{position:absolute;left:50%;transform:translateX(-50%);width:13vw;text-align:center;display:flex;flex-direction:column;gap:.4vh}
+  .timeline-h .th-node.up .label{bottom:calc(50% + 22px)}
+  .timeline-h .th-node.down .label{top:calc(50% + 22px)}
+  .timeline-h .th-node .yr{font-family:var(--mono);font-size:max(14px,.78vw);letter-spacing:.05em;color:var(--text-helper);font-weight:500}
+  .timeline-h .th-node .name{font-family:var(--sans);font-size:max(16px,1.05vw);font-weight:400;color:var(--text-primary);line-height:1.2}
+  .timeline-h .th-node.accent .name{color:var(--accent)}
+  .timeline-h .th-node .desc{font-family:var(--sans),var(--sans-zh);font-size:max(14px,.84vw);color:var(--text-secondary);font-weight:400;line-height:1.4}
 
-  /* Exhibition cards */
-  .expo-row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;max-width:960px}
-  .expo-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:20px;min-width:240px;max-width:300px;flex:1}
-  .expo-card .expo-date{color:#4db8ff;font-size:12px;font-weight:500;letter-spacing:1px}
-  .expo-card .expo-name{color:#d0dae4;font-size:14px;font-weight:600;margin:6px 0}
-  .expo-card .expo-loc{color:#6b8ca8;font-size:12px}
+  /* ===== Why Now (S18) ===== */
+  .why-row{display:grid;grid-template-columns:repeat(3,1fr);gap:2vw;flex:1;margin-top:4vh;align-items:start}
+  .why-col{display:flex;flex-direction:column;gap:1.6vh;padding:2.4vh 1.6vw;border-top:2px solid var(--grey-2)}
+  .why-col.accent{border-top-color:var(--accent)}
+  .why-col .why-num{font-family:var(--sans);font-weight:200;font-size:min(8vw,14vh);line-height:.88;letter-spacing:-.04em;font-feature-settings:"tnum";color:var(--accent);margin-top:1vh}
+  .why-col .why-num .unit{font-size:.3em;font-weight:300;opacity:.55;margin-left:.1em;vertical-align:.5em}
 
-  /* Contact card */
-  .contact-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:36px 40px;max-width:550px;text-align:center}
-  .contact-card .contact-icon{font-size:48px;margin-bottom:16px}
-  .contact-card h3{color:#e8edf2;font-size:22px;margin-bottom:20px}
-  .contact-card .contact-row{display:flex;align-items:center;gap:12px;justify-content:center;color:#b0c4d6;font-size:14px;margin:10px 0}
+  /* ===== Four Cards (S19) ===== */
+  .four-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:2vw;flex:1;margin-top:4vh;align-content:start}
+  .fc-col{display:flex;flex-direction:column;gap:1.2vh;padding-top:2vh;border-top:2px solid var(--accent)}
+  .fc-col .fc-num{font-family:var(--mono);font-size:max(14px,.84vw);letter-spacing:.16em;opacity:.55}
+  .fc-col .fc-title{font-family:var(--sans),var(--sans-zh);font-weight:300;font-size:max(18px,1.6vw);line-height:1.2;letter-spacing:-.015em}
+  .fc-col .fc-desc{font-family:var(--sans),var(--sans-zh);font-size:max(16px,.94vw);line-height:1.55;opacity:.78}
 
-  /* Section header within slide */
-  .section-title{color:#4db8ff;font-size:14px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;text-align:center}
+  /* ===== Three Forces (S13) ===== */
+  .three-forces{display:grid;grid-template-columns:5fr 11fr;gap:3vw;flex:1;margin-top:4vh;align-items:start}
+  .hero-ink-col{background:var(--ink);color:var(--paper);padding:3.2vh 2.4vw;display:flex;flex-direction:column;gap:2vh}
+  .force-stack{display:flex;flex-direction:column;gap:2vh}
+  .force-card{background:var(--grey-1);padding:2vh 1.6vw;display:grid;grid-template-columns:6em 1fr;gap:1.6vw;align-items:start}
+  .force-card .force-num{font-family:var(--sans);font-weight:200;font-size:5.4vw;line-height:.9;letter-spacing:-.04em;color:var(--accent)}
+  .force-card .force-body{display:flex;flex-direction:column;gap:.8vh}
+  .force-card .force-title{font-family:var(--sans),var(--sans-zh);font-weight:500;font-size:max(17px,1.4vw);line-height:1.2;letter-spacing:-.01em}
+  .force-card .force-desc{font-family:var(--sans),var(--sans-zh);font-size:max(16px,.94vw);line-height:1.5;opacity:.78}
+
+  /* ===== Tech Spec (S21) ===== */
+  .tech-spec{display:grid;grid-template-columns:4fr 8fr;gap:3vw;flex:1;margin-top:4vh;align-items:start}
+  .spec-title-col{display:flex;flex-direction:column;gap:2vh}
+  .spec-kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:2vw;margin-top:2vh}
+  .spec-kpi{display:flex;flex-direction:column;gap:.6vh;padding-top:1.2vh;border-top:1px solid var(--ink)}
+  .spec-kpi .spec-nb{font-family:var(--sans);font-weight:200;font-size:min(4vw,7vh);line-height:.95;letter-spacing:-.04em}
+  .spec-kpi .spec-unit{font-family:var(--mono);font-size:max(14px,.78vw);letter-spacing:.12em;opacity:.55}
+  .spec-bars{display:flex;align-items:flex-end;gap:.4vw;height:18vh;margin-top:3vh}
+  .bar-vert{flex:1;background:var(--accent);min-height:2vh}
+
+  /* ===== Matrix (S15) ===== */
+  .matrix-fill{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4vh 1.2vw;flex:1;margin-top:4vh;align-content:start}
+  .matrix-cell{background:var(--grey-1);padding:2vh 1.2vw;display:flex;flex-direction:column;gap:.4vh;min-height:10vh}
+  .matrix-cell.accent{background:var(--accent);color:var(--accent-on)}
+  .matrix-cell .cell-name{font-family:var(--sans),var(--sans-zh);font-weight:500;font-size:max(16px,1.1vw);line-height:1.2;letter-spacing:-.01em}
+  .matrix-cell .cell-tag{font-family:var(--mono);font-size:max(14px,.74vw);letter-spacing:.1em;opacity:.6}
+
+  /* ===== Multi-card Brief (S16) ===== */
+  .brief-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:2vh 2vw;flex:1;margin-top:4vh;align-content:stretch}
+  .brief-card{background:var(--grey-1);padding:2.4vh 1.6vw;display:flex;flex-direction:column;justify-content:space-between}
+  .brief-card .brief-title{font-family:var(--sans),var(--sans-zh);font-weight:500;font-size:max(16px,1vw);line-height:1.3;letter-spacing:-.01em}
+  .brief-card .brief-meta{font-family:var(--mono);font-size:max(14px,.74vw);letter-spacing:.12em;color:var(--text-helper);align-self:flex-end}
+
+  /* ===== Number Mega ===== */
+  .num-mega{font-family:var(--sans);font-weight:200;font-size:9vw;line-height:1;letter-spacing:-.04em;font-feature-settings:"tnum"}
+  .name-mega{font-family:var(--sans);font-weight:200;font-size:9vw;line-height:1;letter-spacing:-.035em}
+
+  /* ===== Dot Mat ===== */
+  .dot-mat{--d:14px;background-image:radial-gradient(currentColor 1.4px,transparent 1.6px);background-size:var(--d) var(--d);opacity:.5}
+  .ring-mat{--d:18px;background-image:radial-gradient(circle at 50% 50%,transparent 2px,currentColor 2px,currentColor 2.6px,transparent 2.7px);background-size:var(--d) var(--d);opacity:.55}
+
+  /* ===== Mark ===== */
+  .mark{background:var(--accent);color:var(--accent-on);padding:0 .2em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
 
   /* ===== Navigation ===== */
-  #nav{position:fixed;bottom:0;left:0;right:0;z-index:100;height:56px;display:flex;align-items:center;justify-content:center;gap:20px;background:linear-gradient(transparent,rgba(13,27,42,.95));padding:0 20px;visibility:hidden;opacity:0;transition:opacity .3s}
-  #nav.visible{visibility:visible;opacity:1}
-  .nav-btn{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);color:#b0c4d6;padding:8px 20px;border-radius:6px;cursor:pointer;font-size:14px;transition:all .2s}
-  .nav-btn:hover{background:rgba(255,255,255,0.12);color:#fff}
-  .nav-btn:disabled{opacity:.3;cursor:default}
-  .page-indicator{color:#5a7a94;font-size:13px;min-width:80px;text-align:center}
-  .nav-arrows{display:flex;gap:8px}
+  #nav{position:fixed;left:50%;bottom:2vh;transform:translateX(-50%);z-index:30;display:flex;gap:10px;padding:0;background:transparent;border:0}
+  #nav .dot{width:6px;height:6px;background:rgba(0,0,0,.28);cursor:pointer;transition:all .25s ease;border:0;padding:0;border-radius:0}
+  #nav .dot:hover{background:rgba(0,0,0,.55)}
+  #nav .dot.active{background:var(--accent);width:18px}
+  #hint{position:fixed;bottom:2.4vh;right:2.5vw;z-index:30;font-family:var(--mono);font-size:14px;letter-spacing:.14em;text-transform:uppercase;opacity:.4;color:var(--ink)}
 
-  /* Responsive */
-  @media (max-width:768px){
-    .slide{padding:40px 24px 80px}
-    .slide h1{font-size:24px}
-    .slide h2{font-size:20px}
-    .slide h3{font-size:16px}
-    .slide p,.slide li{font-size:14px;line-height:1.7}
-    .slide-label{left:24px;top:20px}
-    .slide-number{right:24px;bottom:24px}
-    .card-row{flex-direction:column;align-items:center}
-    .card{max-width:100%}
-    .big-num{font-size:36px}
-    .tbl{font-size:12px}
-    .tbl td,.tbl th{padding:8px 6px}
-    .flow-row{flex-direction:column;gap:8px}
-    .flow-arrow{transform:rotate(90deg)}
-    .two-col{flex-direction:column;gap:24px}
-    .two-col .col{min-width:100%}
-    .three-col{flex-direction:column;align-items:center}
-    .three-col .col{max-width:100%}
-    .toc-grid{grid-template-columns:repeat(2,1fr);gap:16px}
-    .tbl-wrap{max-width:100%}
-    .data-row{gap:24px}
-    .chapter-num{font-size:48px}
-    .product-card{padding:24px 20px}
-    .expo-row{flex-direction:column;align-items:center}
-    .expo-card{max-width:100%}
+  /* ===== Responsive ===== */
+  @media(max-width:900px){
+    .grid-12{grid-template-columns:repeat(6,1fr)}
+    .grid-2-6-6,.split-half{grid-template-columns:1fr}
+    .stack-row,.four-cards,.why-row{grid-template-columns:repeat(2,1fr)}
+    .three-forces{grid-template-columns:1fr}
+    .tech-spec{grid-template-columns:1fr}
+    .bar-towers{grid-template-columns:repeat(2,1fr)}
+    .matrix-fill{grid-template-columns:repeat(2,1fr)}
+    .brief-grid{grid-template-columns:repeat(2,1fr)}
   }
-  @media (max-width:480px){
-    .toc-grid{grid-template-columns:1fr}
-    .big-num{font-size:30px}
-    .slide h1{font-size:20px}
-  }
+
+  /* ===== Motion ===== */
+  [data-anim]{opacity:1}
+  body.motion-ready [data-anim]{opacity:0}
+  body.low-power [data-anim]{opacity:1!important;transform:none!important}
+  body.low-power #deck{transition:none!important}
 </style>
 </head>
 <body>
-
-<!-- ========== PASSWORD GATE ========== -->
+<!-- ===== PASSWORD GATE ===== -->
 <div id="gate">
-  <div class="gate-card">
-    <div class="icon">🔐</div>
+  <div class="gate-wrap">
     <h1>数据中心冷却液</h1>
-    <div class="sub">下一个黄金赛道 · 中间商自学课件</div>
+    <div class="sub">液冷将是下一个黄金赛道</div>
     <input type="password" id="pwd" placeholder="请输入访问密码" maxlength="32" autocomplete="off">
-    <div class="hint">密码由课件提供方私发，请勿外传</div>
-    <button class="btn" onclick="checkPwd()">进入课件</button>
+    <button class="btn" onclick="checkPwd()">Enter</button>
     <div class="gate-msg" id="gateMsg"></div>
   </div>
 </div>
 
-<!-- ========== PPT SLIDES ========== -->
-<div id="ppt">
-  <div id="slidesContainer"></div>
-</div>
+<!-- ===== BG & HINT ===== -->
+<canvas id="bg-grid" class="bg"></canvas>
+<div id="hint">← → 翻页 · ESC 索引</div>
 
-<!-- ========== NAVIGATION ========== -->
-<nav id="nav">
-  <div class="nav-arrows">
-    <button class="nav-btn" id="prevBtn" onclick="goSlide(-1)">◀ 上一页</button>
-    <button class="nav-btn" id="nextBtn" onclick="goSlide(1)">下一页 ▶</button>
+<!-- ===== DECK ===== -->
+<div id="deck">
+
+<!-- ===== SLIDE 1: COVER (IKB + ASCII) ===== -->
+<section class="slide accent" data-layout="SWISS-COVER" data-animate="hero">
+  <div class="canvas-card">
+    <canvas class="ascii-bg" aria-hidden="true"></canvas>
+    <div class="chrome-min">
+      <div class="l">液冷课件 · 苏能® 冷却液</div>
+      <div class="r">01 / 29</div>
+    </div>
+    <div style="flex:1;padding:0;display:grid;grid-template-rows:auto 1fr auto;gap:2.6vh">
+      <div data-anim="kicker" class="t-meta" style="color:rgba(255,255,255,.78);letter-spacing:.22em">DATA CENTER COOLING · 2026</div>
+      <h1 data-anim="title" style="align-self:center;font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(11.2vw,19vh);line-height:.94;letter-spacing:-.025em;color:#fff">数据中心冷却液<br><span style="font-style:italic;font-weight:300">液冷将是下一个黄金赛道</span></h1>
+      <div data-anim="bottom" style="display:grid;grid-template-rows:auto auto;gap:1.6vh;border-top:1px solid rgba(255,255,255,.22);padding-top:2vh">
+        <div data-anim="lead" class="lead" style="max-width:52ch;color:rgba(255,255,255,.86);font-weight:300">从风冷到液冷，把握千亿级市场转型机遇 · 中间商自学课件</div>
+        <div style="display:flex;justify-content:space-between;align-items:end">
+          <div class="t-meta" style="color:rgba(255,255,255,.6)">苏能® 冷却液 · 2026年8月</div>
+          <div class="t-meta" style="color:rgba(255,255,255,.6)">→ swipe / arrow keys</div>
+        </div>
+      </div>
+    </div>
   </div>
-  <span class="page-indicator" id="pageInd">1 / 29</span>
-</nav>
+</section>
+
+<!-- ===== SLIDE 2: TOC (S04 Six Cells) ===== -->
+<section class="slide" data-layout="S04" data-animate="six-cells">
+  <div class="canvas-card">
+    <div class="chrome-min">
+      <div class="l">目录 · CONTENTS</div>
+      <div class="r">02 / 29</div>
+    </div>
+    <div style="flex:1;padding:0;display:flex;flex-direction:column;gap:0">
+      <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-cat accent">六大章节</div>
+        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.8vw,10.2vh);line-height:1;letter-spacing:-.025em">液冷知识体系全景</h2>
+      </div>
+      <div class="grid-6" data-anim="up" style="margin-top:3vh">
+        <div class="card-fill" style="padding:2.2vh 1.4vw;display:flex;flex-direction:column;gap:.6vh">
+          <i data-lucide="zap" style="width:2vw;height:2vw;stroke-width:1.4;color:var(--accent)"></i>
+          <div class="t-meta" style="font-size:12px">01</div>
+          <div class="t-body" style="font-weight:600;font-size:17px">行业变革与机遇</div>
+          <div class="t-body-sm" style="font-size:15px;opacity:.7">为何液冷是未来？</div>
+        </div>
+        <div class="card-fill" style="padding:2.2vh 1.4vw;display:flex;flex-direction:column;gap:.6vh">
+          <i data-lucide="trending-up" style="width:2vw;height:2vw;stroke-width:1.4;color:var(--accent)"></i>
+          <div class="t-meta" style="font-size:12px">02</div>
+          <div class="t-body" style="font-weight:600;font-size:17px">市场洞察与趋势</div>
+          <div class="t-body-sm" style="font-size:15px;opacity:.7">千亿蓝海，蓄势待发</div>
+        </div>
+        <div class="card-fill" style="padding:2.2vh 1.4vw;display:flex;flex-direction:column;gap:.6vh">
+          <i data-lucide="cpu" style="width:2vw;height:2vw;stroke-width:1.4;color:var(--accent)"></i>
+          <div class="t-meta" style="font-size:12px">03</div>
+          <div class="t-body" style="font-weight:600;font-size:17px">液冷技术深度解析</div>
+          <div class="t-body-sm" style="font-size:15px;opacity:.7">从原理到实践</div>
+        </div>
+        <div class="card-fill" style="padding:2.2vh 1.4vw;display:flex;flex-direction:column;gap:.6vh">
+          <i data-lucide="package" style="width:2vw;height:2vw;stroke-width:1.4;color:var(--accent)"></i>
+          <div class="t-meta" style="font-size:12px">04</div>
+          <div class="t-body" style="font-weight:600;font-size:17px">苏能® 产品矩阵</div>
+          <div class="t-body-sm" style="font-size:15px;opacity:.7">为不同场景量身定制</div>
+        </div>
+        <div class="card-fill" style="padding:2.2vh 1.4vw;display:flex;flex-direction:column;gap:.6vh">
+          <i data-lucide="bar-chart-3" style="width:2vw;height:2vw;stroke-width:1.4;color:var(--accent)"></i>
+          <div class="t-meta" style="font-size:12px">05</div>
+          <div class="t-body" style="font-weight:600;font-size:17px">竞品格局与选型策略</div>
+          <div class="t-body-sm" style="font-size:15px;opacity:.7">知己知彼，百战不殆</div>
+        </div>
+        <div class="card-fill" style="padding:2.2vh 1.4vw;display:flex;flex-direction:column;gap:.6vh">
+          <i data-lucide="compass" style="width:2vw;height:2vw;stroke-width:1.4;color:var(--accent)"></i>
+          <div class="t-meta" style="font-size:12px">06</div>
+          <div class="t-body" style="font-weight:600;font-size:17px">行动指南与未来展望</div>
+          <div class="t-body-sm" style="font-size:15px;opacity:.7">开启您的液冷业务</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 3: AI算力 + 风冷困境 (S03 Split Statement) ===== -->
+<section class="slide split" data-layout="S03" data-animate="split-statement">
+  <div class="canvas-card">
+    <div class="split-half">
+      <div class="half b-ink" style="padding:5.6vh 3.6vw 4.4vh;justify-content:space-between">
+        <div class="chrome-min" style="margin-bottom:0">
+          <div class="l">01 · 行业变革与机遇</div>
+          <div class="r">03 / 29</div>
+        </div>
+        <div data-anim="statement" style="display:flex;flex-direction:column;gap:2vh">
+          <div class="t-meta" style="color:rgba(255,255,255,.62);letter-spacing:.22em">THE CRISIS</div>
+          <h2 style="font-family:var(--sans),var(--sans-zh);font-size:min(7vw,12vh);line-height:.94;letter-spacing:-.025em;font-weight:200;color:#fff">算力爆炸<br>风冷<span style="font-style:italic;font-weight:300">触及天花板</span></h2>
+        </div>
+        <div style="border-top:1px solid rgba(255,255,255,.18);padding-top:2vh">
+          <div class="t-meta" style="color:rgba(255,255,255,.55)">AI大模型 · 芯片功耗飙升 · PUE政策红线</div>
+        </div>
+      </div>
+      <div class="half b-grey" style="padding:5.6vh 3.6vw 4.4vh;justify-content:center">
+        <div data-anim="rules" style="display:flex;flex-direction:column;gap:3vh">
+          <div>
+            <div class="t-cat accent">算力需求</div>
+            <p class="t-body" style="font-weight:500;margin-top:.6vh">AI大模型参数从万亿级向十万亿级迈进，训练算力呈指数级增长。云计算、自动驾驶、物联网加速普及，2025年全球数据量预计达180 ZB。</p>
+          </div>
+          <div>
+            <div class="t-cat accent">风冷困境</div>
+            <p class="t-body" style="font-weight:500;margin-top:.6vh">单机柜＞20kW后难以有效控温。冷却能耗占30-50%，PUE 1.5-1.8。GB 40879-2021强制PUE≤1.50，北京对PUE>1.35征收差别电价。</p>
+          </div>
+          <div style="border-top:2px solid var(--accent);padding-top:2vh">
+            <p class="t-body" style="font-weight:600;color:var(--accent)">结论：散热技术变革迫在眉睫，液冷不再是"可选项"，而是"必选项"。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 4: 液冷核心价值 (S19 Four Cards) ===== -->
+<section class="slide" data-layout="S19" data-animate="four-cards">
+  <div class="canvas-card">
+    <div class="chrome-min">
+      <div class="l">01 · 行业变革与机遇</div>
+      <div class="r">04 / 29</div>
+    </div>
+    <div style="flex:1;padding:0;display:flex;flex-direction:column;gap:0">
+      <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-cat accent">液冷——数据中心的"制冷革命"</div>
+        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.8vw,10.2vh);line-height:1.05;letter-spacing:-.025em">液体换热效率是空气的1000-5000倍</h2>
+      </div>
+      <div class="rule accent" style="margin-top:2vh"></div>
+      <div class="four-cards" data-anim="up">
+        <div class="fc-col">
+          <i data-lucide="zap" style="width:2vw;height:2vw;stroke-width:1.4;color:var(--accent)"></i>
+          <div class="fc-num">— 01</div>
+          <div class="fc-title">极致节能</div>
+          <div class="fc-desc">PUE可降至1.05-1.15，大幅降低运营成本(OPEX)，电力节省显著</div>
+        </div>
+        <div class="fc-col">
+          <i data-lucide="layers" style="width:2vw;height:2vw;stroke-width:1.4;color:var(--accent)"></i>
+          <div class="fc-num">— 02</div>
+          <div class="fc-title">超高密度</div>
+          <div class="fc-desc">单机柜功率从20kW提升至100kW+，大幅节省机房空间</div>
+        </div>
+        <div class="fc-col">
+          <i data-lucide="shield-check" style="width:2vw;height:2vw;stroke-width:1.4;color:var(--accent)"></i>
+          <div class="fc-num">— 03</div>
+          <div class="fc-title">高可靠性</div>
+          <div class="fc-desc">无风扇设计，降低故障率和噪音，延长硬件使用寿命</div>
+        </div>
+        <div class="fc-col">
+          <i data-lucide="leaf" style="width:2vw;height:2vw;stroke-width:1.4;color:var(--accent)"></i>
+          <div class="fc-num">— 04</div>
+          <div class="fc-title">绿色环保</div>
+          <div class="fc-desc">减少碳排放，符合"双碳"战略要求，驱动数字经济绿色发展</div>
+        </div>
+      </div>
+      <div style="border-top:1px solid var(--border-subtle);padding-top:2vh;margin-top:2vh">
+        <div class="t-cat accent" style="margin-bottom:1.4vh">对润滑油经销商的意义</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2vw">
+          <div><span class="t-body" style="font-weight:600;color:var(--accent)">新的增长曲线</span><span class="t-body-sm"> — 从传统汽车/工业润滑油，拓展至高速增长的数字经济核心领域</span></div>
+          <div><span class="t-body" style="font-weight:600;color:var(--accent)">高价值产品</span><span class="t-body-sm"> — 冷却液技术壁垒高，附加值远高于传统润滑油</span></div>
+          <div><span class="t-body" style="font-weight:600;color:var(--accent)">客户粘性增强</span><span class="t-body-sm"> — 提供整体散热解决方案，建立长期合作关系</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 5: 全球市场 (S06 KPI Tower) ===== -->
+<section class="slide" data-layout="S06" data-animate="tower-grow">
+  <div class="canvas-card">
+    <div class="chrome-min">
+      <div class="l">02 · 市场洞察与趋势</div>
+      <div class="r">05 / 29</div>
+    </div>
+    <div style="flex:1;padding:0;display:flex;flex-direction:column;gap:0">
+      <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-cat accent">全球市场规模与预测</div>
+        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.8vw,10.2vh);line-height:1.05;letter-spacing:-.025em">CAGR 25.7%，确定性极高的增长市场</h2>
+      </div>
+      <div class="bar-towers" data-anim="up">
+        <div class="bar-tower">
+          <div class="cap"><i data-lucide="globe" class="lucide"></i></div>
+          <div class="body-block b-accent" style="min-height:30vh">
+            <div class="lbl">2026年预计</div>
+            <div class="nb">64.1<span class="unit">亿美元</span></div>
+            <div class="sub">全球数据中心液冷市场</div>
+          </div>
+        </div>
+        <div class="bar-tower">
+          <div class="cap"><i data-lucide="trending-up" class="lucide"></i></div>
+          <div class="body-block" style="min-height:44vh">
+            <div class="lbl">2030年预计</div>
+            <div class="nb">161.6<span class="unit">亿美元</span></div>
+            <div class="sub">4年增长2.5倍</div>
+          </div>
+        </div>
+        <div class="bar-tower">
+          <div class="cap"><i data-lucide="percent" class="lucide"></i></div>
+          <div class="body-block" style="min-height:26vh">
+            <div class="lbl">复合年增长率</div>
+            <div class="nb">25.7<span class="unit">%</span></div>
+            <div class="sub">高速增长态势</div>
+          </div>
+        </div>
+        <div class="bar-tower">
+          <div class="cap"><i data-lucide="cpu" class="lucide"></i></div>
+          <div class="body-block" style="min-height:36vh">
+            <div class="lbl">核心驱动</div>
+            <div class="nb" style="font-size:max(16px,1.4vw)">AI · 芯片<br>政策</div>
+            <div class="sub">三重引擎推动</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:2vh;display:flex;justify-content:space-between;align-items:center">
+        <div class="t-helper">数据来源：EIN Presswire 行业报告</div>
+        <div class="t-helper">AI算力需求 · 高功耗芯片普及 · 全球能效政策趋严</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 6: 中国市场 (S06 KPI Tower variant) ===== -->
+<section class="slide" data-layout="S06" data-animate="tower-grow">
+  <div class="canvas-card">
+    <div class="chrome-min">
+      <div class="l">02 · 市场洞察与趋势</div>
+      <div class="r">06 / 29</div>
+    </div>
+    <div style="flex:1;padding:0;display:flex;flex-direction:column;gap:0">
+      <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-cat accent">中国市场规模与预测</div>
+        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.8vw,10.2vh);line-height:1.05;letter-spacing:-.025em">同比增长56.8%，全球最大单一液冷市场</h2>
+      </div>
+      <div class="bar-towers" data-anim="up">
+        <div class="bar-tower">
+          <div class="cap"><i data-lucide="landmark" class="lucide"></i></div>
+          <div class="body-block b-accent" style="min-height:34vh">
+            <div class="lbl">2026年预测</div>
+            <div class="nb">942<span class="unit">亿元</span></div>
+            <div class="sub">中国液冷市场</div>
+          </div>
+        </div>
+        <div class="bar-tower">
+          <div class="cap"><i data-lucide="rocket" class="lucide"></i></div>
+          <div class="body-block" style="min-height:54vh">
+            <div class="lbl">2027年预计</div>
+            <div class="nb">1478<span class="unit">亿元</span></div>
+            <div class="sub">同比增长56.8%</div>
+          </div>
+        </div>
+        <div class="bar-tower">
+          <div class="cap"><i data-lucide="target" class="lucide"></i></div>
+          <div class="body-block" style="min-height:30vh">
+            <div class="lbl">渗透率2025→2027</div>
+            <div class="nb" style="font-size:max(18px,2vw)">20%→50<span class="unit">%</span></div>
+            <div class="sub">全面普及阶段</div>
+          </div>
+        </div>
+        <div class="bar-tower">
+          <div class="cap"><i data-lucide="globe" class="lucide"></i></div>
+          <div class="body-block" style="min-height:42vh">
+            <div class="lbl">全球份额</div>
+            <div class="nb">35-40<span class="unit">%</span></div>
+            <div class="sub">增速持续领跑全球</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:2vh;display:flex;justify-content:space-between;align-items:center">
+        <div class="t-helper">数据来源：东吴证券预测</div>
+        <div class="t-helper" style="color:var(--accent)">高端AI训练机房渗透率已接近 80%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 7: 政策驱动 (S18 Why Now) ===== -->
+<section class="slide" data-layout="S18" data-animate="why-now">
+  <div class="canvas-card">
+    <div class="chrome-min">
+      <div class="l">02 · 市场洞察与趋势</div>
+      <div class="r">07 / 29</div>
+    </div>
+    <div style="flex:1;padding:0;display:flex;flex-direction:column;gap:0">
+      <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-cat accent">政策驱动——不可逆转的绿色浪潮</div>
+        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.8vw,10.2vh);line-height:1.05;letter-spacing:-.025em">三大政策力量推动液冷普及</h2>
+      </div>
+      <div class="why-row" data-anim="up">
+        <div class="why-col">
+          <i data-lucide="scroll-text" style="width:2.4vw;height:2.4vw;stroke-width:1.4;color:var(--accent)"></i>
+          <div class="t-cat">国家强制标准</div>
+          <p class="t-body" style="margin-top:.6vh">GB 40879-2021《数据中心能效限定值及能效等级》，明确规定PUE ≤ 1.50。新建数据中心必须采用高效冷却技术，存量数据中心面临改造压力。</p>
+          <div class="why-num" style="font-size:min(6vw,10vh)">1.50<span class="unit">PUE</span></div>
+        </div>
+        <div class="why-col">
+          <i data-lucide="building-2" style="width:2.4vw;height:2.4vw;stroke-width:1.4;color:var(--accent)"></i>
+          <div class="t-cat">地方政策加码</div>
+          <p class="t-body" style="margin-top:.6vh">北京对PUE＞1.35征收差别电价(加价0.2-0.5元/kWh)。"东数西算"8大枢纽节点，液冷是重点推荐技术。</p>
+          <div class="why-num" style="font-size:min(6vw,10vh)">1.35<span class="unit">红线</span></div>
+        </div>
+        <div class="why-col accent">
+          <i data-lucide="sun" style="width:2.4vw;height:2.4vw;stroke-width:1.4;color:var(--accent)"></i>
+          <div class="t-cat">"双碳"战略</div>
+          <p class="t-body" style="margin-top:.6vh">数据中心作为高耗能产业，是实现碳达峰碳中和目标的关键领域。液冷凭借卓越节能效果，是数据中心低碳运营的核心路径。</p>
+          <div class="why-num" style="font-size:min(6vw,10vh)">2030<span class="unit">碳达峰</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 8: NVIDIA Blackwell (S22 Image Hero modified = S06 variant with big KPI) ===== -->
+<section class="slide" data-layout="S06" data-animate="tower-grow">
+  <div class="canvas-card">
+    <div class="chrome-min">
+      <div class="l">02 · 市场洞察与趋势</div>
+      <div class="r">08 / 29</div>
+    </div>
+    <div style="flex:1;padding:0;display:flex;flex-direction:column;gap:0">
+      <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-cat accent">技术驱动——芯片巨头的"液冷宣言"</div>
+        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.8vw,10.2vh);line-height:1.05;letter-spacing:-.025em">NVIDIA Blackwell 正式宣告液冷时代到来</h2>
+      </div>
+      <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:6vw;padding:0">
+        <div data-anim="kpi" style="text-align:left">
+          <div class="t-meta" style="margin-bottom:1vh">GB200 NVL72 · 集成900个芯片</div>
+          <div style="font-family:var(--sans);font-weight:200;font-size:min(14vw,22vh);line-height:.88;letter-spacing:-.05em;color:var(--accent)">120<span style="font-size:.24em;font-weight:300;opacity:.5;margin-left:.1em;vertical-align:.5em">kW</span></div>
+          <div class="t-meta" style="margin-top:1vh">单模块功耗</div>
+        </div>
+        <div data-anim="rules" style="display:flex;flex-direction:column;gap:2vh;max-width:32ch">
+          <div style="border-left:2px solid var(--accent);padding-left:1.6vw">
+            <div class="t-cat accent" style="margin-bottom:.4vh">液冷标配</div>
+            <p class="t-body">NVIDIA官方明确要求GB200平台必须采用直接芯片冷却(D2C)方案</p>
+          </div>
+          <div style="border-left:2px solid var(--accent);padding-left:1.6vw">
+            <div class="t-cat accent" style="margin-bottom:.4vh">高温运行</div>
+            <p class="t-body">冷却液工作温度45-70℃，可利用工业余热</p>
+          </div>
+          <div style="border-left:2px solid var(--accent);padding-left:1.6vw">
+            <div class="t-cat accent" style="margin-bottom:.4vh">大流量需求</div>
+            <p class="t-body">单机柜冷却液流量达200升/分钟</p>
+          </div>
+        </div>
+      </div>
+      <div style="border-top:2px solid var(--accent);padding-top:1.6vh">
+        <p class="t-body" style="font-weight:600;color:var(--accent)">结论：芯片技术的发展已为液冷市场打开巨大需求空间，经销商应紧跟巨头步伐提前布局。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 9: 三大液冷路线 (S05 Three Layers) ===== -->
+<section class="slide" data-layout="S05" data-animate="grid-reveal">
+  <div class="canvas-card">
+    <div class="chrome-min">
+      <div class="l">03 · 液冷技术深度解析</div>
+      <div class="r">09 / 29</div>
+    </div>
+    <div style="flex:1;padding:0;display:flex;flex-direction:column;gap:0">
+      <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-cat accent">三大主流液冷路线</div>
+        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.8vw,10.2vh);line-height:1.05;letter-spacing:-.025em">从接触式到浸没式，技术路径清晰</h2>
+      </div>
+      <div class="stack-row" data-anim="up">
+        <div class="stack-block b-accent">
+          <div class="layer-nb">01 · 市场主流</div>
+          <i data-lucide="grid-2x2" class="lucide"></i>
+          <div class="layer-ttl">冷板式液冷</div>
+          <div class="layer-desc">金属冷板贴附CPU/GPU，冷却液循环带走热量。非接触式，技术成熟度最高，占市场85%+份额。兼容性好，可与风冷混合部署，成本相对较低。</div>
+          <div class="layer-tag">Cold Plate · 85%+ 市场份额</div>
+        </div>
+        <div class="stack-block b-grey">
+          <div class="layer-nb">02 · 最高效率</div>
+          <i data-lucide="droplets" class="lucide"></i>
+          <div class="layer-ttl">浸没式液冷</div>
+          <div class="layer-desc">服务器直接浸泡在冷却液中，通过液体对流或相变带走热量。散热效率最高，PUE可降至1.05以下。对服务器和机柜设计要求高，初期投资较大。</div>
+          <div class="layer-tag">Immersion · PUE &lt;1.05</div>
+        </div>
+        <div class="stack-block b-grey">
+          <div class="layer-nb">03 · 新兴小众</div>
+          <i data-lucide="spray-can" class="lucide"></i>
+          <div class="layer-ttl">喷淋式液冷</div>
+          <div class="layer-desc">冷却液直接喷淋到发热部件表面，散热能力强，冷却液用量少。但服务器结构改造成本高，目前市场应用较少。</div>
+          <div class="layer-tag">Spray · 市场应用较少</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 10: 冷板式液冷系统 (S11 Horizontal Timeline) ===== -->
+<section class="slide" data-layout="S11" data-animate="timeline-walk">
+  <div class="canvas-card">
+    <div class="chrome-min">
+      <div class="l">03 · 液冷技术深度解析</div>
+      <div class="r">10 / 29</div>
+    </div>
+    <div style="flex:1;padding:0;display:flex;flex-direction:column;gap:0">
+      <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-cat accent">冷板式液冷系统详解</div>
+        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.8vw,10.2vh);line-height:1.05;letter-spacing:-.025em">二次侧5步循环 + 一次侧散热</h2>
+      </div>
+      <div style="margin-top:3vh;display:grid;grid-template-columns:repeat(2,1fr);gap:3vw">
+        <div>
+          <div class="t-cat" style="margin-bottom:1.6vh">系统构成</div>
+          <div style="display:flex;flex-direction:column;gap:1.2vh">
+            <div style="border-left:2px solid var(--accent);padding-left:1vw"><span class="t-body" style="font-weight:600">IT设备侧(二次侧)：</span><span class="t-body-sm">冷板、快速接头、CDU、管路</span></div>
+            <div style="border-left:2px solid var(--grey-2);padding-left:1vw"><span class="t-body" style="font-weight:600">室外侧(一次侧)：</span><span class="t-body-sm">板式换热器、冷却塔、水泵</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-h" style="margin-top:5vh" data-anim="up">
+        <span class="tl-h-axis"></span>
+        <div class="tl-row">
+          <div class="th-node accent up"><div class="dot"></div><div class="label"><div class="yr">STEP 01</div><div class="name">低温进液</div><div class="desc">CDU供液至冷板</div></div></div>
+          <div class="th-node down"><div class="dot"></div><div class="label"><div class="yr">STEP 02</div><div class="name">吸热升温</div><div class="desc">吸收芯片热量</div></div></div>
+          <div class="th-node up"><div class="dot"></div><div class="label"><div class="yr">STEP 03</div><div class="name">回流换热</div><div class="desc">回CDU与一次侧换热</div></div></div>
+          <div class="th-node down"><div class="dot"></div><div class="label"><div class="yr">STEP 04</div><div class="name">降温循环</div><div class="desc">降温后再次进液</div></div></div>
+          <div class="th-node accent up"><div class="dot"></div><div class="label"><div class="yr">STEP 05</div><div class="name">室外散热</div><div class="desc">一次侧冷却塔散热</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 11: 浸没式液冷 (S08 Duo Compare) ===== -->
+<section class="slide" data-layout="S08" data-animate="duo-mirror">
+  <div class="canvas-card">
+    <div class="chrome-min">
+      <div class="l">03 · 液冷技术深度解析</div>
+      <div class="r">11 / 29</div>
+    </div>
+    <div style="flex:1;padding:0;display:flex;flex-direction:column;gap:0">
+      <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-cat accent">浸没式液冷系统详解</div>
+        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.8vw,10.2vh);line-height:1.05;letter-spacing:-.025em">单相浸没 vs 两相浸没</h2>
+      </div>
+      <div class="duo-compare" data-anim="up">
+        <div class="col">
+          <div class="col-tag"><span class="num">01</span> SINGLE-PHASE</div>
+          <div class="col-ttl">单相浸没式</div>
+          <div class="col-desc">服务器浸泡在冷却液中，热量通过自然对流传递给冷却液。冷却液泵送至外置CDU，与一次侧冷却水换热后返回浸没槽。</div>
+          <div style="display:flex;flex-direction:column;gap:.8vh;margin-top:1vh">
+            <div class="t-body-sm"><span style="color:var(--accent);font-weight:600">系统构成：</span>浸没槽、冷却液、外置换热系统(CDU+冷却塔)</div>
+            <div class="t-body-sm"><span style="color:var(--accent);font-weight:600">优势：</span>结构相对简单，冷却液不挥发</div>
+          </div>
+        </div>
+        <div class="vrule"></div>
+        <div class="col">
+          <div class="col-tag"><span class="num">02</span> TWO-PHASE</div>
+          <div class="col-ttl" style="color:var(--accent)">两相浸没式</div>
+          <div class="col-desc">服务器热量使冷却液沸腾汽化，蒸汽上升至顶部冷凝器后液化，液体依靠重力流回槽底，形成自然循环。</div>
+          <div style="display:flex;flex-direction:column;gap:.8vh;margin-top:1vh">
+            <div class="t-body-sm"><span style="color:var(--accent);font-weight:600">系统构成：</span>密封浸没槽、冷却液、冷凝器</div>
+            <div class="t-body-sm"><span style="color:var(--accent);font-weight:600">优势：</span>无需泵，散热效率最高</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:3vh;display:grid;grid-template-columns:repeat(3,1fr);gap:2vw;border-top:2px solid var(--accent);padding-top:2vh">
+        <div><span class="t-cat accent">极致散热</span><p class="t-body-sm" style="margin-top:.4vh">直接接触，无热点，散热效率最大化</p></div>
+        <div><span class="t-cat accent">高可靠性</span><p class="t-body-sm" style="margin-top:.4vh">无风扇、无泵(两相)，减少故障点</p></div>
+        <div><span class="t-cat accent">简化设计</span><p class="t-body-sm" style="margin-top:.4vh">服务器无需风扇和散热片，设计更紧凑</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 12: 冷却液类型对比 (S21 Tech Spec) ===== -->
+<section class="slide" data-layout="S21" data-animate="tech-spec">
+  <div class="canvas-card">
+    <div class="chrome-min">
+      <div class="l">03 · 液冷技术深度解析</div>
+      <div class="r">12 / 29</div>
+    </div>
+    <div style="flex:1;padding:0;display:flex;flex-direction:column;gap:0">
+      <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-cat accent">冷却液类型对比与选型</div>
+        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.2vw,9.2vh);line-height:1.05;letter-spacing:-.025em">四大冷却液类型性能矩阵</h2>
+      </div>
+      <div class="tech-spec" data-anim="up">
+        <div class="spec-title-col">
+          <div class="t-meta" style="font-size:12px">性能维度对比</div>
+          <div style="display:flex;flex-direction:column;gap:2vh;font-family:var(--mono);font-size:max(14px,.8vw);opacity:.7;letter-spacing:.04em">
+            <div>价格 · 万元/吨</div><div>闪点 · 安全</div><div>介电强度</div><div>热导率</div><div>粘度</div><div>材料兼容性</div><div>使用寿命</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0">
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1vw;margin-bottom:2vh">
+            <div class="card-accent" style="padding:1.6vh 1vw"><div class="t-meta" style="color:rgba(255,255,255,.7);font-size:12px">碳氢基</div><div class="t-body-sm" style="color:rgba(255,255,255,.9);font-weight:500">2-4万/吨</div><div class="t-helper" style="color:rgba(255,255,255,.6);font-size:12px">经济入门</div></div>
+            <div class="card-fill" style="padding:1.6vh 1vw"><div class="t-meta" style="font-size:12px">合成烃</div><div class="t-body-sm" style="font-weight:500">4-10万/吨</div><div class="t-helper" style="font-size:12px">性能均衡</div></div>
+            <div class="card-fill" style="padding:1.6vh 1vw"><div class="t-meta" style="font-size:12px">硅基</div><div class="t-body-sm" style="font-weight:500">5-12万/吨</div><div class="t-helper" style="font-size:12px">高安全</div></div>
+            <div class="card-fill" style="padding:1.6vh 1vw"><div class="t-meta" style="font-size:12px">氟化液</div><div class="t-body-sm" style="font-weight:500">10-40万/吨</div><div class="t-helper" style="font-size:12px">顶尖性能</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1vw;font-size:max(16px,.9vw)">
+            <div style="display:flex;flex-direction:column;gap:1.8vh">
+              <div><span style="opacity:.6">闪点</span> <span style="color:#e0a850">低(可燃)</span></div>
+              <div><span style="opacity:.6">介电</span> <span>中等</span></div>
+              <div><span style="opacity:.6">热导率</span> <span style="color:#e0a850">较低</span></div>
+              <div><span style="opacity:.6">兼容</span> <span style="color:#e0a850">需测试</span></div>
+              <div><span style="opacity:.6">寿命</span> <span style="color:#e0a850">较短</span></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:1.8vh">
+              <div><span style="opacity:.6">闪点</span> <span style="color:#e0a850">较高(可燃)</span></div>
+              <div><span style="opacity:.6">介电</span> <span style="color:#4ec98a">高</span></div>
+              <div><span style="opacity:.6">热导率</span> <span>中等</span></div>
+              <div><span style="opacity:.6">兼容</span> <span style="color:#4ec98a">较好</span></div>
+              <div><span style="opacity:.6">寿命</span> <span style="color:#4ec98a">5-8年</span></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:1.8vh">
+              <div><span style="opacity:.6">闪点</span> <span style="color:#4ec98a">高(难燃)</span></div>
+              <div><span style="opacity:.6">介电</span> <span style="color:#4ec98a">高</span></div>
+              <div><span style="opacity:.6">热导率</span> <span style="color:#4ec98a">较高</span></div>
+              <div><span style="opacity:.6">兼容</span> <span style="color:#e0a850">需测试</span></div>
+              <div><span style="opacity:.6">寿命</span> <span style="color:#4ec98a">较长</span></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:1.8vh">
+              <div><span style="opacity:.6">闪点</span> <span style="color:#333;font-weight:600">无(不燃)</span></div>
+              <div><span style="opacity:.6">介电</span> <span style="color:#333;font-weight:600">极高</span></div>
+              <div><span style="opacity:.6">热导率</span> <span>中等</span></div>
+              <div><span style="opacity:.6">兼容</span> <span style="color:#333;font-weight:600">极佳</span></div>
+              <div><span style="opacity:.6">寿命</span> <span style="color:#333;font-weight:600">&gt;10年</span></div>
+            </div>
+          </div>
+          <div style="margin-top:2.4vh;border-top:1px solid var(--border-subtle);padding-top:1.6vh">
+            <div class="t-helper">低密度冷板→碳氢基 · 中高密度冷板/单相浸没→合成烃 · 中高密度浸没→硅基 · 超高密度两相浸没→氟化液</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 13: TCO优势 (S08 Duo Compare) ===== -->
+<section class="slide" data-layout="S08" data-animate="duo-mirror">
+  <div class="canvas-card">
+    <div class="chrome-min">
+      <div class="l">03 · 液冷技术深度解析</div>
+      <div class="r">13 / 29</div>
+    </div>
+    <div style="flex:1;padding:0;display:flex;flex-direction:column;gap:0">
+      <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-cat accent">液冷的TCO（总拥有成本）优势分析</div>
+        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.8vw,10.2vh);line-height:1.05;letter-spacing:-.025em">CAPEX vs OPEX，TCO交叉点在哪里？</h2>
+      </div>
+      <div class="duo-compare" data-anim="up">
+        <div class="col">
+          <div class="col-tag"><span class="num">01</span> CAPEX</div>
+          <div class="col-ttl">初始投资</div>
+          <div class="col-desc">液冷系统初始投资比风冷高<strong>30%-50%</strong>。增量来自：冷板/浸没槽、CDU、冷却液、管路系统。</div>
+          <div style="display:flex;flex-direction:column;gap:.8vh;margin-top:1vh">
+            <div class="t-body-sm" style="color:var(--text-helper)">趋势：国产化和规模化应用，预计2026年液冷CAPEX将下降15%-20%。</div>
+          </div>
+        </div>
+        <div class="vrule"></div>
+        <div class="col">
+          <div class="col-tag"><span class="num">02</span> OPEX</div>
+          <div class="col-ttl" style="color:var(--accent)">运营成本优势</div>
+          <div class="col-desc">PUE从1.5-1.8降至<strong style="color:var(--accent)">1.05-1.15</strong>，节省大量电费。减少风扇、空调等机械部件，降低故障率和维护频率。更高机柜密度摊薄土地和建筑成本。</div>
+        </div>
+      </div>
+      <div style="margin-top:3vh;border-top:2px solid var(--accent);padding-top:2vh">
+        <p class="t-body" style="font-weight:600;color:var(--accent)">TCO交叉点：当机柜功率密度超过20kW时，液冷TCO优势显现。高密度场景下，液冷TCO可比风冷低30%以上。一个10MW数据中心采用液冷，预计3-5年即可收回初期增加的投资。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 14: 运维三大挑战 (S13 Three Forces) ===== -->
+<section class="slide" data-layout="S13" data-animate="three-forces">
+  <div class="canvas-card">
+    <div class="chrome-min">
+      <div class="l">03 · 液冷技术深度解析</div>
+      <div class="r">14 / 29</div>
+    </div>
+    <div style="flex:1;padding:0;display:flex;flex-direction:column;gap:0">
+      <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-cat accent">液冷数据中心的运维挑战与应对</div>
+        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.8vw,10.2vh);line-height:1.05;letter-spacing:-.025em">三大挑战，三大应对方案</h2>
+      </div>
+      <div class="three-forces" data-anim="up">
+        <div class="hero-ink-col">
+          <div class="t-meta" style="color:rgba(255,255,255,.62);letter-spacing:.18em">运维挑战</div>
+          <div style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(3.6vw,6vh);line-height:1.1;letter-spacing:-.02em;color:#fff">新挑战<br>新方案</div>
+          <div class="dot-mat" style="width:100%;height:6vh;margin-top:auto"></div>
+        </div>
+        <div class="force-stack">
+          <div class="force-card" data-anim="card">
+            <div class="force-num">01</div>
+            <div class="force-body">
+              <div class="force-title">漏液风险</div>
+              <div class="force-desc">冷板式管路接头是潜在漏点，一旦泄漏可能损坏昂贵服务器。应对：优质耐腐蚀管路 · 高精度漏液传感器和报警系统 · 插拔式快速接头便于快速隔离维护。</div>
+            </div>
+          </div>
+          <div class="force-card" data-anim="card">
+            <div class="force-num">02</div>
+            <div class="force-body">
+              <div class="force-title">冷却液维护</div>
+              <div class="force-desc">冷却液可能因微生物滋生、氧化、杂质混入等变质。应对：每月检测电导率/PH值/浊度 · CDU集成过滤器和离子交换树脂 · 选用抗氧化稳定性强的冷却液。</div>
+            </div>
+          </div>
+          <div class="force-card" data-anim="card">
+            <div class="force-num">03</div>
+            <div class="force-body">
+              <div class="force-title">专业技能要求</div>
+              <div class="force-desc">液冷系统运维与传统风冷完全不同。应对：系统液冷技术培训 · 制定详细运维手册和应急预案 · 与供应商(如苏能®)建立紧密合作获取技术支持。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 15: 苏能品牌理念 (S12 Manifesto + Ink Banner) ===== -->
+<section class="slide" data-layout="S12" data-animate="manifesto">
+  <div class="canvas-card">
+    <div class="chrome-min">
+      <div class="l">04 · 苏能® 产品矩阵</div>
+      <div class="r">15 / 29</div>
+    </div>
+    <div style="flex:1;padding:0;display:flex;flex-direction:column;gap:0">
+      <div style="display:grid;grid-template-columns:6fr 6fr;gap:4vw;align-items:start" data-anim="head">
+        <div style="display:flex;flex-direction:column;gap:1.4vh">
+          <div class="t-cat accent">苏能® 品牌理念</div>
+          <div style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.6vw,9vh);line-height:.98;letter-spacing:-.03em">数据中心<br>热管理专家</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:1.6vh;padding-top:1.2vw">
+          <p class="t-body" style="font-weight:500">为客户提供高效、可靠、绿色的冷却液解决方案</p>
+          <div style="display:flex;flex-direction:column;gap:.8vh;margin-top:1vh">
+            <div class="t-body-sm"><span style="color:var(--accent);font-weight:600">技术领先</span> — 专注液冷技术研发，与行业趋势同步</div>
+            <div class="t-body-sm"><span style="color:var(--accent);font-weight:600">品质卓越</span> — 优质原材料和添加剂，性能稳定可靠</div>
+            <div class="t-body-sm"><span style="color:var(--accent);font-weight:600">服务至上</span> — 从选型、设计到运维的全生命周期服务</div>
+          </div>
+        </div>
+      </div>
+      <div class="card-ink" style="margin:3vh -5vw -4.4vh;padding:3.4vh 5vw;display:flex;align-items:center;gap:3vw" data-anim="banner">
+        <div style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(4vw,6vh);line-height:1;letter-spacing:-.025em;color:#fff">助力数据中心实现极致能效，驱动数字经济绿色发展。</div>
+        <div style="display:flex;gap:2vw">
+          <i data-lucide="zap" style="width:2vw;height:2vw;color:rgba(255,255,255,.7)"></i>
+          <i data-lucide="shield-check" style="width:2vw;height:2vw;color:rgba(255,255,255,.7)"></i>
+          <i data-lucide="leaf" style="width:2vw;height:2vw;color:rgba(255,255,255,.7)"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 16: 清烃™ (S21 Tech Spec) ===== -->
+<section class="slide" data-layout="S21" data-animate="tech-spec">
+  <div class="canvas-card">
+    <div class="chrome-min">
+      <div class="l">04 · 苏能® 产品矩阵</div>
+      <div class="r">16 / 29</div>
+    </div>
+    <div style="flex:1;padding:0;display:flex;flex-direction:column;gap:0">
+      <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-cat accent">碳氢基冷却液 · 经济入门</div>
+        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.8vw,10.2vh);line-height:1;letter-spacing:-.025em">苏能® 清烃<span style="font-weight:300;font-size:.6em;vertical-align:.5em;margin-left:.2em;letter-spacing:0">™</span></h2>
+      </div>
+      <div class="tech-spec" data-anim="up">
+        <div class="spec-title-col">
+          <div class="t-meta" style="margin-bottom:1vh">产品定位</div>
+          <p class="t-body">经济高效的入门级液冷方案。深度精制碳氢基原材料，纯度高，芳烃含量低。添加专用抗氧化、抗腐蚀和消泡添加剂。</p>
+          <div class="spec-kpi-row" style="margin-top:3vh">
+            <div class="spec-kpi"><div class="spec-unit">价格</div><div class="spec-nb" style="font-size:min(3vw,5vh)">2-4<span style="font-size:.5em">万/吨</span></div></div>
+            <div class="spec-kpi"><div class="spec-unit">闪点</div><div class="spec-nb" style="font-size:min(3vw,5vh);color:#e0a850">可燃</div></div>
+            <div class="spec-kpi"><div class="spec-unit">寿命</div><div class="spec-nb" style="font-size:min(3vw,5vh);color:#e0a850">较短</div></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:2vh">
+          <div class="t-cat" style="margin-bottom:0">核心优势</div>
+          <div style="display:flex;flex-direction:column;gap:1vh">
+            <div class="t-body-sm"><span style="color:var(--accent);font-weight:600">成本优势</span> — 价格最低，传统润滑油经销商转型液冷的理想切入点</div>
+            <div class="t-body-sm"><span style="color:var(--accent);font-weight:600">供应成熟</span> — 基础油供应渠道广泛，生产工艺成熟</div>
+            <div class="t-body-sm"><span style="color:var(--accent);font-weight:600">兼容性好</span> — 与大部分橡胶和塑料部件兼容</div>
+          </div>
+          <div style="border-top:1px solid var(--border-subtle);padding-top:1.6vh;margin-top:1vh">
+            <div class="t-helper"><span style="font-weight:600">适用：</span>功率密度10kW以下冷板式系统 · 成本敏感示范/改造项目 · 储能电池柜</div>
+            <div class="t-helper" style="margin-top:.4vh"><span style="font-weight:600">客户：</span>中小型数据中心 · 边缘计算节点 · 储能系统集成商</div>
+          </div>
+          <div class="spec-bars" style="margin-top:2vh">
+            <div class="bar-vert" style="height:6vh;background:var(--accent)"></div>
+            <div class="bar-vert" style="height:4vh;background:var(--accent)"></div>
+            <div class="bar-vert" style="height:5vh;background:var(--accent)"></div>
+            <div class="bar-vert" style="height:3vh;background:var(--accent)"></div>
+            <div class="bar-vert" style="height:4vh;background:var(--grey-2)"></div>
+            <div class="bar-vert" style="height:2vh;background:var(--grey-2)"></div>
+            <div class="bar-vert" style="height:7vh;background:var(--grey-2)"></div>
+            <div class="bar-vert" style="height:3vh;background:var(--grey-2)"></div>
+            <div class="bar-vert" style="height:5vh;background:var(--grey-2)"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 17: 硅盾™ (S21 Tech Spec) ===== -->
+<section class="slide" data-layout="S21" data-animate="tech-spec">
+  <div class="canvas-card">
+    <div class="chrome-min">
+      <div class="l">04 · 苏能® 产品矩阵</div>
+      <div class="r">17 / 29</div>
+    </div>
+    <div style="flex:1;padding:0;display:flex;flex-direction:column;gap:0">
+      <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-cat accent">硅基冷却液 · 高安全浸没</div>
+        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.8vw,10.2vh);line-height:1;letter-spacing:-.025em">苏能® 硅盾<span style="font-weight:300;font-size:.6em;vertical-align:.5em;margin-left:.2em;letter-spacing:0">™</span></h2>
+      </div>
+      <div class="tech-spec" data-anim="up">
+        <div class="spec-title-col">
+          <div class="t-meta" style="margin-bottom:1vh">产品定位</div>
+          <p class="t-body">安全可靠的中高密度浸没式冷却方案。高纯度聚二甲基硅氧烷为基础材料，闪点＞300℃，属难燃液体。极低表面张力，充分浸润电子元器件。</p>
+          <div class="spec-kpi-row" style="margin-top:3vh">
+            <div class="spec-kpi"><div class="spec-unit">价格</div><div class="spec-nb" style="font-size:min(3vw,5vh)">5-12<span style="font-size:.5em">万/吨</span></div></div>
+            <div class="spec-kpi"><div class="spec-unit">闪点</div><div class="spec-nb" style="font-size:min(3vw,5vh)">&gt;300℃</div></div>
+            <div class="spec-kpi"><div class="spec-unit">寿命</div><div class="spec-nb" style="font-size:min(3vw,5vh)">&gt;10年</div></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:2vh">
+          <div class="t-cat" style="margin-bottom:0">核心优势</div>
+          <div style="display:flex;flex-direction:column;gap:1vh">
+            <div class="t-body-sm"><span style="color:var(--accent);font-weight:600">高安全性</span> — 难燃特性大幅降低数据中心火灾风险</div>
+            <div class="t-body-sm"><span style="color:var(--accent);font-weight:600">优异绝缘</span> — 介电强度高，确保电气安全</div>
+            <div class="t-body-sm"><span style="color:var(--accent);font-weight:600">长寿命</span> — 抗氧化性强，使用寿命可达10年以上</div>
+          </div>
+          <div style="border-top:1px solid var(--border-subtle);padding-top:1.6vh;margin-top:1vh">
+            <div class="t-helper"><span style="font-weight:600">适用：</span>功率密度10-30kW单相浸没式 · 对消防安全要求高的数据中心 · HPC集群</div>
+            <div class="t-helper" style="margin-top:.4vh"><span style="font-weight:600">客户：</span>政府、金融、科研等领域高端数据中心 · HPC中心</div>
+          </div>
+          <div class="spec-bars" style="margin-top:2vh">
+            <div class="bar-vert" style="height:9vh;background:var(--accent)"></div>
+            <div class="bar-vert" style="height:7vh;background:var(--accent)"></div>
+            <div class="bar-vert" style="height:11vh;background:var(--accent)"></div>
+            <div class="bar-vert" style="height:6vh;background:var(--accent)"></div>
+            <div class="bar-vert" style="height:8vh;background:var(--accent)"></div>
+            <div class="bar-vert" style="height:5vh;background:var(--accent)"></div>
+            <div class="bar-vert" style="height:4vh;background:var(--grey-2)"></div>
+            <div class="bar-vert" style="height:3vh;background:var(--grey-2)"></div>
+            <div class="bar-vert" style="height:6vh;background:var(--grey-2)"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 18: 净冷™ (S21 Tech Spec) ===== -->
+<section class="slide" data-layout="S21" data-animate="tech-spec">
+  <div class="canvas-card">
+    <div class="chrome-min">
+      <div class="l">04 · 苏能® 产品矩阵</div>
+      <div class="r">18 / 29</div>
+    </div>
+    <div style="flex:1;padding:0;display:flex;flex-direction:column;gap:0">
+      <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-cat accent">合成烃冷却液 · 性能主力</div>
+        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.8vw,10.2vh);line-height:1;letter-spacing:-.025em">苏能® 净冷<span style="font-weight:300;font-size:.6em;vertical-align:.5em;margin-left:.2em;letter-spacing:0">™</span></h2>
+      </div>
+      <div class="tech-spec" data-anim="up">
+        <div class="spec-title-col">
+          <div class="t-meta" style="margin-bottom:1vh">产品定位</div>
+          <p class="t-body">性能均衡的主流液冷方案。聚α-烯烃或CTL费托法技术为基原料，倾点低，低温流动性好。粘度指数高，抗氧化和水解安定性出色。</p>
+          <div class="spec-kpi-row" style="margin-top:3vh">
+            <div class="spec-kpi"><div class="spec-unit">价格</div><div class="spec-nb" style="font-size:min(3vw,5vh)">4-10<span style="font-size:.5em">万/吨</span></div></div>
+            <div class="spec-kpi"><div class="spec-unit">闪点</div><div class="spec-nb" style="font-size:min(3vw,5vh)">&gt;200℃</div></div>
+            <div class="spec-kpi"><div class="spec-unit">换油周期</div><div class="spec-nb" style="font-size:min(3vw,5vh)">5-8<span style="font-size:.5em">年</span></div></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:2vh">
+          <div class="t-cat" style="margin-bottom:0">核心优势</div>
+          <div style="display:flex;flex-direction:column;gap:1vh">
+            <div class="t-body-sm"><span style="color:var(--accent);font-weight:600">性能均衡</span> — 综合矿物油经济性和合成油高性能</div>
+            <div class="t-body-sm"><span style="color:var(--accent);font-weight:600">长换油周期</span> — 抗氧化性好，换油周期可达5-8年，降低维护成本</div>
+            <div class="t-body-sm"><span style="color:var(--accent);font-weight:600">广泛适用</span> — 适用于冷板式和单相浸没式两种主流技术路线</div>
+          </div>
+          <div style="border-top:1px solid var(--border-subtle);padding-top:1.6vh;margin-top:1vh">
+            <div class="t-helper"><span style="font-weight:600">适用：</span>功率密度10-20kW冷板式 / 10-30kW浸没式，大部分新建与改造项目</div>
+            <div class="t-helper" style="margin-top:.4vh"><span style="font-weight:600">客户：</span>大型互联网公司 · 云服务商 · 第三方数据中心运营商</div>
+          </div>
+          <div class="spec-bars" style="margin-top:2vh">
+            <div class="bar-vert" style="height:10vh;background:var(--accent)"></div>
+            <div class="bar-vert" style="height:12vh;background:var(--accent)"></div>
+            <div class="bar-vert" style="height:8vh;background:var(--accent)"></div>
+            <div class="bar-vert" style="height:14vh;background:var(--accent)"></div>
+            <div class="bar-vert" style="height:9vh;background:var(--accent)"></div>
+            <div class="bar-vert" style="height:11vh;background:var(--accent)"></div>
+            <div class="bar-vert" style="height:7vh;background:var(--grey-2)"></div>
+            <div class="bar-vert" style="height:5vh;background:var(--grey-2)"></div>
+            <div class="bar-vert" style="height:6vh;background:var(--grey-2)"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 19: 极氟™ (S21 Tech Spec) ===== -->
+<section class="slide" data-layout="S21" data-animate="tech-spec">
+  <div class="canvas-card">
+    <div class="chrome-min">
+      <div class="l">04 · 苏能® 产品矩阵</div>
+      <div class="r">19 / 29</div>
+    </div>
+    <div style="flex:1;padding:0;display:flex;flex-direction:column;gap:0">
+      <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-cat accent">氟化液冷却液 · 未来超高密度</div>
+        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.8vw,10.2vh);line-height:1;letter-spacing:-.025em">苏能® 极氟<span style="font-weight:300;font-size:.6em;vertical-align:.5em;margin-left:.2em;letter-spacing:0">™</span></h2>
+      </div>
+      <div class="tech-spec" data-anim="up">
+        <div class="spec-title-col">
+          <div class="t-meta" style="margin-bottom:1vh">产品定位</div>
+          <p class="t-body">面向未来的超高密度冷却方案。全氟聚醚(PFPE)或氢氟醚(HFE)为基础油，不燃、无毒、无味。介电强度极高，化学惰性强，与所有金属和塑料兼容。</p>
+          <div class="spec-kpi-row" style="margin-top:3vh">
+            <div class="spec-kpi"><div class="spec-unit">价格</div><div class="spec-nb" style="font-size:min(3vw,5vh)">10-40<span style="font-size:.5em">万/吨</span></div></div>
+            <div class="spec-kpi"><div class="spec-unit">安全性</div><div class="spec-nb" style="font-size:min(3vw,5vh)">不燃</div></div>
+            <div class="spec-kpi"><div class="spec-unit">寿命</div><div class="spec-nb" style="font-size:min(3vw,5vh)">终身</div></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:2vh">
+          <div class="t-cat" style="margin-bottom:0">核心优势</div>
+          <div style="display:flex;flex-direction:column;gap:1vh">
+            <div class="t-body-sm"><span style="color:var(--accent);font-weight:600">极致安全</span> — 完全不燃，消除任何火灾隐患</div>
+            <div class="t-body-sm"><span style="color:var(--accent);font-weight:600">卓越兼容性</span> — 不会对任何电子元器件造成腐蚀或损害</div>
+            <div class="t-body-sm"><span style="color:var(--accent);font-weight:600">超长寿命</span> — 化学性质极其稳定，理论上可终身使用</div>
+          </div>
+          <div style="border-top:1px solid var(--border-subtle);padding-top:1.6vh;margin-top:1vh">
+            <div class="t-helper"><span style="font-weight:600">适用：</span>功率密度30kW以上超高密度数据中心 · 两相浸没 · AI训练集群 · 超算中心</div>
+            <div class="t-helper" style="margin-top:.4vh"><span style="font-weight:600">客户：</span>顶级互联网巨头 · 国家级超算中心 · AI芯片制造商</div>
+          </div>
+          <div class="spec-bars" style="margin-top:2vh">
+            <div class="bar-vert" style="height:16vh;background:var(--accent)"></div>
+            <div class="bar-vert" style="height:14vh;background:var(--accent)"></div>
+            <div class="bar-vert" style="height:18vh;background:var(--accent)"></div>
+            <div class="bar-vert" style="height:13vh;background:var(--accent)"></div>
+            <div class="bar-vert" style="height:15vh;background:var(--accent)"></div>
+            <div class="bar-vert" style="height:11vh;background:var(--accent)"></div>
+            <div class="bar-vert" style="height:12vh;background:var(--accent)"></div>
+            <div class="bar-vert" style="height:10vh;background:var(--accent)"></div>
+            <div class="bar-vert" style="height:9vh;background:var(--accent)"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 20: 全球主流品牌 (S15 Matrix) ===== -->
+<section class="slide" data-layout="S15" data-animate="matrix-fill">
+  <div class="canvas-card">
+    <div class="chrome-min">
+      <div class="l">05 · 竞品格局与选型策略</div>
+      <div class="r">20 / 29</div>
+    </div>
+    <div style="flex:1;padding:0;display:flex;flex-direction:column;gap:0">
+      <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-cat accent">全球主流冷却液品牌概览</div>
+        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.8vw,10.2vh);line-height:1.05;letter-spacing:-.025em">国际巨头与国内新锐，市场从外资主导走向国产替代</h2>
+      </div>
+      <div class="matrix-fill" data-anim="up">
+        <div class="matrix-cell"><div class="cell-tag">氟化液 · 国际</div><div class="cell-name">3M</div><div class="t-helper" style="font-size:13px">Fluorinert™ / Novec™ 系列，市场领导者</div></div>
+        <div class="matrix-cell"><div class="cell-tag">氟化液 · 国际</div><div class="cell-name">科慕 Chemours</div><div class="t-helper" style="font-size:13px">原杜邦旗下，Opteon™ 系列</div></div>
+        <div class="matrix-cell"><div class="cell-tag">合成烃 · 国际</div><div class="cell-name">壳牌 Shell</div><div class="t-helper" style="font-size:13px">GTL技术，性价比和环保有竞争力</div></div>
+        <div class="matrix-cell"><div class="cell-tag">硅油 · 国际</div><div class="cell-name">道康宁</div><div class="t-helper" style="font-size:13px">硅油领域领导者</div></div>
+        <div class="matrix-cell"><div class="cell-tag">氟化液 · 国产</div><div class="cell-name">润禾材料</div><div class="t-helper" style="font-size:13px">国内氟化液领先，已进入头部互联网供应链</div></div>
+        <div class="matrix-cell"><div class="cell-tag">全品类 · 国产</div><div class="cell-name">苏能®</div><div class="t-helper" style="font-size:13px">覆盖碳氢基/合成烃/硅基/氟化液</div></div>
+        <div class="matrix-cell"><div class="cell-tag">合成烃 · 国际</div><div class="cell-name">埃克森美孚</div><div class="t-helper" style="font-size:13px">PAO基础油优势</div></div>
+        <div class="matrix-cell accent"><div class="cell-tag">趋势</div><div class="cell-name">国产替代加速</div><div class="t-helper" style="color:rgba(255,255,255,.7);font-size:13px">本土经销商巨大机遇</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 21: 氟化液对比 (S21 Tech Spec) ===== -->
+<section class="slide" data-layout="S21" data-animate="tech-spec">
+  <div class="canvas-card">
+    <div class="chrome-min">
+      <div class="l">05 · 竞品格局与选型策略</div>
+      <div class="r">21 / 29</div>
+    </div>
+    <div style="flex:1;padding:0;display:flex;flex-direction:column;gap:0">
+      <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-cat accent">主流氟化液产品对比</div>
+        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.2vw,9.2vh);line-height:1.05;letter-spacing:-.025em">关键性能指标横向比较</h2>
+      </div>
+      <div class="tech-spec" data-anim="up" style="margin-top:2vh">
+        <div class="spec-title-col">
+          <div style="display:flex;flex-direction:column;gap:2vh;font-family:var(--mono);font-size:max(14px,.8vw);opacity:.7;letter-spacing:.04em">
+            <div>沸点 (℃)</div><div>倾点 (℃)</div><div>汽化热 (kJ/kg)</div><div>介电强度 (kV)</div><div>GWP</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0">
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1vw;margin-bottom:2vh">
+            <div class="card-accent" style="padding:1.4vh 1vw"><div class="t-meta" style="color:rgba(255,255,255,.7);font-size:12px">苏能® 极氟™-F47</div><div class="t-body-sm" style="color:rgba(255,255,255,.9);font-weight:500">两相 · AI高密优化</div></div>
+            <div class="card-fill" style="padding:1.4vh 1vw"><div class="t-meta" style="font-size:12px">3M™ Novec™ 7100</div><div class="t-body-sm" style="font-weight:500">市场领导者</div></div>
+            <div class="card-fill" style="padding:1.4vh 1vw"><div class="t-meta" style="font-size:12px">科慕™ Opteon™ SF-79</div><div class="t-body-sm" style="font-weight:500">性能均衡</div></div>
+            <div class="card-fill" style="padding:1.4vh 1vw"><div class="t-meta" style="font-size:12px">润禾 EC-2100</div><div class="t-body-sm" style="font-weight:500">国产替代首选</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1vw;font-size:max(16px,.9vw)">
+            <div style="display:flex;flex-direction:column;gap:2vh">
+              <div>47</div><div>-75</div><div>48</div><div style="font-weight:600">&gt;40</div><div style="font-weight:600">&lt;1</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:2vh">
+              <div>61</div><div>-90</div><div>105</div><div style="font-weight:600">&gt;40</div><div style="font-weight:600">&lt;1</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:2vh">
+              <div>56</div><div>-80</div><div>95</div><div style="font-weight:600">&gt;40</div><div style="font-weight:600">&lt;1</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:2vh">
+              <div>55</div><div>-78</div><div>100</div><div style="font-weight:600">&gt;40</div><div style="font-weight:600">&lt;1</div>
+            </div>
+          </div>
+          <div style="margin-top:2.4vh;border-top:1px solid var(--border-subtle);padding-top:1.6vh">
+            <div class="t-helper">苏能® 极氟™-F47专为AI高密场景优化，性价比突出。关键性能指标与国际巨头持平，对本土市场理解更有优势。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 22: 合成烃/碳氢对比 (S21 Tech Spec) ===== -->
+<section class="slide" data-layout="S21" data-animate="tech-spec">
+  <div class="canvas-card">
+    <div class="chrome-min">
+      <div class="l">05 · 竞品格局与选型策略</div>
+      <div class="r">22 / 29</div>
+    </div>
+    <div style="flex:1;padding:0;display:flex;flex-direction:column;gap:0">
+      <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-cat accent">主流合成烃 / 碳氢产品对比</div>
+        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.2vw,9.2vh);line-height:1.05;letter-spacing:-.025em">覆盖经济型到高性能各区间</h2>
+      </div>
+      <div class="tech-spec" data-anim="up" style="margin-top:2vh">
+        <div class="spec-title-col">
+          <div style="display:flex;flex-direction:column;gap:2vh;font-family:var(--mono);font-size:max(14px,.8vw);opacity:.7;letter-spacing:.04em">
+            <div>基础油类型</div><div>闪点 (℃)</div><div>粘度 (cSt)</div><div>优点</div><div>缺点</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1vw;margin-bottom:2vh">
+            <div class="card-accent" style="padding:1.4vh 1vw"><div class="t-meta" style="color:rgba(255,255,255,.7);font-size:12px">苏能® 净冷™</div><div class="t-body-sm" style="color:rgba(255,255,255,.9);font-weight:500">合成烃技术 · 性能主力</div></div>
+            <div class="card-fill" style="padding:1.4vh 1vw"><div class="t-meta" style="font-size:12px">壳牌 Immersion S5 X</div><div class="t-body-sm" style="font-weight:500">GTL费托法 · 性能优异</div></div>
+            <div class="card-fill" style="padding:1.4vh 1vw"><div class="t-meta" style="font-size:12px">苏能® 清烃™</div><div class="t-body-sm" style="font-weight:500">精制基础油 · 经济入门</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1vw;font-size:max(16px,.9vw)">
+            <div style="display:flex;flex-direction:column;gap:2vh">
+              <div>合成烃技术</div><div style="font-weight:600">&gt;200</div><div>5.0</div><div style="color:#4ec98a">低温流动性好，抗氧化性强</div><div style="color:#e0a850">成本较高</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:2vh">
+              <div>费托法技术</div><div style="font-weight:600">&gt;200</div><div>4.5</div><div style="color:#4ec98a">GTL技术，性能优异，环保</div><div style="color:#e0a850">价格较高</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:2vh">
+              <div>精制基础油</div><div>&gt;160</div><div>6.0</div><div style="color:#4ec98a">成本最低，供应广泛</div><div style="color:#e0a850">抗氧化性一般，寿命较短</div>
+            </div>
+          </div>
+          <div style="margin-top:2.4vh;border-top:1px solid var(--border-subtle);padding-top:1.6vh">
+            <div class="t-helper">苏能®产品矩阵覆盖从经济型(清烃™)到高性能(净冷™)的完整区间，同时提供硅基(硅盾™)和氟化液(极氟™)满足特殊场景需求。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 23: 选型策略三步法 (S11 Horizontal Timeline) ===== -->
+<section class="slide" data-layout="S11" data-animate="timeline-walk">
+  <div class="canvas-card">
+    <div class="chrome-min">
+      <div class="l">05 · 竞品格局与选型策略</div>
+      <div class="r">23 / 29</div>
+    </div>
+    <div style="flex:1;padding:0;display:flex;flex-direction:column;gap:0">
+      <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-cat accent">冷却液选型策略</div>
+        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.8vw,10.2vh);line-height:1.05;letter-spacing:-.025em">三步法为客户精准选型</h2>
+      </div>
+      <div class="timeline-h" style="margin-top:6vh" data-anim="up">
+        <span class="tl-h-axis"></span>
+        <div class="tl-row">
+          <div class="th-node accent up"><div class="dot"></div><div class="label"><div class="yr">STEP 01</div><div class="name">明确需求</div><div class="desc">功率密度 · 技术路线 · 安全等级 · 预算</div></div></div>
+          <div class="th-node down"><div class="dot"></div><div class="label"><div class="yr">STEP 02</div><div class="name">评估产品性能</div><div class="desc">沸点 · 闪点 · 介电强度 · 热导率 · 认证</div></div></div>
+          <div class="th-node accent up"><div class="dot"></div><div class="label"><div class="yr">STEP 03</div><div class="name">考虑供应商能力</div><div class="desc">技术支持 · 供应保障 · 成本与服务</div></div></div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2vw;margin-top:2vh">
+        <div style="border-left:2px solid var(--accent);padding-left:1vw">
+          <p class="t-body-sm" style="font-weight:500">高密度(＞30kW)→氟化液<br>中密度(10-30kW)→合成烃或硅油<br>低密度(＜10kW)→碳氢基</p>
+        </div>
+        <div style="border-left:2px solid var(--accent);padding-left:1vw">
+          <p class="t-body-sm" style="font-weight:500">关键指标：沸点、闪点、介电强度、热导率、粘度、材料兼容性。选择通过UL、CE认证产品。</p>
+        </div>
+        <div style="border-left:2px solid var(--accent);padding-left:1vw">
+          <p class="t-body-sm" style="font-weight:500">系统设计、现场调试等技术服务。稳定充足的产品供应。综合价格和售后服务。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 24: 经销商转型优势 (S19 Four Cards) ===== -->
+<section class="slide" data-layout="S19" data-animate="four-cards">
+  <div class="canvas-card">
+    <div class="chrome-min">
+      <div class="l">05 · 竞品格局与选型策略</div>
+      <div class="r">24 / 29</div>
+    </div>
+    <div style="flex:1;padding:0;display:flex;flex-direction:column;gap:0">
+      <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-cat accent">润滑油经销商的转型优势</div>
+        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.8vw,10.2vh);line-height:1.05;letter-spacing:-.025em">四大天然优势，转型水到渠成</h2>
+      </div>
+      <div class="rule accent" style="margin-top:2vh"></div>
+      <div class="four-cards" data-anim="up">
+        <div class="fc-col">
+          <i data-lucide="users" style="width:2vw;height:2vw;stroke-width:1.4;color:var(--accent)"></i>
+          <div class="fc-num">— 01</div>
+          <div class="fc-title">客户资源</div>
+          <div class="fc-desc">已有工业客户中可能包含数据中心或相关企业，可快速转化</div>
+        </div>
+        <div class="fc-col">
+          <i data-lucide="truck" style="width:2vw;height:2vw;stroke-width:1.4;color:var(--accent)"></i>
+          <div class="fc-num">— 02</div>
+          <div class="fc-title">渠道网络</div>
+          <div class="fc-desc">完善的销售和物流网络，可快速将液冷产品推向市场</div>
+        </div>
+        <div class="fc-col">
+          <i data-lucide="flask-conical" style="width:2vw;height:2vw;stroke-width:1.4;color:var(--accent)"></i>
+          <div class="fc-num">— 03</div>
+          <div class="fc-title">技术经验</div>
+          <div class="fc-desc">润滑油领域的润滑、散热、油品分析经验，可迁移至冷却液业务</div>
+        </div>
+        <div class="fc-col">
+          <i data-lucide="badge-check" style="width:2vw;height:2vw;stroke-width:1.4;color:var(--accent)"></i>
+          <div class="fc-num">— 04</div>
+          <div class="fc-title">品牌信任</div>
+          <div class="fc-desc">长期建立的品牌信誉，有助于客户接受新产品</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 25: 四步开始业务 (S11 Horizontal Timeline) ===== -->
+<section class="slide" data-layout="S11" data-animate="timeline-walk">
+  <div class="canvas-card">
+    <div class="chrome-min">
+      <div class="l">06 · 行动指南与未来展望</div>
+      <div class="r">25 / 29</div>
+    </div>
+    <div style="flex:1;padding:0;display:flex;flex-direction:column;gap:0">
+      <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-cat accent">如何开始液冷业务？</div>
+        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.8vw,10.2vh);line-height:1.05;letter-spacing:-.025em">四步开启您的液冷业务</h2>
+      </div>
+      <div class="timeline-h" style="margin-top:8vh" data-anim="up">
+        <span class="tl-h-axis"></span>
+        <div class="tl-row" style="grid-template-columns:repeat(4,1fr)">
+          <div class="th-node accent up"><div class="dot"></div><div class="label"><div class="yr">STEP 01</div><div class="name">市场调研与学习</div><div class="desc">了解本地市场 · 参加展会 · 订阅报告</div></div></div>
+          <div class="th-node down"><div class="dot"></div><div class="label"><div class="yr">STEP 02</div><div class="name">选择合作伙伴</div><div class="desc">选择苏能®等技术实力雄厚的供应商</div></div></div>
+          <div class="th-node up"><div class="dot"></div><div class="label"><div class="yr">STEP 03</div><div class="name">团队培训与建设</div><div class="desc">组织液冷技术培训 · 建立技术支持团队</div></div></div>
+          <div class="th-node accent down"><div class="dot"></div><div class="label"><div class="yr">STEP 04</div><div class="name">市场推广与开发</div><div class="desc">精准营销 · 产品推介会 · 样品测试</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 26: 展会信息 (S16 Multi-card Brief) ===== -->
+<section class="slide" data-layout="S16" data-animate="field-notes">
+  <div class="canvas-card">
+    <div class="chrome-min">
+      <div class="l">06 · 行动指南与未来展望</div>
+      <div class="r">26 / 29</div>
+    </div>
+    <div style="flex:1;padding:0;display:flex;flex-direction:column;gap:0">
+      <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-cat accent">2026-2027年数据中心行业展会信息</div>
+        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.2vw,9.2vh);line-height:1.05;letter-spacing:-.025em">关键展会 — 开拓市场的第一步</h2>
+      </div>
+      <div class="brief-grid" data-anim="up">
+        <div class="brief-card">
+          <div class="brief-title">第七届苏州国际数据中心液冷技术展览会</div>
+          <div class="brief-meta">2026.09.16-18 · 苏州国际博览中心</div>
+        </div>
+        <div class="brief-card">
+          <div class="brief-title">AICC 2026全球数据中心基础设施大会</div>
+          <div class="brief-meta">2026.10.16 · 上海</div>
+        </div>
+        <div class="brief-card">
+          <div class="brief-title">上海国际数据中心产业展览会</div>
+          <div class="brief-meta">2026.12.09-11 · 上海新国际博览中心</div>
+        </div>
+        <div class="brief-card">
+          <div class="brief-title">北京国际数据中心及云计算展览会</div>
+          <div class="brief-meta">2027.03.24-26 · 北京亦创国际会展中心</div>
+        </div>
+        <div class="brief-card">
+          <div class="brief-title">第八届中国数据中心绿色能源大会</div>
+          <div class="brief-meta">2027.06.03-05 · 上海新国际博览中心</div>
+        </div>
+        <div class="brief-card accent">
+          <div class="brief-title" style="color:var(--accent-on)">第十届深圳国际数据中心液冷技术展览会</div>
+          <div class="brief-meta" style="color:rgba(255,255,255,.7)">2027.06.16-18 · 深圳国际会展中心</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 27: 未来展望 (S03 Split Statement) ===== -->
+<section class="slide split" data-layout="S03" data-animate="split-statement">
+  <div class="canvas-card">
+    <div class="split-half">
+      <div class="half b-ink" style="padding:5.6vh 3.6vw 4.4vh;justify-content:space-between">
+        <div class="chrome-min" style="margin-bottom:0">
+          <div class="l">06 · 行动指南与未来展望</div>
+          <div class="r">27 / 29</div>
+        </div>
+        <div data-anim="statement" style="display:flex;flex-direction:column;gap:2vh">
+          <div class="t-meta" style="color:rgba(255,255,255,.62);letter-spacing:.22em">FUTURE OUTLOOK</div>
+          <h2 style="font-family:var(--sans),var(--sans-zh);font-size:min(7vw,12vh);line-height:.94;letter-spacing:-.025em;font-weight:200;color:#fff">未来展望：<br><span style="font-style:italic;font-weight:300">技术+市场双轮驱动</span></h2>
+        </div>
+        <div class="dot-mat" style="width:50%;height:4vh"></div>
+      </div>
+      <div class="half b-grey" style="padding:5.6vh 3.6vw 4.4vh;justify-content:center">
+        <div data-anim="rules" style="display:flex;flex-direction:column;gap:3vh">
+          <div>
+            <div class="t-cat accent">技术趋势</div>
+            <div style="display:flex;flex-direction:column;gap:.8vh;margin-top:1vh">
+              <div class="t-body-sm"><span style="color:var(--accent);font-weight:600">浸没式冷却加速发展</span> — AI算力密度进一步提升，浸没式市场份额逐步扩大</div>
+              <div class="t-body-sm"><span style="color:var(--accent);font-weight:600">冷却液国产化</span> — 国内企业技术突破，打破国外垄断，成本下降供应安全</div>
+              <div class="t-body-sm"><span style="color:var(--accent);font-weight:600">智能化运维</span> — AI+IoT实现智能监控、预测性维护和自动化管理</div>
+              <div class="t-body-sm"><span style="color:var(--accent);font-weight:600">余热回收</span> — 液冷高品质余热用于供暖、工业生产</div>
+            </div>
+          </div>
+          <div>
+            <div class="t-cat accent">市场趋势</div>
+            <div style="display:flex;flex-direction:column;gap:.8vh;margin-top:1vh">
+              <div class="t-body-sm"><span style="color:var(--accent);font-weight:600">市场集中度提高</span> — 头部企业凭技术和规模优势占据更大份额</div>
+              <div class="t-body-sm"><span style="color:var(--accent);font-weight:600">解决方案集成化</span> — 从单一产品销售转向"产品+服务+解决方案"综合模式</div>
+              <div class="t-body-sm"><span style="color:var(--accent);font-weight:600">应用场景拓展</span> — 从数据中心拓展至新能源汽车、航空航天、储能等领域</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 28: 结语 (P9 Closing Manifesto - IKB half + paper half) ===== -->
+<section class="slide split" data-layout="S10" data-animate="split-statement">
+  <div class="canvas-card">
+    <div class="split-half">
+      <div class="half b-accent" style="padding:5.6vh 3.6vw 4.4vh;justify-content:space-between;position:relative;overflow:hidden">
+        <canvas class="ascii-bg" aria-hidden="true"></canvas>
+        <div class="chrome-min" style="margin-bottom:0;position:relative;z-index:1">
+          <div class="l">28 / 29</div>
+          <div class="r">CLOSING</div>
+        </div>
+        <div data-anim="manifesto" style="display:flex;flex-direction:column;gap:2vh;position:relative;z-index:1">
+          <div class="t-meta" style="color:rgba(255,255,255,.78);letter-spacing:.22em;margin-bottom:1.6vh">拥抱变革</div>
+          <h2 style="font-family:var(--sans),var(--sans-zh);font-size:min(8vw,14vh);line-height:.94;letter-spacing:-.025em;font-weight:200;color:#fff">拥抱变革<br><span style="font-style:italic;font-weight:300">共赢未来</span></h2>
+          <div style="font-family:var(--sans),var(--sans-zh);font-size:max(13px,1vw);line-height:1.6;color:rgba(255,255,255,.82);font-weight:300;max-width:36ch;margin-top:1.4vh">数据中心液冷市场正迎来前所未有的发展机遇，这是从传统制造业向数字经济转型的绝佳机会。</div>
+        </div>
+        <div data-anim="signature" style="display:flex;justify-content:space-between;align-items:end;border-top:1px solid rgba(255,255,255,.22);padding-top:2vh;position:relative;z-index:1">
+          <div class="t-meta" style="color:rgba(255,255,255,.62)">苏能® 冷却液</div>
+          <div class="t-meta" style="color:rgba(255,255,255,.62)">2026.08</div>
+        </div>
+      </div>
+      <div class="half" style="padding:5.6vh 3.6vw 4.4vh;justify-content:space-between">
+        <div class="chrome-min"><div class="l">TAKEAWAYS</div><div class="r">03 RULES</div></div>
+        <div data-anim="rules" style="display:flex;flex-direction:column;gap:3vh">
+          <div style="display:flex;gap:2vw;align-items:flex-start">
+            <div class="t-meta" style="font-size:max(18px,2vw);font-weight:200;color:var(--accent)">01</div>
+            <div><div class="t-body" style="font-weight:600">液冷是确定性极高的增长市场</div><div class="t-body-sm" style="margin-top:.4vh">全球CAGR 25.7%，中国同比增长56.8%，千亿蓝海已至。</div></div>
+          </div>
+          <div style="display:flex;gap:2vw;align-items:flex-start">
+            <div class="t-meta" style="font-size:max(18px,2vw);font-weight:200;color:var(--accent)">02</div>
+            <div><div class="t-body" style="font-weight:600">润滑油经销商拥有天然转型优势</div><div class="t-body-sm" style="margin-top:.4vh">客户资源、渠道网络、技术经验、品牌信任四大优势可迁移。</div></div>
+          </div>
+          <div style="display:flex;gap:2vw;align-items:flex-start">
+            <div class="t-meta" style="font-size:max(18px,2vw);font-weight:200;color:var(--accent)">03</div>
+            <div><div class="t-body" style="font-weight:600;color:var(--accent)">选择苏能® 作为您的合作伙伴</div><div class="t-body-sm" style="margin-top:.4vh">优质产品、专业技术支持、完善市场服务，助您在液冷新蓝海中乘风破浪。</div></div>
+          </div>
+        </div>
+        <div class="t-meta" style="color:var(--text-helper);text-align:right">→ 完 · END OF DECK</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SLIDE 29: 联系我们 (SWISS-CLOSING) ===== -->
+<section class="slide" data-layout="SWISS-CLOSING" data-animate="grid-reveal">
+  <div class="canvas-card">
+    <div class="chrome-min">
+      <div class="l">联系我们 · CONTACT</div>
+      <div class="r">29 / 29</div>
+    </div>
+    <div style="flex:1;padding:0;display:grid;grid-template-rows:auto 1fr;gap:5vh">
+      <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
+        <div class="t-cat accent">CONTACT US</div>
+        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(6.4vw,11.2vh);line-height:1;letter-spacing:-.025em">江苏中润苏能润滑油有限公司</h2>
+      </div>
+      <div data-anim="up" style="display:grid;grid-template-columns:1fr 1fr;gap:4vw">
+        <div style="display:flex;flex-direction:column;gap:2.4vh">
+          <div style="display:flex;align-items:center;gap:1.2vw">
+            <i data-lucide="globe" style="width:1.8vw;height:1.8vw;stroke-width:1.4;color:var(--accent)"></i>
+            <div><div class="t-meta" style="font-size:13px">官方网站</div><div class="t-body" style="font-weight:500;color:var(--accent)">www.sunengoil.com</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:1.2vw">
+            <i data-lucide="phone" style="width:1.8vw;height:1.8vw;stroke-width:1.4;color:var(--accent)"></i>
+            <div><div class="t-meta" style="font-size:13px">联系电话</div><div class="t-body" style="font-weight:500">4006-518-680</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:1.2vw">
+            <i data-lucide="mail" style="width:1.8vw;height:1.8vw;stroke-width:1.4;color:var(--accent)"></i>
+            <div><div class="t-meta" style="font-size:13px">电子邮箱</div><div class="t-body" style="font-weight:500;color:var(--accent)">duanpeiwen@sunengoil.com</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:1.2vw">
+            <i data-lucide="map-pin" style="width:1.8vw;height:1.8vw;stroke-width:1.4;color:var(--accent)"></i>
+            <div><div class="t-meta" style="font-size:13px">地址</div><div class="t-body" style="font-weight:500">江苏省无锡市新吴区金城东路9-1-806</div></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;gap:2vh;background:var(--grey-1);padding:3vh 2vw">
+          <i data-lucide="handshake" style="width:4vw;height:4vw;stroke-width:1;color:var(--accent)"></i>
+          <p class="t-body" style="font-weight:300;text-align:center;max-width:24ch">有疑问随时找文哥</p>
+          <div class="rule accent" style="width:60%"></div>
+          <p class="t-body-sm" style="text-align:center;color:var(--text-helper)">苏能® 冷却液 · 数据中心热管理专家</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- end #deck -->
+
+<!-- ===== NAVIGATION ===== -->
+<div id="nav"></div>
 
 <script>
 // ===== Password System =====
 const PWDS = {
-  basic: {
-    hash: '5ed2c592965e8deaeefd7ae75a48747bb0a47ca186ed278408344c51cd31767a',
-    maxSlide: 26
-  },
-  full: {
-    hash: 'eb10461fc8affec296f6822ba924287712b18ddd5cb1cb258c018d44aa0d6cd8',
-    maxSlide: 29
-  }
+  basic: { hash: '5ed2c592965e8deaeefd7ae75a48747bb0a47ca186ed278408344c51cd31767a', maxSlide: 26 },
+  full:  { hash: 'eb10461fc8affec296f6822ba924287712b18ddd5cb1cb258c018d44aa0d6cd8', maxSlide: 29 }
 };
 
 async function sha256(msg) {
@@ -238,857 +1542,139 @@ async function checkPwd() {
   const input = document.getElementById('pwd').value.trim();
   const msg = document.getElementById('gateMsg');
   if (!input) { msg.textContent = '请输入密码'; return; }
-
   const hash = await sha256(input);
-
-  if (hash === PWDS.full.hash) {
-    unlock(PWDS.full.maxSlide);
-  } else if (hash === PWDS.basic.hash) {
-    unlock(PWDS.basic.maxSlide);
-  } else {
-    msg.textContent = '密码错误，请重试';
-    document.getElementById('pwd').value = '';
-  }
+  if (hash === PWDS.full.hash) { unlock(PWDS.full.maxSlide); }
+  else if (hash === PWDS.basic.hash) { unlock(PWDS.basic.maxSlide); }
+  else { msg.textContent = '密码错误，请重试'; document.getElementById('pwd').value = ''; }
 }
 
-function unlock(maxSlide) {
-  document.getElementById('gate').classList.add('hidden');
-  document.getElementById('nav').classList.add('visible');
-  totalSlides = maxSlide;
-  renderAll();
-  renderSlide(0);
-  document.getElementById('pwd').value = '';
-}
-
-// ===== Slide System =====
-let currentSlide = 0;
 let totalSlides = 29;
-
-function renderAll() {
-  const container = document.getElementById('slidesContainer');
-  let html = '';
-  for (let i = 0; i < totalSlides; i++) {
-    const slide = slides[i];
-    if (!slide) break;
-    html += slide.html.replace(/{num}/g, i + 1);
-  }
-  container.innerHTML = html;
+function unlock(max) {
+  document.getElementById('gate').classList.add('hidden');
+  totalSlides = max;
+  initDeck();
 }
 
-function renderSlide(idx) {
-  // Hide all, show current
-  const allSlides = document.querySelectorAll('#slidesContainer .slide');
-  allSlides.forEach((s, i) => {
-    if (i === idx) {
-      s.classList.add('active');
-      s.scrollIntoView({behavior:'smooth',block:'start'});
-    } else {
-      s.classList.remove('active');
-    }
-  });
-  document.getElementById('pageInd').textContent = `${idx+1} / ${totalSlides}`;
-  document.getElementById('prevBtn').disabled = idx === 0;
-  document.getElementById('nextBtn').disabled = idx >= totalSlides - 1;
-  currentSlide = idx;
-}
-
-function goSlide(dir) {
-  const next = currentSlide + dir;
-  if (next < 0 || next >= totalSlides) return;
-  renderSlide(next);
-}
-
-// ===== Keyboard, Touch & Mouse =====
-let touchStartX = 0;
-let touchStartY = 0;
 document.addEventListener('keydown', e => {
-  if (document.getElementById('gate').classList.contains('hidden')) {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); goSlide(1); }
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goSlide(-1); }
-    if (e.key === 'Home') { e.preventDefault(); renderSlide(0); }
-    if (e.key === 'End') { e.preventDefault(); renderSlide(totalSlides - 1); }
-  } else {
+  if (!document.getElementById('gate').classList.contains('hidden')) {
     if (e.key === 'Enter') checkPwd();
   }
 });
-document.addEventListener('touchstart', e => {
-  touchStartX = e.touches[0].clientX;
-  touchStartY = e.touches[0].clientY;
-}, {passive:true});
-document.addEventListener('touchend', e => {
-  if (!document.getElementById('gate').classList.contains('hidden')) return;
-  const dx = e.changedTouches[0].clientX - touchStartX;
-  const dy = e.changedTouches[0].clientY - touchStartY;
-  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
-    goSlide(dx < 0 ? 1 : -1);
+
+// ===== Deck Navigation =====
+let currentIdx = 0;
+
+function initDeck() {
+  const deck = document.getElementById('deck');
+  const allSlides = deck.querySelectorAll('.slide');
+  const visibleSlides = [];
+  allSlides.forEach((s,i) => { if (i < totalSlides) visibleSlides.push(s); });
+
+  // Build nav dots
+  const nav = document.getElementById('nav');
+  nav.innerHTML = '';
+  for (let i = 0; i < visibleSlides.length; i++) {
+    const dot = document.createElement('button');
+    dot.className = 'dot';
+    if (i === 0) dot.classList.add('active');
+    dot.addEventListener('click', () => goSlide(i, visibleSlides));
+    nav.appendChild(dot);
   }
-});
+  goSlide(0, visibleSlides);
 
-// Wheel with debounce
-let wheelDebounce = false;
-document.addEventListener('wheel', e => {
-  if (!document.getElementById('gate').classList.contains('hidden')) return;
-  if (wheelDebounce) return;
-  wheelDebounce = true;
-  setTimeout(() => { wheelDebounce = false; }, 600);
-  if (e.deltaY > 30) goSlide(1);
-  else if (e.deltaY < -30) goSlide(-1);
-}, {passive:true});
-
-// ===== Slide Data =====
-const slides = [];
-
-function S(label, cls, html) {
-  const labelHtml = label ? `<div class="slide-label">${label}</div>` : '';
-  slides.push({
-    html: `<div class="slide ${cls}">
-      ${labelHtml}
-      ${html}
-      <div class="slide-number">{num}</div>
-    </div>`
+  // Keyboard
+  document.addEventListener('keydown', function handler(e) {
+    if (document.getElementById('gate').classList.contains('hidden')) {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); goSlide(currentIdx + 1, visibleSlides); }
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goSlide(currentIdx - 1, visibleSlides); }
+      if (e.key === 'Home') { e.preventDefault(); goSlide(0, visibleSlides); }
+      if (e.key === 'End') { e.preventDefault(); goSlide(visibleSlides.length - 1, visibleSlides); }
+    }
   });
+
+  // Touch
+  let touchX = 0;
+  document.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, {passive:true});
+  document.addEventListener('touchend', e => {
+    if (document.getElementById('gate').classList.contains('hidden')) {
+      const dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 50) goSlide(currentIdx + (dx < 0 ? 1 : -1), visibleSlides);
+    }
+  });
+
+  // Wheel
+  let wheelLock = false;
+  document.addEventListener('wheel', e => {
+    if (document.getElementById('gate').classList.contains('hidden')) {
+      if (wheelLock) return;
+      wheelLock = true;
+      setTimeout(() => { wheelLock = false; }, 700);
+      if (e.deltaY > 30) goSlide(currentIdx + 1, visibleSlides);
+      else if (e.deltaY < -30) goSlide(currentIdx - 1, visibleSlides);
+    }
+  }, {passive:true});
+
+  // Lucide icons
+  if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
-// ============================================================
-// SLIDE 1: Cover
-// ============================================================
-S('', 'cover', `
-  <h1 style="font-size:44px;margin-bottom:20px">数据中心冷却液<br><span style="color:#4db8ff">液冷将是下一个黄金赛道</span></h1>
-  <p class="lead">从风冷到液冷，把握千亿级市场转型机遇</p>
-  <div style="margin-top:40px">
-    <span class="tag" style="font-size:16px;padding:8px 24px">苏能® 冷却液</span>
-  </div>
-  <p class="note" style="margin-top:16px">2026年8月</p>
-`);
+function goSlide(idx, slides) {
+  if (idx < 0 || idx >= slides.length) return;
+  currentIdx = idx;
+  const deck = document.getElementById('deck');
+  deck.style.transform = `translateX(-${idx * 100}vw)`;
+  // Update dots
+  const dots = document.querySelectorAll('#nav .dot');
+  dots.forEach((d,i) => { d.classList.toggle('active', i === idx); });
+}
 
-// ============================================================
-// SLIDE 2: Table of Contents
-// ============================================================
-S('', 'content', `
-  <h2 style="margin-bottom:36px">CONTENTS</h2>
-  <div class="toc-grid">
-    <div class="toc-item"><div class="toc-num">01</div><div class="toc-title">行业变革与机遇</div><div class="toc-desc">为何液冷是未来？</div></div>
-    <div class="toc-item"><div class="toc-num">02</div><div class="toc-title">市场洞察与趋势</div><div class="toc-desc">千亿蓝海，蓄势待发</div></div>
-    <div class="toc-item"><div class="toc-num">03</div><div class="toc-title">液冷技术深度解析</div><div class="toc-desc">从原理到实践</div></div>
-    <div class="toc-item"><div class="toc-num">04</div><div class="toc-title">苏能® 产品矩阵</div><div class="toc-desc">为不同场景量身定制</div></div>
-    <div class="toc-item"><div class="toc-num">05</div><div class="toc-title">竞品格局与选型策略</div><div class="toc-desc">知己知彼，百战不殆</div></div>
-    <div class="toc-item"><div class="toc-num">06</div><div class="toc-title">行动指南与未来展望</div><div class="toc-desc">开启您的液冷业务</div></div>
-  </div>
-`);
-
-// ============================================================
-// SLIDE 3: AI算力需求爆炸式增长 + 传统风冷困境
-// ============================================================
-S('01 · 行业变革与机遇', 'content', `
-  <div class="chapter-num">01</div>
-  <h2>我们正处在一个怎样的时代？</h2>
-  <div class="two-col" style="margin-top:20px">
-    <div class="col">
-      <h3>🚀 算力需求的爆炸式增长</h3>
-      <p style="margin-top:8px"><span class="highlight">AI大模型</span> — 从GPT-4到GPT-5，模型参数从万亿级向十万亿级迈进，训练算力呈指数级增长。</p>
-      <p style="margin-top:8px"><span class="highlight">数字经济</span> — 云计算、大数据、物联网、自动驾驶普及，2025年全球数据量预计达180 ZB。</p>
-      <p style="margin-top:8px"><span class="highlight">芯片功耗飙升</span> — NVIDIA Blackwell GB200，单模块功耗高达120kW，远超风冷散热极限。</p>
-    </div>
-    <div class="col">
-      <h3>⚠️ 传统风冷的困境</h3>
-      <p style="margin-top:8px"><span class="highlight">物理极限</span> — 风冷散热能力接近天花板，单机柜＞20kW后难以有效控温，芯片降频、寿命缩短。</p>
-      <p style="margin-top:8px"><span class="highlight">高能耗</span> — 冷却能耗占总能耗30%-50%，PUE通常在1.5-1.8，能源浪费严重。</p>
-      <p style="margin-top:8px"><span class="highlight">政策红线</span> — 国家标准PUE≤1.5，北京对PUE>1.35征收差别电价，合规压力巨大。</p>
-    </div>
-  </div>
-  <div class="hl-box conclusion" style="margin-top:28px">
-    <p><strong style="color:#4db8ff">结论：</strong>散热技术的变革已迫在眉睫，液冷不再是"可选项"，而是"必选项"。</p>
-  </div>
-`);
-
-// ============================================================
-// SLIDE 4: 什么是液冷技术 + 核心价值
-// ============================================================
-S('01 · 行业变革与机遇', 'content', `
-  <h2>液冷——数据中心的"制冷革命"</h2>
-  <p class="lead" style="margin-bottom:24px">利用液体作为传热介质，通过直接或间接接触将服务器热量高效带走。<br>换热效率是空气的<span class="highlight">1000-5000倍</span>，实现精准、高效、低能耗散热。</p>
-  <div class="card-row" style="margin-bottom:24px">
-    <div class="card"><div class="card-icon">⚡</div><h4>极致节能</h4><p>PUE可降至1.05-1.15，大幅降低运营成本(OPEX)</p></div>
-    <div class="card"><div class="card-icon">📦</div><h4>超高密度</h4><p>单机柜功率从20kW提升至100kW+，节省机房空间</p></div>
-    <div class="card"><div class="card-icon">🛡️</div><h4>高可靠性</h4><p>无风扇设计，降低故障率和噪音，延长硬件寿命</p></div>
-    <div class="card"><div class="card-icon">🌱</div><h4>绿色环保</h4><p>减少碳排放，符合"双碳"战略要求</p></div>
-  </div>
-  <h3 style="text-align:center;margin-top:20px">对润滑油经销商的意义</h3>
-  <div class="card-row">
-    <div class="card accent"><div class="card-icon">📈</div><h4>新的增长曲线</h4><p>从传统汽车/工业润滑油，拓展至高速增长的数字经济核心领域</p></div>
-    <div class="card accent"><div class="card-icon">💎</div><h4>高价值产品</h4><p>冷却液技术壁垒高，附加值远高于传统润滑油</p></div>
-    <div class="card accent"><div class="card-icon">🤝</div><h4>客户粘性增强</h4><p>提供整体散热解决方案，与数据中心客户建立长期合作关系</p></div>
-  </div>
-`);
-
-// ============================================================
-// SLIDE 5: 全球市场规模
-// ============================================================
-S('02 · 市场洞察与趋势', 'content', `
-  <div class="chapter-num">02</div>
-  <h2>全球市场规模与预测</h2>
-  <div class="data-row">
-    <div class="data-item">
-      <div class="data-label">2026年预计</div>
-      <div class="big-num">64.1<span class="big-num-unit">亿美元</span></div>
-    </div>
-    <div style="color:#3a5a78;font-size:32px;align-self:center">→</div>
-    <div class="data-item">
-      <div class="data-label">2030年预计</div>
-      <div class="big-num">161.6<span class="big-num-unit">亿美元</span></div>
-    </div>
-  </div>
-  <div class="data-item" style="margin-bottom:24px">
-    <div class="data-label">复合年增长率 (CAGR)</div>
-    <div class="big-num">25.7<span class="big-num-unit">%</span></div>
-  </div>
-  <div class="hl-box">
-    <p><strong style="color:#4db8ff">核心驱动因素：</strong>AI算力需求 · 高功耗芯片普及(如NVIDIA Blackwell) · 全球能效政策趋严</p>
-  </div>
-  <p class="note">数据来源：EIN Presswire 行业报告</p>
-`);
-
-// ============================================================
-// SLIDE 6: 中国市场
-// ============================================================
-S('02 · 市场洞察与趋势', 'content', `
-  <h2>中国市场规模与预测</h2>
-  <div class="data-row" style="margin-bottom:20px">
-    <div class="data-item">
-      <div class="data-label">2026年预测规模</div>
-      <div class="big-num">942<span class="big-num-unit">亿元</span></div>
-    </div>
-    <div style="color:#3a5a78;font-size:32px;align-self:center">→</div>
-    <div class="data-item">
-      <div class="data-label">2027年预计规模</div>
-      <div class="big-num">1478<span class="big-num-unit">亿元</span></div>
-    </div>
-  </div>
-  <p class="lead" style="margin-bottom:20px">同比增长 <span style="color:#4db8ff;font-size:28px;font-weight:700">56.8%</span> — 中国液冷市场正处于高速爆发期</p>
-  <div class="hl-box" style="margin-bottom:16px">
-    <p><strong style="color:#4db8ff">渗透率预测：</strong>
-    2025年 <strong style="color:#e8edf2">20%</strong> →
-    2026年 <strong style="color:#4db8ff">37%</strong> →
-    2027年预计突破 <strong style="color:#4ec98a">50%</strong> 全面普及阶段</p>
-    <p style="margin-top:6px">高端AI训练机房渗透率已接近 <strong style="color:#4db8ff">80%</strong></p>
-  </div>
-  <p class="lead">中国作为全球最大单一液冷市场，将长期占据全球 <span class="highlight">35-40%</span> 市场份额，增速持续领跑全球。</p>
-  <p class="note">数据来源：东吴证券预测</p>
-`);
-
-// ============================================================
-// SLIDE 7: 政策驱动
-// ============================================================
-S('02 · 市场洞察与趋势', 'content', `
-  <h2>政策驱动——不可逆转的绿色浪潮</h2>
-  <div class="card-row" style="margin-top:20px">
-    <div class="card accent" style="max-width:300px">
-      <div class="card-icon">📜</div>
-      <h4>国家强制标准</h4>
-      <p style="font-size:13px;margin-bottom:6px">GB 40879-2021<br>《数据中心能效限定值及能效等级》</p>
-      <p>明确规定数据中心能效限定值为 <strong style="color:#4db8ff">PUE ≤ 1.50</strong>。新建数据中心必须采用高效冷却技术，存量数据中心面临改造压力。</p>
-    </div>
-    <div class="card accent" style="max-width:300px">
-      <div class="card-icon">🏙️</div>
-      <h4>地方政策加码</h4>
-      <p style="font-size:13px;margin-bottom:6px">北京差别电价 · 东数西算</p>
-      <p>北京对PUE＞1.35的存量数据中心征收差别电价(加价0.2-0.5元/kWh)。"东数西算"8大枢纽节点，液冷是重点推荐技术。</p>
-    </div>
-    <div class="card accent" style="max-width:300px">
-      <div class="card-icon">🌍</div>
-      <h4>"双碳"战略</h4>
-      <p style="font-size:13px;margin-bottom:6px">碳达峰 · 碳中和</p>
-      <p>数据中心作为高耗能产业，是实现双碳目标的关键领域。液冷凭借卓越节能效果，是数据中心低碳运营的核心路径。</p>
-    </div>
-  </div>
-`);
-
-// ============================================================
-// SLIDE 8: 技术驱动 - NVIDIA Blackwell
-// ============================================================
-S('02 · 市场洞察与趋势', 'content', `
-  <h2>技术驱动——芯片巨头的"液冷宣言"</h2>
-  <div class="data-row" style="margin-bottom:24px">
-    <div class="data-item">
-      <div class="data-label">NVIDIA Blackwell GB200 NVL72</div>
-      <div class="big-num">120<span class="big-num-unit">kW</span></div>
-      <div class="data-label">集成900个GB200芯片</div>
-    </div>
-  </div>
-  <div class="card-row">
-    <div class="card"><div class="card-icon">🎯</div><h4>液冷标配</h4><p>NVIDIA官方明确要求GB200平台必须采用直接芯片冷却(D2C)方案</p></div>
-    <div class="card"><div class="card-icon">🌡️</div><h4>高温运行</h4><p>冷却液工作温度45-70℃，可利用工业余热</p></div>
-    <div class="card"><div class="card-icon">💧</div><h4>大流量需求</h4><p>单机柜冷却液流量达200升/分钟</p></div>
-  </div>
-  <p class="note" style="margin-top:16px">Intel、AMD等厂商同样在其最新高性能处理器中为液冷接口预留标准，推动液冷成为行业标配。</p>
-  <div class="hl-box conclusion" style="margin-top:20px">
-    <p><strong style="color:#4db8ff">结论：</strong>芯片技术的发展已为液冷市场打开巨大需求空间，经销商应紧跟巨头步伐，提前布局。</p>
-  </div>
-`);
-
-// ============================================================
-// SLIDE 9: 三大主流路线
-// ============================================================
-S('03 · 液冷技术深度解析', 'content', `
-  <div class="chapter-num">03</div>
-  <h2>三大主流液冷路线</h2>
-  <div class="three-col" style="margin-top:20px">
-    <div class="col">
-      <div class="card accent" style="max-width:100%">
-        <div style="font-size:40px;font-weight:800;color:#4db8ff;line-height:1">01</div>
-        <h4 style="margin-top:8px">冷板式液冷</h4>
-        <p style="font-size:12px;color:#6b8ca8;margin-bottom:8px">Cold Plate</p>
-        <p style="font-size:13px"><strong>原理：</strong>金属冷板贴附在CPU/GPU上，冷却液循环带走热量。</p>
-        <p style="font-size:13px;margin-top:6px"><strong>特点：</strong>非接触式冷却，技术成熟度最高，占市场<span class="highlight">85%+</span>份额。</p>
-        <p style="font-size:13px;margin-top:6px"><strong>优势：</strong>兼容性好，可与风冷混合部署，成本相对较低。</p>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card" style="max-width:100%">
-        <div style="font-size:40px;font-weight:800;color:#90b8d8;line-height:1">02</div>
-        <h4 style="margin-top:8px">浸没式液冷</h4>
-        <p style="font-size:12px;color:#6b8ca8;margin-bottom:8px">Immersion Cooling</p>
-        <p style="font-size:13px"><strong>原理：</strong>服务器直接浸泡在冷却液中，通过液体对流或相变带走热量。</p>
-        <p style="font-size:13px;margin-top:6px"><strong>特点：</strong>散热效率最高，PUE可降至<span class="highlight">1.05以下</span>，无漏液风险。</p>
-        <p style="font-size:13px;margin-top:6px"><strong>挑战：</strong>对服务器和机柜设计要求高，初期投资较大。</p>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card" style="max-width:100%">
-        <div style="font-size:40px;font-weight:800;color:#5a7a94;line-height:1">03</div>
-        <h4 style="margin-top:8px">喷淋式液冷</h4>
-        <p style="font-size:12px;color:#6b8ca8;margin-bottom:8px">Spray Cooling</p>
-        <p style="font-size:13px"><strong>原理：</strong>冷却液直接喷淋到发热部件表面。</p>
-        <p style="font-size:13px;margin-top:6px"><strong>特点：</strong>散热能力强，冷却液用量少。</p>
-        <p style="font-size:13px;margin-top:6px"><strong>挑战：</strong>服务器结构改造成本高，目前市场应用较少。</p>
-      </div>
-    </div>
-  </div>
-`);
-
-// ============================================================
-// SLIDE 10: 冷板式液冷系统详解
-// ============================================================
-S('03 · 液冷技术深度解析', 'content', `
-  <h2>冷板式液冷系统详解</h2>
-  <div class="two-col" style="margin-top:16px">
-    <div class="col">
-      <h3>系统构成</h3>
-      <p style="margin-top:8px"><span class="highlight">IT设备侧（二次侧）：</span></p>
-      <ul style="list-style:none;padding-left:0;margin-top:6px">
-        <li style="padding-left:16px;position:relative;line-height:2"><span style="position:absolute;left:0;color:#4db8ff">▸</span>冷板 — 贴附CPU/GPU，核心换热部件</li>
-        <li style="padding-left:16px;position:relative;line-height:2"><span style="position:absolute;left:0;color:#4db8ff">▸</span>快速接头 — 连接冷板与管路，便于维护</li>
-        <li style="padding-left:16px;position:relative;line-height:2"><span style="position:absolute;left:0;color:#4db8ff">▸</span>CDU — 加压、过滤、温度控制</li>
-        <li style="padding-left:16px;position:relative;line-height:2"><span style="position:absolute;left:0;color:#4db8ff">▸</span>管路 — 输送冷却液</li>
-      </ul>
-      <p style="margin-top:10px"><span class="highlight">室外侧（一次侧）：</span></p>
-      <ul style="list-style:none;padding-left:0;margin-top:6px">
-        <li style="padding-left:16px;position:relative;line-height:2"><span style="position:absolute;left:0;color:#4db8ff">▸</span>板式换热器 — 一/二次侧热量交换</li>
-        <li style="padding-left:16px;position:relative;line-height:2"><span style="position:absolute;left:0;color:#4db8ff">▸</span>冷却塔 — 热量散发到大气</li>
-        <li style="padding-left:16px;position:relative;line-height:2"><span style="position:absolute;left:0;color:#4db8ff">▸</span>水泵 — 驱动一次侧循环</li>
-      </ul>
-    </div>
-    <div class="col">
-      <h3>工作流程</h3>
-      <div class="flow-row" style="flex-direction:column;align-items:stretch;gap:10px;margin-top:16px">
-        <div style="display:flex;align-items:center;gap:12px"><div class="flow-step" style="flex:1"><div class="step-num">1</div><div class="step-txt">低温冷却液从CDU流出，经管路进入服务器冷板</div></div></div>
-        <div style="text-align:center;color:#3a5a78;font-size:18px">↓</div>
-        <div style="display:flex;align-items:center;gap:12px"><div class="flow-step" style="flex:1"><div class="step-num">2</div><div class="step-txt">冷却液吸收CPU/GPU热量后温度升高</div></div></div>
-        <div style="text-align:center;color:#3a5a78;font-size:18px">↓</div>
-        <div style="display:flex;align-items:center;gap:12px"><div class="flow-step" style="flex:1"><div class="step-num">3</div><div class="step-txt">高温冷却液流回CDU，与一次侧冷却液换热</div></div></div>
-        <div style="text-align:center;color:#3a5a78;font-size:18px">↓</div>
-        <div style="display:flex;align-items:center;gap:12px"><div class="flow-step" style="flex:1"><div class="step-num">4</div><div class="step-txt">降温后的冷却液再次进入冷板循环</div></div></div>
-        <div style="text-align:center;color:#3a5a78;font-size:18px">↓</div>
-        <div style="display:flex;align-items:center;gap:12px"><div class="flow-step" style="flex:1"><div class="step-num">5</div><div class="step-txt">一次侧冷却液泵送至冷却塔进行冷却</div></div></div>
-      </div>
-    </div>
-  </div>
-`);
-
-// ============================================================
-// SLIDE 11: 浸没式液冷系统详解
-// ============================================================
-S('03 · 液冷技术深度解析', 'content', `
-  <h2>浸没式液冷系统详解</h2>
-  <div class="two-col" style="margin-top:20px">
-    <div class="col">
-      <div class="card" style="max-width:100%;text-align:left">
-        <h4 style="font-size:18px">单相浸没式</h4>
-        <p style="font-size:13px;margin-top:8px"><strong>系统构成：</strong>浸没槽、冷却液、外置换热系统(CDU+冷却塔)</p>
-        <p style="font-size:13px;margin-top:6px"><strong>工作流程：</strong>服务器浸泡在冷却液中，热量通过自然对流传递给冷却液。冷却液泵送至外置CDU，与一次侧冷却水换热后返回浸没槽。</p>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card" style="max-width:100%;text-align:left">
-        <h4 style="font-size:18px">两相浸没式</h4>
-        <p style="font-size:13px;margin-top:8px"><strong>系统构成：</strong>密封浸没槽、冷却液、冷凝器</p>
-        <p style="font-size:13px;margin-top:6px"><strong>工作流程：</strong>服务器热量使冷却液沸腾汽化，蒸汽上升至顶部冷凝器后液化，液体依靠重力流回槽底，形成自然循环。</p>
-      </div>
-    </div>
-  </div>
-  <div class="hl-box" style="margin-top:24px">
-    <h4 style="color:#4db8ff;margin-bottom:8px">核心优势</h4>
-    <p><span style="color:#4ec98a">极致散热</span> — 直接接触，无热点，散热效率最大化</p>
-    <p><span style="color:#4ec98a">高可靠性</span> — 无风扇、无泵(两相)，减少故障点</p>
-    <p><span style="color:#4ec98a">简化设计</span> — 服务器无需风扇和散热片，设计更紧凑</p>
-  </div>
-`);
-
-// ============================================================
-// SLIDE 12: 冷却液类型对比表
-// ============================================================
-S('03 · 液冷技术深度解析', 'content', `
-  <h2>冷却液类型对比与选型</h2>
-  <div class="tbl-wrap">
-    <table class="tbl">
-      <thead><tr><th style="width:12%"></th><th style="width:22%">碳氢基</th><th style="width:22%">合成烃</th><th style="width:22%">硅基</th><th style="width:22%">氟化液</th></tr></thead>
-      <tbody>
-        <tr><td>价格(约)</td><td>2-4万元/吨</td><td>4-10万元/吨</td><td>5-12万元/吨</td><td>10-40万元/吨</td></tr>
-        <tr><td>闪点</td><td class="warn">低(可燃)</td><td class="warn">较高(可燃)</td><td class="good">高(难燃)</td><td class="good">无(不燃)</td></tr>
-        <tr><td>介电强度</td><td>中等</td><td class="good">高</td><td class="good">高</td><td class="good">极高</td></tr>
-        <tr><td>热导率</td><td class="warn">较低</td><td>中等</td><td class="good">较高</td><td>中等</td></tr>
-        <tr><td>粘度</td><td>中等</td><td class="good">低</td><td class="warn">高</td><td class="good">低</td></tr>
-        <tr><td>材料兼容性</td><td class="warn">需测试</td><td class="good">较好</td><td class="warn">需测试</td><td class="good">极佳</td></tr>
-        <tr><td>使用寿命</td><td class="warn">较短(易氧化)</td><td class="good">长(5-8年)</td><td class="good">较长</td><td class="good">很长(>10年)</td></tr>
-        <tr><td>适用场景</td><td>低密度冷板<br>过渡项目</td><td>中高密度冷板<br>单相浸没</td><td>中高密度<br>单相浸没</td><td>超高密度两相/单相浸没<br>高安全等级场景</td></tr>
-        <tr><td>代表品牌</td><td>传统润滑油厂商</td><td>壳牌、苏能®</td><td>道康宁、苏能®</td><td>3M、科慕、苏能®</td></tr>
-      </tbody>
-    </table>
-  </div>
-`);
-
-// ============================================================
-// SLIDE 13: TCO优势分析
-// ============================================================
-S('03 · 液冷技术深度解析', 'content', `
-  <h2>液冷的TCO（总拥有成本）优势分析</h2>
-  <div class="two-col" style="margin-top:20px">
-    <div class="col">
-      <div class="card" style="max-width:100%;text-align:left">
-        <h4 style="color:#e0a850">CAPEX（初始投资）</h4>
-        <p style="font-size:14px;margin-top:8px">液冷系统初始投资比风冷高<strong>30%-50%</strong>。增量来自：冷板/浸没槽、CDU、冷却液、管路系统。</p>
-        <p style="font-size:13px;color:#6b8ca8;margin-top:8px">趋势：国产化和规模化应用，预计2026年液冷CAPEX将下降15%-20%。</p>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card accent" style="max-width:100%;text-align:left">
-        <h4 style="color:#4ec98a">OPEX（运营成本）</h4>
-        <p style="font-size:14px;margin-top:8px"><span class="highlight">电力成本</span> — PUE从1.5-1.8降至1.05-1.15，节省大量电费</p>
-        <p style="font-size:14px;margin-top:4px"><span class="highlight">维护成本</span> — 减少风扇、空调等机械部件，降低故障率</p>
-        <p style="font-size:14px;margin-top:4px"><span class="highlight">空间成本</span> — 更高机柜密度摊薄土地和建筑成本</p>
-      </div>
-    </div>
-  </div>
-  <div class="hl-box conclusion" style="margin-top:24px">
-    <p><strong style="color:#4db8ff">TCO交叉点：</strong>当机柜功率密度超过<strong>20kW</strong>时，液冷方案的TCO优势开始显现。高密度场景下，液冷TCO可比风冷低<strong>30%以上</strong>（考虑碳交易成本后）。一个10MW的数据中心，采用液冷预计<strong>3-5年</strong>即可收回初期增加的投资。</p>
-  </div>
-`);
-
-// ============================================================
-// SLIDE 14: 运维挑战与应对
-// ============================================================
-S('03 · 液冷技术深度解析', 'content', `
-  <h2>液冷数据中心的运维挑战与应对</h2>
-  <div style="max-width:860px;width:100%;margin-top:16px">
-    <div class="card" style="max-width:100%;text-align:left;margin-bottom:16px">
-      <h4 style="color:#e05555">01&emsp;漏液风险</h4>
-      <p style="font-size:14px;margin-top:6px"><strong>问题：</strong>冷板式液冷管路接头是潜在漏点，一旦泄漏可能损坏昂贵服务器。</p>
-      <p style="font-size:14px;margin-top:6px"><span style="color:#4ec98a">应对：</span>优质耐腐蚀管路和接头 · 高精度漏液传感器和报警系统 · 插拔式快速接头便于快速隔离维护</p>
-    </div>
-    <div class="card" style="max-width:100%;text-align:left;margin-bottom:16px">
-      <h4 style="color:#e0a850">02&emsp;冷却液维护</h4>
-      <p style="font-size:14px;margin-top:6px"><strong>问题：</strong>冷却液可能因微生物滋生、氧化、杂质混入等变质，导致电导率升高、腐蚀管路。</p>
-      <p style="font-size:14px;margin-top:6px"><span style="color:#4ec98a">应对：</span>每月检测电导率/PH值/浊度 · CDU集成高效过滤器和离子交换树脂 · 选用抗氧化稳定性强的冷却液</p>
-    </div>
-    <div class="card" style="max-width:100%;text-align:left">
-      <h4 style="color:#4db8ff">03&emsp;专业技能要求</h4>
-      <p style="font-size:14px;margin-top:6px"><strong>问题：</strong>液冷系统运维与传统风冷完全不同，需专业知识和技能。</p>
-      <p style="font-size:14px;margin-top:6px"><span style="color:#4ec98a">应对：</span>对运维人员进行系统液冷技术培训 · 制定详细运维手册和应急预案 · 与冷却液供应商(如苏能®)建立紧密合作获取技术支持</p>
-    </div>
-  </div>
-`);
-
-// ============================================================
-// SLIDE 15: 苏能品牌理念
-// ============================================================
-S('04 · 苏能® 产品矩阵', 'content', `
-  <div class="chapter-num">04</div>
-  <h2>苏能® 品牌理念</h2>
-  <div class="card-row" style="margin-top:24px">
-    <div class="card accent">
-      <div class="card-icon">🎯</div>
-      <h4>品牌定位</h4>
-      <p>数据中心热管理专家<br>为客户提供高效、可靠、绿色的冷却液解决方案</p>
-    </div>
-    <div class="card accent">
-      <div class="card-icon">⭐</div>
-      <h4>核心价值</h4>
-      <p><strong>技术领先</strong> — 专注液冷研发<br><strong>品质卓越</strong> — 优质原材料和添加剂<br><strong>服务至上</strong> — 全生命周期服务</p>
-    </div>
-    <div class="card accent">
-      <div class="card-icon">🌍</div>
-      <h4>使命</h4>
-      <p>助力数据中心实现极致能效<br>驱动数字经济绿色发展</p>
-    </div>
-  </div>
-`);
-
-// ============================================================
-// SLIDE 16: 清烃™
-// ============================================================
-S('04 · 苏能® 产品矩阵', 'content', `
-  <div class="product-card">
-    <div class="prod-icon">🛢️</div>
-    <div class="prod-name">苏能® 清烃™</div>
-    <div class="prod-tag">碳氢基冷却液 · 经济入门</div>
-    <div class="prod-features">
-      <li>采用深度精制碳氢基原材料，纯度高，芳烃含量低</li>
-      <li>添加专用抗氧化、抗腐蚀和消泡添加剂</li>
-      <li>良好的介电性能和热稳定性</li>
-      <li><strong style="color:#4ec98a">成本优势</strong> — 价格最低，转型液冷业务的理想切入点</li>
-      <li>供应成熟，基础油供应渠道广泛</li>
-      <li>与大部分橡胶和塑料部件兼容性好</li>
-    </div>
-    <div class="prod-scene">
-      <h5>适用场景 & 目标客户</h5>
-      <p>功率密度10kW以下的冷板式液冷系统；对成本敏感的示范项目或改造项目；储能电池柜。→ 中小型数据中心、边缘计算节点、储能系统集成商</p>
-    </div>
-  </div>
-`);
-
-// ============================================================
-// SLIDE 17: 硅盾™
-// ============================================================
-S('04 · 苏能® 产品矩阵', 'content', `
-  <div class="product-card">
-    <div class="prod-icon">🛡️</div>
-    <div class="prod-name">苏能® 硅盾™</div>
-    <div class="prod-tag">硅基冷却液 · 高安全浸没</div>
-    <div class="prod-features">
-      <li>高纯度聚二甲基硅氧烷为基础材料</li>
-      <li>闪点＞300℃，属于难燃液体，安全性极佳</li>
-      <li>极低表面张力，充分浸润电子元器件</li>
-      <li>化学性质稳定，不易与其他物质反应</li>
-      <li><strong style="color:#4ec98a">高安全性</strong> — 难燃特性大幅降低火灾风险</li>
-      <li>介电强度高，确保电气安全；抗氧化性强，使用寿命可达10年以上</li>
-    </div>
-    <div class="prod-scene">
-      <h5>适用场景 & 目标客户</h5>
-      <p>功率密度10-30kW的单相浸没式液冷系统；对消防安全要求高的数据中心；HPC集群。→ 政府、金融、科研等高端数据中心，HPC中心</p>
-    </div>
-  </div>
-`);
-
-// ============================================================
-// SLIDE 18: 净冷™
-// ============================================================
-S('04 · 苏能® 产品矩阵', 'content', `
-  <div class="product-card">
-    <div class="prod-icon">⚗️</div>
-    <div class="prod-name">苏能® 净冷™</div>
-    <div class="prod-tag">合成烃冷却液 · 性能主力</div>
-    <div class="prod-features">
-      <li>采用聚α-烯烃技术或CTL费托法技术为基原料，合成工艺先进</li>
-      <li>倾点低，低温流动性好，适应各种环境温度</li>
-      <li>粘度指数高，粘温性能优异</li>
-      <li>出色的抗氧化安定性和水解安定性</li>
-      <li><strong style="color:#4ec98a">性能均衡</strong> — 综合矿物油经济性和合成油高性能</li>
-      <li>换油周期可达5-8年，降低维护成本</li>
-    </div>
-    <div class="prod-scene">
-      <h5>适用场景 & 目标客户</h5>
-      <p>功率密度10-20kW冷板式 / 10-30kW浸没式，大部分新建与改造项目。→ 大型互联网公司、云服务商、第三方数据中心运营商</p>
-    </div>
-  </div>
-`);
-
-// ============================================================
-// SLIDE 19: 极氟™
-// ============================================================
-S('04 · 苏能® 产品矩阵', 'content', `
-  <div class="product-card">
-    <div class="prod-icon">❄️</div>
-    <div class="prod-name">苏能® 极氟™</div>
-    <div class="prod-tag">氟化液冷却液 · 未来超高密度</div>
-    <div class="prod-features">
-      <li>全氟聚醚(PFPE)或氢氟醚(HFE)为基础油，全合成工艺</li>
-      <li>不燃、无毒、无味，安全性达到最高等级</li>
-      <li>介电强度极高，化学惰性强，与所有金属和塑料兼容</li>
-      <li>可根据需要设计不同沸点，适用于单相或两相浸没</li>
-      <li><strong style="color:#4ec98a">极致安全</strong> — 完全不燃，消除任何火灾隐患</li>
-      <li>卓越兼容性，化学性质极其稳定，理论上可终身使用</li>
-    </div>
-    <div class="prod-scene">
-      <h5>适用场景 & 目标客户</h5>
-      <p>功率密度30kW以上的超高密度数据中心、两相浸没式液冷、AI训练集群、超算中心。→ 顶级互联网巨头、国家级超算中心、AI芯片制造商</p>
-    </div>
-  </div>
-`);
-
-// ============================================================
-// SLIDE 20: 全球主流品牌概览
-// ============================================================
-S('05 · 竞品格局与选型策略', 'content', `
-  <div class="chapter-num">05</div>
-  <h2>全球主流冷却液品牌概览</h2>
-  <div class="two-col" style="margin-top:20px">
-    <div class="col">
-      <h3>🌐 国际巨头</h3>
-      <div class="card" style="max-width:100%;text-align:left;margin-top:12px">
-        <p style="font-size:14px"><span class="highlight">3M</span> — 氟化液领域开创者和领导者，Fluorinert™和Novec™两大系列，品牌认可度高</p>
-        <p style="font-size:14px;margin-top:8px"><span class="highlight">科慕 Chemours</span> — 原杜邦旗下氟化学业务，Opteon™系列氟化液，3M主要竞争对手</p>
-        <p style="font-size:14px;margin-top:8px"><span class="highlight">壳牌 Shell</span> — GTL技术优势，合成烃类浸没式冷却液，性价比和环保有竞争力</p>
-        <p style="font-size:14px;margin-top:8px"><span class="highlight">道康宁 Dow Corning</span> — 硅油领域领导者，高品质硅油基冷却液</p>
-      </div>
-    </div>
-    <div class="col">
-      <h3>🇨🇳 国内新锐</h3>
-      <div class="card accent" style="max-width:100%;text-align:left;margin-top:12px">
-        <p style="font-size:14px"><span class="highlight">润禾材料</span> — 国内电子氟化液领先企业，产品已进入头部互联网公司供应链，性价比高</p>
-        <p style="font-size:14px;margin-top:8px"><span class="highlight">其他厂商</span> — 随着市场爆发，越来越多化工和润滑油企业开始布局液冷市场</p>
-        <p style="font-size:14px;margin-top:12px;color:#4ec98a"><strong>整个市场正在从外资主导走向国产替代阶段，对本土经销商是巨大机遇。</strong></p>
-      </div>
-    </div>
-  </div>
-`);
-
-// ============================================================
-// SLIDE 21: 氟化液产品对比表
-// ============================================================
-S('05 · 竞品格局与选型策略', 'content', `
-  <h2>主流氟化液产品对比</h2>
-  <div class="tbl-wrap" style="margin-top:16px">
-    <table class="tbl">
-      <thead><tr><th>指标</th><th class="brand">苏能® 极氟™-F47</th><th>3M™ Novec™ 7100</th><th>科慕™ Opteon™ SF-79</th><th>润禾 Niflon EC-2100</th></tr></thead>
-      <tbody>
-        <tr><td>类型</td><td>两相</td><td>—</td><td>—</td><td>—</td></tr>
-        <tr><td>沸点 (℃)</td><td>47</td><td>61</td><td>56</td><td>55</td></tr>
-        <tr><td>倾点 (℃)</td><td>-75</td><td>-90</td><td>-80</td><td>-78</td></tr>
-        <tr><td>汽化热 (kJ/kg)</td><td>48</td><td>105</td><td>95</td><td>100</td></tr>
-        <tr><td>介电强度 (kV)</td><td class="good">>40</td><td class="good">>40</td><td class="good">>40</td><td class="good">>40</td></tr>
-        <tr><td>GWP</td><td class="good">&lt;1</td><td class="good">&lt;1</td><td class="good">&lt;1</td><td class="good">&lt;1</td></tr>
-        <tr><td>特点</td><td class="brand">专为AI高密场景优化<br>性价比突出</td><td>市场领导者<br>性能稳定，品牌力强</td><td>性能均衡<br>与3M产品兼容</td><td>国产替代首选<br>成本优势明显</td></tr>
-      </tbody>
-    </table>
-  </div>
-`);
-
-// ============================================================
-// SLIDE 22: 合成烃/碳氢对比表
-// ============================================================
-S('05 · 竞品格局与选型策略', 'content', `
-  <h2>主流合成烃 / 碳氢产品对比</h2>
-  <div class="tbl-wrap" style="margin-top:16px">
-    <table class="tbl">
-      <thead><tr><th>指标</th><th class="brand">苏能® 净冷™</th><th>壳牌 Immersion Fluid S5 X</th><th class="brand">苏能® 清烃™</th></tr></thead>
-      <tbody>
-        <tr><td>基础油类型</td><td>合成烃技术</td><td>费托法技术</td><td>精制基础油</td></tr>
-        <tr><td>闪点 (℃)</td><td class="good">>200</td><td class="good">>200</td><td>>160</td></tr>
-        <tr><td>粘度 (cSt @40℃)</td><td>5.0</td><td>4.5</td><td>6.0</td></tr>
-        <tr><td>优点</td><td class="good">低温流动性好<br>抗氧化性强</td><td class="good">基于GTL技术<br>性能优异，环保</td><td class="good">成本最低<br>供应广泛</td></tr>
-        <tr><td>缺点</td><td class="warn">成本较高</td><td class="warn">价格较高</td><td class="warn">抗氧化性一般<br>寿命较短</td></tr>
-        <tr><td>适用场景</td><td>冷板/单相浸没</td><td>单相浸没</td><td>低密度冷板</td></tr>
-      </tbody>
-    </table>
-  </div>
-`);
-
-// ============================================================
-// SLIDE 23: 选型策略三步法
-// ============================================================
-S('05 · 竞品格局与选型策略', 'content', `
-  <h2>冷却液选型策略</h2>
-  <div class="flow-row" style="flex-direction:column;align-items:stretch;gap:0;max-width:800px;margin:0 auto">
-    <div class="card" style="max-width:100%;text-align:left">
-      <h4 style="color:#4db8ff">01&emsp;明确需求</h4>
-      <ul class="checklist" style="margin-top:8px">
-        <li><strong>功率密度：</strong>高密度(＞30kW)→氟化液；中密度(10-30kW)→合成烃或硅油；低密度(＜10kW)→碳氢基</li>
-        <li><strong>技术路线：</strong>冷板式→碳氢油或合成烃；浸没式→根据安全/成本选合成烃、硅油或氟化液</li>
-        <li><strong>安全等级：</strong>金融、政府等关键领域→优先不燃氟化液或难燃硅油</li>
-      </ul>
-    </div>
-    <div style="text-align:center;color:#3a5a78;font-size:20px;margin:4px 0">↓</div>
-    <div class="card" style="max-width:100%;text-align:left">
-      <h4 style="color:#4db8ff">02&emsp;评估产品性能</h4>
-      <ul class="checklist" style="margin-top:8px">
-        <li>关注关键指标：沸点、闪点、介电强度、热导率、粘度、材料兼容性</li>
-        <li>选择通过权威机构认证(如UL、CE)的产品</li>
-      </ul>
-    </div>
-    <div style="text-align:center;color:#3a5a78;font-size:20px;margin:4px 0">↓</div>
-    <div class="card" style="max-width:100%;text-align:left">
-      <h4 style="color:#4db8ff">03&emsp;考虑供应商能力</h4>
-      <ul class="checklist" style="margin-top:8px">
-        <li><strong>技术支持：</strong>供应商能否提供系统设计、现场调试等技术服务</li>
-        <li><strong>供应保障：</strong>能否保证稳定、充足的产品供应</li>
-        <li><strong>成本与服务：</strong>综合考虑产品价格和售后服务</li>
-      </ul>
-    </div>
-  </div>
-`);
-
-// ============================================================
-// SLIDE 24: 经销商转型优势
-// ============================================================
-S('05 · 竞品格局与选型策略', 'content', `
-  <h2>润滑油经销商的转型优势</h2>
-  <div class="card-row" style="margin-top:24px">
-    <div class="card accent">
-      <div style="font-size:40px;font-weight:800;color:#4db8ff;line-height:1">01</div>
-      <h4 style="margin-top:8px">客户资源</h4>
-      <p>已有工业客户中可能包含数据中心或相关企业，可快速转化</p>
-    </div>
-    <div class="card accent">
-      <div style="font-size:40px;font-weight:800;color:#4db8ff;line-height:1">02</div>
-      <h4 style="margin-top:8px">渠道网络</h4>
-      <p>完善的销售和物流网络，可快速将液冷产品推向市场</p>
-    </div>
-  </div>
-  <div class="card-row" style="margin-top:16px">
-    <div class="card accent">
-      <div style="font-size:40px;font-weight:800;color:#4db8ff;line-height:1">03</div>
-      <h4 style="margin-top:8px">技术经验</h4>
-      <p>润滑油领域积累的润滑、散热、油品分析经验，可迁移至冷却液业务</p>
-    </div>
-    <div class="card accent">
-      <div style="font-size:40px;font-weight:800;color:#4db8ff;line-height:1">04</div>
-      <h4 style="margin-top:8px">品牌信任</h4>
-      <p>长期建立的品牌信誉，有助于客户接受新产品</p>
-    </div>
-  </div>
-`);
-
-// ============================================================
-// SLIDE 25: 四步开始液冷业务
-// ============================================================
-S('06 · 行动指南与未来展望', 'content', `
-  <div class="chapter-num">06</div>
-  <h2>如何开始液冷业务？</h2>
-  <div class="flow-row" style="margin-top:20px">
-    <div class="flow-step">
-      <div class="step-num">01</div>
-      <div class="step-txt">市场调研与学习</div>
-      <div class="step-detail">深入了解本地数据中心市场<br>参加行业展会和研讨会<br>订阅行业报告</div>
-    </div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-step">
-      <div class="step-num">02</div>
-      <div class="step-txt">选择合作伙伴</div>
-      <div class="step-detail">选择苏能®等技术实力雄厚<br>产品体系完善的供应商<br>与系统集成商合作</div>
-    </div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-step">
-      <div class="step-num">03</div>
-      <div class="step-txt">团队培训与建设</div>
-      <div class="step-detail">组织液冷技术培训<br>建立专业技术支持团队<br>提供方案设计咨询</div>
-    </div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-step">
-      <div class="step-num">04</div>
-      <div class="step-txt">市场推广与开发</div>
-      <div class="step-detail">精准营销目标客户<br>举办产品推介会<br>提供样品和测试服务</div>
-    </div>
-  </div>
-`);
-
-// ============================================================
-// SLIDE 26: 展会信息
-// ============================================================
-S('06 · 行动指南与未来展望', 'content', `
-  <h2>2026-2027年数据中心行业展会信息</h2>
-  <h3 style="text-align:center;margin-bottom:12px">2026年下半年</h3>
-  <div class="expo-row" style="margin-bottom:20px">
-    <div class="expo-card">
-      <div class="expo-date">2026.09.16-18</div>
-      <div class="expo-name">第七届苏州国际数据中心液冷技术展览会</div>
-      <div class="expo-loc">苏州国际博览中心</div>
-    </div>
-    <div class="expo-card">
-      <div class="expo-date">2026.10.16</div>
-      <div class="expo-name">AICC 2026全球数据中心基础设施大会</div>
-      <div class="expo-loc">上海</div>
-    </div>
-    <div class="expo-card">
-      <div class="expo-date">2026.12.09-11</div>
-      <div class="expo-name">上海国际数据中心产业展览会</div>
-      <div class="expo-loc">上海新国际博览中心</div>
-    </div>
-  </div>
-  <h3 style="text-align:center;margin-bottom:12px">2027年</h3>
-  <div class="expo-row">
-    <div class="expo-card">
-      <div class="expo-date">2027.03.24-26</div>
-      <div class="expo-name">北京国际数据中心及云计算展览会</div>
-      <div class="expo-loc">北京亦创国际会展中心</div>
-    </div>
-    <div class="expo-card">
-      <div class="expo-date">2027.06.03-05</div>
-      <div class="expo-name">第八届中国数据中心绿色能源大会</div>
-      <div class="expo-loc">上海新国际博览中心</div>
-    </div>
-    <div class="expo-card">
-      <div class="expo-date">2027.06.16-18</div>
-      <div class="expo-name">第十届深圳国际数据中心液冷技术展览会</div>
-      <div class="expo-loc">深圳国际会展中心</div>
-    </div>
-  </div>
-`);
-
-// ============================================================
-// SLIDE 27: 未来展望
-// ============================================================
-S('06 · 行动指南与未来展望', 'content', `
-  <h2>未来展望——液冷技术的发展趋势</h2>
-  <div class="two-col" style="margin-top:20px">
-    <div class="col">
-      <h3>🔬 技术趋势</h3>
-      <div class="card" style="max-width:100%;text-align:left;margin-top:12px">
-        <p style="font-size:14px"><span class="highlight">浸没式冷却加速发展</span> — AI算力密度进一步提升，浸没式市场份额逐步扩大</p>
-        <p style="font-size:14px;margin-top:8px"><span class="highlight">冷却液国产化</span> — 国内企业技术突破，打破国外垄断，成本下降供应安全</p>
-        <p style="font-size:14px;margin-top:8px"><span class="highlight">智能化运维</span> — AI+IoT实现智能监控、预测性维护和自动化管理</p>
-        <p style="font-size:14px;margin-top:8px"><span class="highlight">余热回收</span> — 液冷高品质余热用于供暖、工业生产，提升能源利用效率</p>
-      </div>
-    </div>
-    <div class="col">
-      <h3>📊 市场趋势</h3>
-      <div class="card accent" style="max-width:100%;text-align:left;margin-top:12px">
-        <p style="font-size:14px"><span class="highlight">市场集中度提高</span> — 头部企业凭借技术和规模优势占据更大份额</p>
-        <p style="font-size:14px;margin-top:8px"><span class="highlight">解决方案集成化</span> — 从单一产品销售转向"产品+服务+解决方案"综合模式</p>
-        <p style="font-size:14px;margin-top:8px"><span class="highlight">应用场景拓展</span> — 从数据中心拓展至新能源汽车、航空航天、储能等领域</p>
-      </div>
-    </div>
-  </div>
-`);
-
-// ============================================================
-// SLIDE 28: 结语
-// ============================================================
-S('', 'summary', `
-  <h1 style="font-size:40px;margin-bottom:24px">拥抱变革<br>共赢未来</h1>
-  <p class="lead" style="max-width:650px;margin-bottom:24px">
-    数据中心液冷市场正迎来前所未有的发展机遇，这不仅是技术的变革，更是市场格局的重塑。对于润滑油经销商而言，这是一个从传统制造业向数字经济转型的绝佳机会。
-  </p>
-  <div class="hl-box">
-    <p style="text-align:center"><strong style="color:#4db8ff;font-size:18px">选择苏能® 作为您的合作伙伴</strong></p>
-    <p style="text-align:center;margin-top:8px">我们将为您提供优质的产品、专业的技术支持和完善的市场服务<br>助您在液冷新蓝海中乘风破浪，赢得未来！</p>
-  </div>
-`);
-
-// ============================================================
-// SLIDE 29: 联系我们
-// ============================================================
-S('', 'summary', `
-  <h2 style="margin-bottom:8px">CONTACT US</h2>
-  <div class="contact-card" style="margin-top:20px">
-    <div class="contact-icon">📬</div>
-    <h3 style="color:#e8edf2;font-size:20px;margin-bottom:20px">江苏中润苏能润滑油有限公司</h3>
-    <div class="contact-row"><span style="color:#6b8ca8;min-width:60px;text-align:right">官网</span><span style="color:#4db8ff">www.sunengoil.com</span></div>
-    <div class="contact-row"><span style="color:#6b8ca8;min-width:60px;text-align:right">电话</span><span>4006-518-680</span></div>
-    <div class="contact-row"><span style="color:#6b8ca8;min-width:60px;text-align:right">邮箱</span><span style="color:#4db8ff">duanpeiwen@sunengoil.com</span></div>
-    <div class="contact-row"><span style="color:#6b8ca8;min-width:60px;text-align:right">地址</span><span>江苏省无锡市新吴区金城东路9-1-806</span></div>
-  </div>
-  <p class="lead" style="margin-top:20px;font-size:16px">有疑问随时找文哥 🤝</p>
-`);
+// ===== ASCII Background Animation =====
+(function asciiBg() {
+  const canvases = document.querySelectorAll('canvas.ascii-bg');
+  if (!canvases.length) return;
+  const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789+-*/=<>[]{}|';
+  const allAnimations = [];
+  canvases.forEach(canvas => {
+    const ctx = canvas.getContext('2d');
+    const parent = canvas.parentElement;
+    if (!parent) return;
+    let w, h, cols, rows, grid;
+    function resize() {
+      const rect = parent.getBoundingClientRect();
+      w = canvas.width = rect.width;
+      h = canvas.height = rect.height;
+      cols = Math.floor(w / 24);
+      rows = Math.floor(h / 24);
+      grid = new Array(cols * rows).fill(0).map(() => ({ char: chars[Math.floor(Math.random()*chars.length)], phase: Math.random()*Math.PI*2, speed: 0.3+Math.random()*1.2 }));
+    }
+    resize();
+    const observer = new ResizeObserver(resize);
+    observer.observe(parent);
+    let t = 0;
+    function draw(ts) {
+      if (document.body.classList.contains('low-power')) { allAnimations.forEach(a => { if (a.id) cancelAnimationFrame(a.id); }); return; }
+      t = ts * 0.001;
+      ctx.clearRect(0,0,w,h);
+      const isAccent = parent.closest('.accent') || parent.closest('.b-accent');
+      ctx.fillStyle = isAccent ? 'rgba(255,255,255,0.12)' : 'rgba(0,47,167,0.08)';
+      ctx.font = '14px "JetBrains Mono", monospace';
+      for (let i = 0; i < grid.length; i++) {
+        const x = (i % cols) * 24 + 12;
+        const y = Math.floor(i / cols) * 24 + 16;
+        const g = grid[i];
+        const alpha = 0.15 + 0.25 * Math.sin(t * g.speed + g.phase);
+        if (alpha > 0.2) {
+          ctx.globalAlpha = alpha;
+          ctx.fillText(g.char, x, y);
+        }
+      }
+      ctx.globalAlpha = 1;
+      const id = requestAnimationFrame(draw);
+      allAnimations.push({ canvas, id });
+    }
+    requestAnimationFrame(draw);
+  });
+})();
 </script>
 </body>
 </html>
